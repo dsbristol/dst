@@ -1,7 +1,7 @@
 ## This file reads the data.
 
 ## Get the data from the repo
-conndata=read.table("https://github.com/dsbristol/dst/data/conn_sample.log.gz",as.is=T)
+conndata=read.table("https://github.com/dsbristol/dst/raw/master/data/conn_sample.log.gz",as.is=T)
 ## Assign column names
 colnames(conndata)=c('ts','uid','id.orig_h','id.orig_p',
     'id.resp_h','id.resp_p','proto','service','duration',
