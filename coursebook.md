@@ -8,7 +8,7 @@ layout: coursebook
 
 Content is arranged by blocks (single week of teaching content).
 
-* [00 About](/coursebook/00.md)
+* [00 About](/dst/coursebook/00.md)
 * [01 Introduction](/coursebook/01.md)
 * [02 Exploratory Data Analysis](/coursebook/02.md)
 
