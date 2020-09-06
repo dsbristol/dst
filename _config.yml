@@ -23,7 +23,8 @@ title: Data Science Toolbox
 email: dan.lawson@bristol.ac.uk
 # description: >- # this means to ignore newlines until "baseurl:"
 baseurl: "/dst" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+url: http://dsbristol.github.io
+# url: "" # the base hostname & protocol for your site, e.g. http://example.com
 ## twitter_username: danjlawson2000
 github_username:  dsbristol
 repository: dsbristol/dst
@@ -38,7 +39,11 @@ theme: jekyll-theme-slate
 # theme: jekyll-theme-midnight
 # plugins:
 #   - jekyll-feed
-
+relative_links:
+  enabled:     true
+  collections: true
+  assets: true
+  
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
