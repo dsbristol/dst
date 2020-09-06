@@ -1,0 +1,149 @@
+---
+title: "Model selection and regression"
+output: html_notebook
+---
+In this workshop we focus on applying model selection to the regression framework. Note that I've given you a lot of the awkward stuff to save time.
+
+Continue with the KDD11 dataset from the previous workshop. We'll read it in as before.
+
+```{r}
+kddata<-read.csv("../data/kddcup.data_10_percent.gz")
+kddnames=read.table("../data/kddcup.names",sep=":",skip=1,as.is=T)
+colnames(kddata)=c(kddnames[,1],"normal")
+```
+Before we start, we'll load some useful packages:
+```{r}
+library(tidyverse) # allows the nice %>% notation
+library(caret) # for Cross-validation functions
+```
+
+We're going to try to predict log duration.  We'll make a function to add all the transformed columns that we will use.
+
+We'll also do something about missing data here. In any assessed work, changing the **model for missing data** is a good way to broaden your set of models.
+
+
+```{r}
+table(kddata2[,"protocol_type"])
+table(kddata2[,"service"])
+table(kddata2[,"duration"]==0)
+```
+
+
+There is not enough data for some services. We need to do something about that.
+
+We'll also define some transformed variables
+
+```{r}
+trans=function(x){
+  x[,"logduration"]=log10(x[,"duration"])
+  x[,"zeroduration"]=(x[,"duration"]==0)
+  
+  stab=table(x[,"service"])
+  sother=names(stab[stab<10])
+  x[x[,"service"]%in%sother,"service"]="other"
+  x[,"service"]=as.factor(as.character(x[,"service"]))
+  
+  x
+}
+kddata2=trans(kddata)
+```
+
+
+We'll now make a test dataset and a training dataset.
+
+```{r}
+set.seed(1)
+n=dim(kddata)[1]
+s=sample(1:n,n/2)
+train=kddata2[s,]
+test=kddata2[-s,]
+```
+
+Some basic plots.
+
+```{r}
+hist(train[,"duration"],breaks=51)
+hist(train[,"logduration"],breaks=51)
+table(train[,"zeroduration"])
+```
+
+It is clear that duration is often exactly zero. If it is not, then there is an interesting distribution of duration.
+
+It is therefore a good idea to use a two-stage prediction: is the duration zero? If not, what will it be?
+
+Q1: train two models on the training data: one for "logduration" and one for "zeroduration".
+
+```{r}
+```
+
+Important note: there is a problem because all icmp protocol records have zero duration:
+
+```{r}
+traindurpred1 <- modeldur1 %>% predict(train)
+```
+We can fix that by using a decision rule in those cases. (Later in the course we'll use methods that can deduce this sort of thing for themselves.)
+
+What threshold to use? Lets choose the threshold that places equal value on true positives, and false positives.
+
+```{r}
+library("pROC")
+zerodurationroc=roc(train[,"zeroduration"],trainzeropred1)
+plot(zerodurationroc)
+abline(a=0,b= 1)
+tw=which.min(abs(zerodurationroc$sensitivities-zerodurationroc$specificities))
+mythresh=zerodurationroc$thresholds[tw]
+points(zerodurationroc$sensitivities[tw],zerodurationroc$specificities[tw])
+```
+
+Now we are finally ready to make a Model of the duration, which we will describe for the training dataset.
+
+```{r}
+myprediction=function(test,modelzero,modeldur,threshzero){
+  predictionszero <- modelzero %>% predict(test)
+  predictionszerocat=sapply(predictionszero,function(y){y>threshzero})
+  predictionszerocat[test[,"protocol_type"]=="icmp"]=TRUE # forcing this prediction
+  predictionsdur = rep(-Inf,dim(test)[1])
+  predictionsdur[!predictionszerocat] <- modeldur %>% predict(test[!predictionszerocat,])
+  data.frame("zeroduration"=predictionszerocat,
+             "logduration"=predictionsdur,
+             "zerodurationraw"=predictionszero,
+             "duration"=exp(predictionsdur))
+}
+
+```
+Q2: Make a contingency table
+```{r}
+```
+
+Is it predicting things well? If not, why not?
+
+Q3: plot a histogram of the training prediction for the "raw guess" about whether to predict 0 or not.
+
+```{r}
+```
+
+Q4: What do you think a natural choice of threshold is? Try that. In what sense does it improve the prediction, and in what sense could it make it worse?
+
+```{r}
+```
+Much better balance, though of course we've damaged mean-squared-error prediction.
+
+Q5: Now apply the same procedure to the training dataset:
+```{r}
+
+```
+
+Q6: Make some *plots* comparing true-values with predictions. Why are the predictions discrete?  
+```{r}
+
+```
+Q7. Describe the overall performance in terms of *RMSE in the training and test data separately*, both for whether a value is zero or not, and its actual value. What *inference* can you make? 
+```{r}
+```
+Things to think about:
+
+* We do very well at predicting zero vs non-zero, and the test/train discrepancy is tiny. Why?
+* We do pretty well at predicting duration too, though there is a test/train discrepancy. Why?
+* How would this prediction perform on real traffic from a different service?
+* How could we make a better - or at least different - cross-validation setup?
+

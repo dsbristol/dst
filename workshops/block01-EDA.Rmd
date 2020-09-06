@@ -1,0 +1,85 @@
+---
+title: "More EDA"
+output: html_notebook
+---
+
+You should have already run the "WS_week2_EDA.Rmd" worksheet and become familiar with working with an RStudio RMarkdown document.
+
+Here we're going to go a little further and explore a new dataset, the [KDD99](http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html) dataset. Read about the competition [task specification](http://kdd.ics.uci.edu/databases/kddcup99/task.html).
+
+Go get the [10%](http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percent.gz) and [column names](http://kdd.ics.uci.edu/databases/kddcup99/kddcup.names) data from there. They are read in as follows:
+
+```{r}
+kddata<-read.csv("../data/kddcup.data_10_percent.gz")
+kddnames=read.table("../data/kddcup.names",sep=":",skip=1,as.is=T)
+colnames(kddata)=c(kddnames[,1],"normal")
+```
+
+
+Lets take a look:
+```{r}
+head(kddata)
+```
+It is marked up as red team/blue team. Everything is numeric except the "normal" column which contains the truth labels about the process that generated the data.
+```{r}
+summary(kddata)
+```
+
+Q1. Make a barplot of the "normal" column, using an appropriate scaling. Consider using "par(las=2)". Use the inline help (?par) to see how this is done and what it does. Consider the scaling of the "y" axis.
+
+```{r}
+par(las=2)
+barplot((sort(table(kddata[,"normal"]))),log="y")
+```
+
+Now we'll examine the labels separately. This is a way to make a list for each class:
+```{r}
+labs=unique(as.character(kddata[,"normal"]))
+names(labs)=labs
+kddlist=lapply(labs,function(x){
+  kddata[kddata[,"normal"]==x,1:41]
+})
+```
+
+Q2. What does the function colMeans do? Use it and sapply to make a matrix of the mean of each *numeric* variable, within each group, and plot the result as a *heatmap*. 
+
+What are the 7 most important features, in terms of mean differences? Don't standardize rows or columns, but consider *scaling* the whole matrix for visualisation.
+
+List them in a variable called "mycols" for future use.
+```{r}
+kddmean=t(sapply(kddlist,function(x)colMeans(x[,c(1,5:41)])))
+library("gplots")
+heatmap.2(log(kddmean+1),margins =c(9,15),trace="none")
+mycols=c("dst_bytes","src_bytes","duration","dst_host_svd_count","dst_host_count","srv_count","count")
+```
+Q2b. Now standardize the features and repeat the *heatmap*.
+Do the important features change? What does this mean about the solvability of the problem?
+```{r}
+kddfreq=apply(kddmean,2,function(x)x/(sum(x)+1))
+heatmap.2(kddfreq[,!is.nan(kddfreq[1,])],margins =c(9,15),trace="none")
+```
+
+Q3. Make a *table* of the interaction between the class label and the *categorical* variables. 
+
+Describe some key features that you see in the data: are any of the classes *informative*? In what sense are they informative?
+```{r}
+mycategorical=colnames(kddata)[2:4]
+classlist=lapply(mycategorical,function(mycat){
+  table(kddata[,c(mycat,"normal")])
+})
+for(i in 1:3) heatmap.2(log(classlist[[i]]+1),margins =c(9,15),trace="none",main=mycategorical[i])
+```
+Q4. Learn about the *variability* in the labels with the function "sd", given the mean. 
+
+*Represent* that in an appropriate format. Again, what interpretations can you make about the data?
+```{r}
+kddsd=t(sapply(kddlist,function(x){
+  apply(x[,c(1,5:41)],2,sd)
+}))
+heatmap.2(log(kddsd/(kddmean+0.01)+1),margins =c(9,15),trace="none")
+```
+Q5. The task specifically notes that the dataset contains attacks that are not listed here. 
+
+Comment on what the above Exploratory Data analysis might mean for the hopes of detecting different properties of attack, and how you might go about making a model that will perform well out-of-sample, *comparing* "normal" to other classes of "attack".
+
+
