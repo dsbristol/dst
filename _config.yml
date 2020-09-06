@@ -22,7 +22,7 @@ markdown: kramdown
 title: Data Science Toolbox
 email: dan.lawson@bristol.ac.uk
 # description: >- # this means to ignore newlines until "baseurl:"
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/dst" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 ## twitter_username: danjlawson2000
 github_username:  dsbristol
