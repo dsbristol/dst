@@ -3,33 +3,76 @@ title: "More EDA"
 output: html_notebook
 ---
 
-You should have already run the "WS_week2_EDA.Rmd" worksheet and become familiar with working with an RStudio RMarkdown document.
+You should have already run the introductory "01.3-WSL-1-EDA.Rmd" worksheet and become familiar with working with an RStudio RMarkdown document.
 
+## DATA
 Here we're going to go a little further and explore a new dataset, the [KDD99](http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html) dataset. Read about the competition [task specification](http://kdd.ics.uci.edu/databases/kddcup99/task.html).
 
-Go get the [10%](http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percent.gz) and [column names](http://kdd.ics.uci.edu/databases/kddcup99/kddcup.names) data from there. They are read in as follows:
+We use the [10%](http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percent.gz) and [column names](http://kdd.ics.uci.edu/databases/kddcup99/kddcup.names) files, which you can download directly.
 
+**DATA ORGANISATION**: It is very helpful to keep the project structure that I use, so your code "just runs". Therefore work in a directory ("workshops") and keep your data in a directory called "data" in the PARENT DIRECTORY, e.g. both inside "dst", so that your file structure looks like this:
+
+- dst
+  - dst/data
+  - dst/workshops
+
+. This maps better to how we will structure the Assessments, which are fussier again because of their group project nature.
+
+**OBTAINING DATA**: It is essential that it is clear how to obtain the data used in an analysis. It is OK to have manual steps if they are clearly described, but automation is best.
+
+To automate this, we could describe the process for obtaining the data. On Linux you can directly run a shell script from Rstudio:
+```{sh} 
+## Note: this is SHELL code, not R code
+wd=`pwd`
+mkdir -p ../data
+cd ../data
+wget http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percent.gz
+wget http://kdd.ics.uci.edu/databases/kddcup99/kddcup.names
+cd $wd
+```
+on Mac you will have to replace `wget` with `curl -O`, or get GNU wget with `brew install wget`, or set an alias with `alias wget="curl -O"` in your `.bashrc` file, before executing the above section. On Windows you need [Rtools](https://cran.r-project.org/bin/windows/Rtools/) which is a simple install plus a one-line additional step.
+
+Of course it is possible to do this natively in R, and this may be preferable, even though R is not for this sort of 
+
+## Workshop start
+
+The data are read in as follows:
 ```{r}
-kddata<-read.csv("../data/kddcup.data_10_percent.gz")
-kddnames=read.table("../data/kddcup.names",sep=":",skip=1,as.is=T)
+if (.Platform$OS.type=="windows"){ # Windows uses double backslash for directories...
+  kddata<-read.csv("..\\data\\kddcup.data_10_percent.gz")
+  kddnames=read.table("..\\data\\kddcup.names",sep=":",skip=1,as.is=T)
+}else{ # Everything else uses a forward slash.
+  kddata<-read.csv("../data/kddcup.data_10_percent.gz")
+  kddnames=read.table("../data/kddcup.names",sep=":",skip=1,as.is=T)
+}
 colnames(kddata)=c(kddnames[,1],"normal")
 ```
-
 
 Lets take a look:
 ```{r}
 head(kddata)
 ```
-It is marked up as red team/blue team. Everything is numeric except the "normal" column which contains the truth labels about the process that generated the data.
+And get a summary of the data:
 ```{r}
 summary(kddata)
 ```
+We need to pay attention to variables that:
 
-Q1. Make a barplot of the "normal" column, using an appropriate scaling. Consider using "par(las=2)". Use the inline help (?par) to see how this is done and what it does. Consider the scaling of the "y" axis.
+* are not numeric
+* Have surprising or large ranges, where the choice of linear scale may be inappropriate
+* Don't vary much or at all
+
+## Activity 1: EDA for the "normal" class label
+
+The $Y$ value is a multiple-category label called "normal" in the data.
+
+* We will make a barplot of the "normal" column, using an appropriate scaling. 
+* Use the inline help (?par). 
+* Consider the scaling of the "y" axis.
 
 ```{r}
-par(las=2)
-barplot((sort(table(kddata[,"normal"]))),log="y")
+par(las=2) # Ask R to plot perpendicular to the axes 
+barplot((sort(table(kddata[,"normal"]))),log="y") # Log axis
 ```
 
 Now we'll examine the labels separately. This is a way to make a list for each class:
@@ -41,27 +84,34 @@ kddlist=lapply(labs,function(x){
 })
 ```
 
-Q2. What does the function colMeans do? Use it and sapply to make a matrix of the mean of each *numeric* variable, within each group, and plot the result as a *heatmap*. 
+## Activity 2: Heatmap of the mean for each variable within each category
 
-What are the 7 most important features, in terms of mean differences? Don't standardize rows or columns, but consider *scaling* the whole matrix for visualisation.
-
-List them in a variable called "mycols" for future use.
 ```{r}
 kddmean=t(sapply(kddlist,function(x)colMeans(x[,c(1,5:41)])))
 library("gplots")
-heatmap.2(log(kddmean+1),margins =c(9,15),trace="none")
+heatmap.2(log(kddmean+1),margins =c(9,15),trace="none",cexCol = 0.5)
 mycols=c("dst_bytes","src_bytes","duration","dst_host_svd_count","dst_host_count","srv_count","count")
 ```
-Q2b. Now standardize the features and repeat the *heatmap*.
-Do the important features change? What does this mean about the solvability of the problem?
+
+* What does the function colMeans do? 
+* We make a matrix of the mean of each *numeric* variable, within each group, and plot the result as a *heatmap*. 
+* What are the 7 most important features? In what sense are they important?
+* Why has `trace="none"` been passed into heatmap.2? How do we find out what it does?
+
+Now we want to standardize the features and repeat the *heatmap*.
 ```{r}
 kddfreq=apply(kddmean,2,function(x)x/(sum(x)+1))
-heatmap.2(kddfreq[,!is.nan(kddfreq[1,])],margins =c(9,15),trace="none")
+heatmap.2(kddfreq[,!is.nan(kddfreq[1,])],margins =c(9,15),trace="none",cexCol = 0.5)
 ```
 
-Q3. Make a *table* of the interaction between the class label and the *categorical* variables. 
+* What is this standardization?
+* Do the important features change? 
+* What does this mean about the solvability of the problem?
 
-Describe some key features that you see in the data: are any of the classes *informative*? In what sense are they informative?
+## Activity 3: Comparison for the categorical variables
+
+* We make a *table* of the interaction between the class label and the *categorical* variables. 
+
 ```{r}
 mycategorical=colnames(kddata)[2:4]
 classlist=lapply(mycategorical,function(mycat){
@@ -69,17 +119,31 @@ classlist=lapply(mycategorical,function(mycat){
 })
 for(i in 1:3) heatmap.2(log(classlist[[i]]+1),margins =c(9,15),trace="none",main=mycategorical[i])
 ```
-Q4. Learn about the *variability* in the labels with the function "sd", given the mean. 
 
-*Represent* that in an appropriate format. Again, what interpretations can you make about the data?
+* What about scale here? Explore different choices of scaling function.
+* Describe some key features that you see in the data.
+* Are any of the classes *informative*? 
+* In what sense are they informative?
+
+## Activity 4: Variability
+
+* We want to learn about the *variability* in the labels with the function "sd", given the mean. 
+* For that we must *represent* variability in an appropriate format.
+* It is again convenient to construct the matrices that we want to plot.
 ```{r}
 kddsd=t(sapply(kddlist,function(x){
   apply(x[,c(1,5:41)],2,sd)
 }))
 heatmap.2(log(kddsd/(kddmean+0.01)+1),margins =c(9,15),trace="none")
 ```
-Q5. The task specifically notes that the dataset contains attacks that are not listed here. 
+* Again, what interpretations can you make about the data?
+* What would happen if we do not scale the s.d. to the individual mean entry? 
+* What if we use a linear instead of a log scale?
+* Is high variability good, or bad, for inference?
 
-Comment on what the above Exploratory Data analysis might mean for the hopes of detecting different properties of attack, and how you might go about making a model that will perform well out-of-sample, *comparing* "normal" to other classes of "attack".
+## Activity 5: Final thoughts and reflection
 
-
+* The dataset contains attacks that are not listed here. 
+* Comment on what the above Exploratory Data analysis might mean for the hopes of detecting different properties of attack.
+* How you might go about making a model that will perform well out-of-sample, *comparing* "normal" to other classes of "attack"?
+* Follow this up in Assessment 0.
