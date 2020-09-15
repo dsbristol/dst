@@ -1,7 +1,9 @@
+## Welcome
 v0100:
-    text: 1.0 - Introduction to the course
-    url: /dst/notready.html
+    text: 1.0 - Introduction to the course (22.16)
+    url: https://mediasite.bris.ac.uk/Mediasite/Play/c279232b22e2469aa033b3f9ab26afbb1d
 
+## Lectures
 v0101:
     text: 1.1 - Introduction to Data Science (26.59)
     url: https://mediasite.bris.ac.uk/Mediasite/Play/c39f9bea569f47d88e01fb87e124f5cb1d
@@ -10,6 +12,7 @@ v0102:
     text: 1.2 - Exploratory Data Analysis (26.45)
     url: https://mediasite.bris.ac.uk/Mediasite/Play/974903eb643b49bab08331cd2c2b66701d
 
+## Workshop Lectures
 v0301:
     text: 1.3.1 - Workshop Lecture for RStudio (29.05)
     url: https://mediasite.bris.ac.uk/Mediasite/Play/934d8c62a1504a4582717dd615c45c711d
@@ -17,6 +20,7 @@ v0302:
     text: 1.3.2 - Workshop Lecture for Exploratory Data Analysis (18.13)
     url: https://mediasite.bris.ac.uk/Mediasite/Play/36744fca446e42a98d8c30c249f31e371d
     
+## GitHub and Assignment Workshop
 v030301:
     text: 1.3.3.1 - GitHub Workshop Intro (4:33)
     url: https://mediasite.bris.ac.uk/Mediasite/Play/607ca8e5e9384676b4246c0b95a859361d

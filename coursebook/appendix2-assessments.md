@@ -21,6 +21,6 @@ This is a list of the assessment details:
   - [Assessment 5]({{ site.data.assessment5.url }}) (Semester 2)
 * Final exam worth 50%
 
-Note that additional information about the replicability of packages is at [Appendix 3: Replicability](/coursebook/appendix3-replicability.md), and there is a complete [Example Assessment](https://github.com/dsbristol/dst_example_project).
+Note that additional information about the replicability of packages is at [Appendix 3: Replicability](appendix3-replicability.md), and there is a complete [Example Assessment](https://github.com/dsbristol/dst_example_project).
 
-See the [Timetable](/timetable.md) for deadlines.
+See the [Timetable](../timetable.md) for deadlines.

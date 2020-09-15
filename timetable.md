@@ -12,11 +12,11 @@ There are three assessments per term, due in Weeks 3,7,11,16,29,24.
 ### Semester 1
 
 * Week 1 (5th October)
-  * [00 About](/coursebook/00.md)
-  * Block [01 Introduction](/coursebook/01.md)
+  * [00 About](coursebook/00.md)
+  * Block [01 Introduction](coursebook/01.md)
   * [Assessment 0]({{ site.data.assessment0.url }}) *Set*
 * Week 3 (19th October)
-  * Block [02 Exploratory Data Analysis](/coursebook/02.md)
+  * Block [02 Exploratory Data Analysis](coursebook/02.md)
   * [Assessment 0]({{ site.data.assessment0.url }}) *Due* (**22nd October** Thursday noon)
   * [Assessment 1]({{ site.data.assessment1.url }}) *Set*
 * Week 5 (2nd November)

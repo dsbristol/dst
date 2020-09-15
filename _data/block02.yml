@@ -6,7 +6,13 @@ s0101-Regression:
 s0102-Regression:
     url: /dst/notready.html
 
-s0102-EDA:
+s0201-Testing:
+    url: /dst/notready.html
+
+s0202-Testing:
+    url: /dst/notready.html
+
+s0203-Testing:
     url: /dst/notready.html
 
 ## Code

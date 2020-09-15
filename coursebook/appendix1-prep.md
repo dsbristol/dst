@@ -30,7 +30,7 @@ layout: coursebook
 * How to set up Jupyter Notebook with R
 * How to get access to [BlueCrystal](appendix5-bluecrystal.md)
 * Windows/OSX/Linux
-* Virtual environments: see [Appendix 3: Replicability](/coursebook/appendix3-replicability.md)
+* Virtual environments: see [Appendix 3: Replicability](appendix3-replicability.md)
 * [How to work with Markdown](https://guides.github.com/features/mastering-markdown/)
 
 TODO: LOTS TO DO

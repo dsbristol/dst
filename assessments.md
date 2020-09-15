@@ -5,17 +5,17 @@ layout: coursebook
 
 Assessments are month-long group projects, allowing a deep-delve into a specific area of Data Science applied to Cyber Security. They make up a total of 50% of the course mark (best 4 of 5) and are the single most important part of the course.
 
-The [Assessment List](/coursebook/appendix2-assessments.md) lists each assessment, which are released in the appropriate Block of the [timetable](/timetable.md).
+The [Assessment List](coursebook/appendix2-assessments.md) lists each assessment, which are released in the appropriate Block of the [timetable](timetable.md).
 
 
-Undertaking a group project online is a difficult process that requires care and planning. Help for planning your project is given in [Block 1](/coursebook/01.md), and includes:
+Undertaking a group project online is a difficult process that requires care and planning. Help for planning your project is given in [Block 1](coursebook/01.md), and includes:
 
-* **1.3.3 Workshop Lecture on Assessments**, listed completely in [Block 01](/coursebook/01.md).
+* **1.3.3 Workshop Lecture on Assessments**, listed completely in [Block 01](coursebook/01.md).
 * The [Example Assessment](https://github.com/dsbristol/dst_example_project), which you should go over carefully.
-* [Appendix 1: Preparation List](/coursebook/appendix1-prep.md).
-* [Appendix 3: Replicability](/coursebook/appendix3-replicability.md), which explains how to make your project run reliably on others' computers.
-* [Appendix 4: GitHub](/coursebook/appendix4-github.md), which explains how to use GitHub.
-* [Appendix 5: Bluecrystal](/coursebook/appendix5-bluecrystal.md), which is our High Performance Computing Infrastructure, essential for later Assessments.
+* [Appendix 1: Preparation List](coursebook/appendix1-prep.md).
+* [Appendix 3: Replicability](coursebook/appendix3-replicability.md), which explains how to make your project run reliably on others' computers.
+* [Appendix 4: GitHub](coursebook/appendix4-github.md), which explains how to use GitHub.
+* [Appendix 5: Bluecrystal](coursebook/appendix5-bluecrystal.md), which is our High Performance Computing Infrastructure, essential for later Assessments.
 
 ## Guidance
 
