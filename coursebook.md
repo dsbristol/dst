@@ -6,15 +6,17 @@ layout: coursebook
 
 ## Course Material by Block
 
-Content is arranged by blocks (single week of teaching content).
+Content is arranged by blocks (single week of teaching content). You will not miss any material moving through this sequentially as the reference information is cited throughout.
 
 * [00 About](/coursebook/00.md)
-* [01 Introduction](/coursebook/01.md)
-* [02 Exploratory Data Analysis](/coursebook/02.md)
+* Block [01 Introduction and Exploratory Data Analysis](/coursebook/01.md)
+* Block [02 Regression, Testing, and Model Selection](/coursebook/02.md)
 
 ## Reference information
 
+* [Assessments](/assessments.md)
 * [Timetable](/timetable.md)
 * [Appendix 1: Preparation](/coursebook/appendix1-prep.md)
-* [Appendix 2: Assessment](/coursebook/appendix2-assessments.md)
-* [Programme Catalogue Course Handbook](https://www.bris.ac.uk/unit-programme-catalogue/UnitDetails.jsa;jsessionid=9A4E8E85CF53506A6177DBB05B80A134.nAC1004052063?ayrCode=20%2F21&unitCode=MATHM0029)
+* [Appendix 2: Assessment List](/coursebook/appendix2-assessments.md)
+* [Appendix 3: Replicability](/coursebook/appendix3-replicability.md)
+* [Programme Catalogue Course Handbook](https://www.bris.ac.uk/unit-programme-catalogue/UnitDetails.jsa?ayrCode=20%2F21&unitCode=MATHM0029)

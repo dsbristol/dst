@@ -28,3 +28,9 @@ Basic operations
 |$$f(x)$$ | $$\to$$ | $$\frac{df}{dx}$$ | $$f(x)$$ | $$\to$$ | $$\frac{df}{d\mathbf{x}}$$|
 |---|---|---|---|---|---|
 |$$bx$$ | |$$b$$ |$$\mathbf{x}^T\mathbf{B}$$ | |$$\mathbf{B}$$ |
+
+## Further Reading
+
+* [Matrix Multiplication Cheat Sheet](02-MatrixCheatsheet.md)
+  * A complete reference is [The Matrix Cookbook](https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf)
+* [Sam Roweis' Matrix Identities](http://robotics.caltech.edu/~sam/TechReports/extern_matrixids.pdf)

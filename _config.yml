@@ -52,7 +52,7 @@ relative_links:
 # Excluded items can be processed by explicitly listing the directories or
 # their entries' file path in the `include:` list.
 #
-# exclude:
+exclude:
 #   - .sass-cache/
 #   - .jekyll-cache/
 #   - gemfiles/
@@ -63,3 +63,4 @@ relative_links:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+    

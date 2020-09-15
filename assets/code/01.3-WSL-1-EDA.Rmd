@@ -1,0 +1,242 @@
+---
+title: "1.2 - Workshop Lecture on EDA"
+output: html_notebook
+---
+# 1.2 Workshop Lecture on Exploratory Data Analysis
+
+This session covers the basics of R, RStudio, and Exploratory Data Analysis.
+
+By the end of the session you should be able to work a little more comfortably in R's Data Processing envirnonments, and know a few tricks to make R into a useful Data Science tool.
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter* (mac) or *Control+Shift+Enter* (Windows/Linux.) The *Code->Run Region* menubar gives keybindings for this and more.
+
+```{r}
+set.seed(1) # Setting seeds can be important for replication
+print(runif(6)) # Generating random numbers
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+## Getting data into R
+
+The **data** for this worksheet is hosted remotely on Github, and loaded automatically when you run this code.
+
+The first thing we do is read in the sample netflow data. We are going to run a **remote script** that loads **remote data**. This is useful for replication and for collaboration.
+
+```{r}
+source("https://raw.githubusercontent.com/dsbristol/dst/master/code/loadconndata.R")
+```
+
+The code that this executes is duplicated below. You can look at this in your browser, and if you choose, download it and the data.
+
+Make sure you take a look and understand how the columns get named.
+
+```{r}
+## Get the data from the repo
+conndata=read.table("https://github.com/dsbristol/dst/raw/master/data/conn_sample.log",as.is=T)
+## Assign column names
+colnames(conndata)=c('ts','uid','id.orig_h','id.orig_p',
+    'id.resp_h','id.resp_p','proto','service','duration',
+    'orig_bytes','resp_bytes','conn_state','local_orig',
+    'missed_bytes','history','orig_pkts','orig_ip_bytes',
+    'resp_pkts','resp_ip_bytes','tunnel_parents')
+
+## Make a version of the data that uses only the top 20 most frequently used ports
+topports=names(head(sort(table(conndata[,"id.resp_p"]),decreasing=T),20))
+conndata2=conndata[conndata[,"id.resp_p"]%in%topports,]
+```
+
+## Random Variables
+A continuous RV is defined via a probability density function $f_X$:
+$$
+\mathrm{Pr}(X = x) =f_X(x)
+$$
+Whilst for a discrete RV $f_X$ is a probability mass function.
+
+Discrete RVs are important because:
+
+- data are discrete and
+- data analysis is primarily focussed on the empirical data,
+- rather than the model presumed to generate that data.
+
+## Summaries of distributions
+Important **positional summaries**:
+
+- Mean (`mean(x)`)
+- Median (`median(x)`)
+- Weighted Mean (`weighted.mean(x,w)`)
+
+Important additional summaries:
+
+- Sample variance (`var(x)`)
+- Sample standard deviation (s.d.) (`sd(x)`)
+- Quantiles  (`quantile(x,probs=c(0.05,0.25,0.5,0.75,0.95))`)
+
+## Summary and boxplots
+
+The *five number summary* shows: (min, $Q_1$,$Q_2$,$Q_3$,max)
+
+We can display the five number summary using a boxplot:
+```{R}
+mat <- cbind(Uni05 = (1:100)/21, Norm = rnorm(100),
+	`5T` = rt(100, df = 5), Gam2 = rgamma(100, shape = 2))
+summary(mat)
+```
+Define the interquartile range $IQR = Q_3 - Q_1$. Then R calls **outliers** as those observations at least $3/2 IQR$ above $Q_3$ or below $Q_1$.
+
+## Boxplots
+
+```{r}
+## Boxplot-like summary
+#png("../media/01.3_EDA_boxplot.png",height=500,width=800)
+boxplot(mat) # directly, calling boxplot.matrix()
+#dev.off()
+```
+
+```{r}
+cyber=table(conndata[,c("proto")])
+kable(cyber,)
+```
+
+A table of what our data look like, just in terms of protocol and service:
+```{r}
+## Making a cyber table
+library("knitr")
+cyber=table(conndata[,c("proto","service")])
+kable(cyber)
+```
+its telling that there is so much missing data! It doesn't look random, either.
+
+This is how we create a barplot:
+```{r}
+## Barplot
+#png("../media/02_EDA_barplot.png",height=500,width=800)
+barplot(sort(1+cyber["tcp",],decreasing=T),
+        log="y",col=rainbow(10),las=2)
+#dev.off()
+```
+And the segmented barplot:
+
+```{r}
+## Segmented Barplot
+cyber2=cyber[-1,-1]
+#png("../media/02_EDA_segmentedbarplot.png",height=500,width=800)
+par(mfrow=c(1,2))
+barplot(cyber2,legend=rownames(cyber2),las=2,
+        col=c("red","blue"),log="",
+        args.legend=list(x="topright"))
+barplot(t(cyber2),legend=colnames(cyber2),
+        col=rainbow(8))
+#dev.off()
+```
+
+Here is a chi-squared test:
+```{r}
+chisq.test(cyber)
+apply(cyber,2,chisq.test)
+```
+Unless there is a trivial amount of data, we always reject the null. No surprise!
+
+Now creating an image:
+
+```{r}
+## Raw image
+image(1:dim(cyber)[1],1:dim(cyber)[2],log(1+cyber),
+      axes=F,xlab="",ylab="")
+axis(1,1:dim(cyber)[1],rownames(cyber),las=2)
+axis(2,1:dim(cyber)[2],colnames(cyber),las=2)
+```
+And finally the builtin "heatmap" function:
+
+```{r}
+## Using builtin heatmap
+heatmap(log(1+cyber),margins =c(6,15)) 
+## Rescales rows and columns by d efault
+```
+A little searching can often find a better version of any given plot. This is one I found in the "gplots" package:
+
+```{r}
+## gplots adds a scale and doesn't scale by default
+library("gplots")
+#png("../media/02_EDA_heatmap2.png",height=500,width=800)
+heatmap.2(log(1+cyber),margins =c(9,15),trace="none")
+#dev.off()
+```
+And this is how we make a fancy table with elements marked-up by content. Note that it will open in a browser when called from regular R sessions, but Rstudio can handle HTML.
+```{r}
+## datatable creates HTML version of data
+library(DT)
+cuts=c(1,50,200,1000,10000)
+colors=c("white", "lightblue","blue","magenta","purple","red")
+datatable(t(unclass(cyber))) %>%
+  formatStyle(columns = rownames(cyber), 
+              background = styleInterval(cuts,colors))
+## You have to screenshot it to get the image
+## in the slides.
+```
+Creating a histogram:
+```{r}
+## Histogram
+tcpduration=conndata[conndata[,'proto']=="tcp",'duration']
+tcpduration=tcpduration[tcpduration!="-"]
+tcpduration=as.numeric(tcpduration)
+#png("../media/02_EDA_historgram.png",height=500,width=800)
+hist(log(tcpduration),breaks=20,probability=TRUE,col="red")
+#dev.off()
+```
+
+This next example shows a nice way R is restyled by the DT library: the two lines are equivelent:
+```{r}
+matrix(head(sort(names(table(tcpduration))),12),
+             nrow=3)
+names(table(tcpduration)) %>% sort %>% head(n=12) %>% matrix(nrow=3)
+```
+
+Two ways to generate ECDFs:
+```{r}
+## ECDF
+ports=conndata[,"id.orig_p"]
+## Manually:
+#png("../media/02_EDA_port_edf.png",height=500,width=800)
+plot(sort(ports),1:length(ports)/length(ports),
+  type="s",ylim=c(0,1),
+  main = c("Port Frequency Visualisation"),
+  sub=("Empiricial Cumulative Distribution Function"),
+  xlab=c("Port Number"),ylab=c("cumulative fraction"))
+#dev.off()
+## Easier:
+plot(ecdf(ports))
+```
+How to generate a survival curve:
+```{r}
+## Survival
+tecdf=ecdf(log(tcpduration)) ## tecdf is a function!
+tx=sort(log(unique(tcpduration)))
+tsurvival=data.frame(x=exp(tx),y=1-tecdf(tx))
+#png("../media/02_EDA_duration_survival.png",height=500,width=800)
+plot(tsurvival,type="s",log="xy",
+     xlab="Duration (Seconds)",
+     ylab="Proportion as long or longer")
+#dev.off()
+```
+
+And a scatterplot:
+```{r}
+## Scatterplot
+conndata2=conndata[conndata[,"proto"]=="tcp",]
+servicefactor=as.factor(conndata2[,'service'])
+mycols=rainbow(length(levels(servicefactor)))
+mycols[1]="#AAAAAAFF" # RRGGBBAA (Red Green Blue Alpha)
+#png("../media/02_EDA_scatterplot.png",height=500,width=800)
+plot(conndata2[,'orig_pkts'],conndata2[,'orig_ip_bytes'],
+     log="xy",pch=4,col=mycols[servicefactor],
+     xlab="Number of packets of data",ylab="Total amount of data")
+legend("bottomright",legend=levels(servicefactor),text.col=mycols)
+#dev.off()
+```

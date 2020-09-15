@@ -1,20 +1,26 @@
 ---
-title: Assessments
+title: List of Assessments
 layout: coursebook
 ---
 
 # Assessments
 
+The way that assessments should be undertaken is given in [Assessments](../assessments.md).
+
+This is a list of the assessment details:
+
 * Unit Name: Data Science Toolbox
 * Unit Code: MATHM0029
 * Formative Assessments (that do not contribute to grade):
-	* [Assessment 0](/dst/assets/assessments/Assessment0.pdf) Week 3 22nd October Thursday 12noon
+  - [Assessment 0]({{ site.data.assessment0.url }}) (Semester 1)
 * Summative Assessments (that contribute to grade): total 50% (best 4 of 5)
-	* [Assessment 1](/dst/assets/assessments/Assessment1.pdf) Week 7 19th November Thursday 12noon 
-	* [Assessment 2](/dst/assets/assessments/Assessment2.pdf) Week 11 17th December Thursday 12noon 
-	* [Assessment 3](/dst/assets/assessments/Assessment3.pdf) Week 16 25th February Thursday 12noon
-	* [Assessment 4](/dst/assets/assessments/Assessment4.pdf) Week 20 25th March Thursday 12noon
-	* [Assessment 5](/dst/assets/assessments/Assessment5.pdf) Week 24 13th May Thursday 12noon
+  - [Assessment 1]({{ site.data.assessment1.url }}) (Semester 1)
+  - [Assessment 2]({{ site.data.assessment2.url }}) (Semester 1)
+  - [Assessment 3]({{ site.data.assessment3.url }}) (Semester 2)
+  - [Assessment 4]({{ site.data.assessment4.url }}) (Semester 2)
+  - [Assessment 5]({{ site.data.assessment5.url }}) (Semester 2)
 * Final exam worth 50%
 
-See also [Assessments](../coursebook-bytype.md#Assessments)
+Note that additional information about the replicability of packages is at [Appendix 3: Replicability](/coursebook/appendix3-replicability.md), and there is a complete [Example Assessment](https://github.com/dsbristol/dst_example_project).
+
+See the [Timetable](/timetable.md) for deadlines.

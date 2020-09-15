@@ -41,16 +41,14 @@ XXXX
 
 Semester 1:
 
-* [Assessment 0](/dst/assets/assessments/Assessment0.pdf) (Formative, i.e. does not contribute to grade)
-* [Assessment 1](/dst/assets/assessments/Assessment1.pdf)
-* [Assessment 2](/dst/assets/assessments/Assessment2.pdf)
+* [Example Assessment](https://github.com/dsbristol/dst_example_project)
+- [Assessment 0]({{ site.data.assessment0.url }}) (Formative, i.e. does not contribute to grade)
+- [Assessment 1]({{ site.data.assessment1.url }})
+- [Assessment 2]({{ site.data.assessment2.url }})
 
 Semester 2:
-* [Assessment 3](/dst/assets/assessments/Assessment3.pdf)
-* [Assessment 4](/dst/assets/assessments/Assessment4.pdf)
-* [Assessment 5](/dst/assets/assessments/Assessment5.pdf)
+- [Assessment 3]({{ site.data.assessment3.url }})
+- [Assessment 4]({{ site.data.assessment4.url }})
+- [Assessment 5]({{ site.data.assessment5.url }})
 
-See [Appendix 2: Assessment](/coursebook/appendix2-assessments.md) for details.
-
-Some assessments
-XXXX
+See [Appendix 2: Assessment](/coursebook/appendix2-assessments.md) for details, and [Appendix 3: Replicability](/coursebook/appendix3-replicability.md) for notes on how to ensure that code works for everyone, by documenting versions of packages.
