@@ -6,7 +6,7 @@ usemathjax: true
 
 # Matrix and Vector operations Cheat Sheet
 
-Basic operations
+## Basic operations
 
 |Math| Comments|
 |---|---|
@@ -17,20 +17,32 @@ Basic operations
 | $$(\mathbf{A}\mathbf{B})^{-1} = \mathbf{B}^{-1}\mathbf{A}^{-1} $$ | Inverse reverses order (when individual inverses exist) |
 | $$(\mathbf{A}^T)^{-1} = (\mathbf{A}^{-1}) ^T $$ | Inverse and transposes commute |
 
+## Determinant, Rank, Trace
 
 |Math| Comments|
 |---|---|
 | $$\mathrm{det}(\mathbf{A})= \|\mathbf{A}\| $$ | Definition of determinant |
 | $$\|\mathbf{A}\mathbf{B}\| = \|\mathbf{A}\| \|\mathbf{B}\| $$ | Determinant commutes with product |
+| $$\mathrm{rank}(\mathbf{A})= \mathrm{rank}(\mathbf{A}^T\mathbf{A}) = \mathrm{rank}(\mathbf{A}\mathbf{A}^T) $$ | Rank of non-square matrices |
+| $$\mathrm{Tr}(\mathbf{A})= \sum_{i=1}^d \lambda_d$$ | Trace is sum of eigenvalues |
+| $$\mathrm{Tr}(\mathbf{A}\mathbf{B}\mathbf{C})= \mathrm{Tr}(\mathbf{C}\mathbf{A}\mathbf{B})$$ | Trace is cyclic (where defined) |
 
+	
+## Matrix derivatives
 
-| |Scalar| | |Vector| |
+Using the convention that $$\nabla_x f(\mathbf{X}) = \frac{df(\mathbf{X})}{d\mathbf{x}}$$:
+
+| |Scalar| | |Vector| (Description) |
 |$$f(x)$$ | $$\to$$ | $$\frac{df}{dx}$$ | $$f(x)$$ | $$\to$$ | $$\frac{df}{d\mathbf{x}}$$|
 |---|---|---|---|---|---|
-|$$bx$$ | |$$b$$ |$$\mathbf{x}^T\mathbf{B}$$ | |$$\mathbf{B}$$ |
+||||||Derivative of linear function:|
+|$$bx$$ | |$$b$$ |$$\mathbf{x}^T\mathbf{B}$$ | |$$\mathbf{B}$$ | 
+||||||Derivative of quadratic function:|
+|$$bx^2$$ | |$$2bx$$ |$$\mathbf{x}^T\mathbf{B}\mathbf{x}$$ | |$$ \mathbf{B}\mathbf{x} + \mathbf{B}^T\mathbf{x}$$ |
+||||||Product rule for vector/matrix valued functions:|
+|$$g(x)h(x)$$ | |$$g^\prime h + g h^\prime$$ |$$\mathbf{g}(\mathbf{x})\mathbf{h}(\mathbf{x})$$ | |$$\nabla_x (\mathbf{g}(\mathbf{x})) \mathbf{h}(\mathbf{x}) + \mathbf{g}(\mathbf{x}) \nabla_x (\mathbf{h}(\mathbf{x}))$$ |
 
 ## Further Reading
 
-* [Matrix Multiplication Cheat Sheet](02-MatrixCheatsheet.md)
   * A complete reference is [The Matrix Cookbook](https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf)
 * [Sam Roweis' Matrix Identities](http://robotics.caltech.edu/~sam/TechReports/extern_matrixids.pdf)
