@@ -1,31 +1,31 @@
 ## Welcome
 v00:
-    text: 2.0 Welcome to Block 2, The conceptual backbone of all Data Science
+    text: 2.0 Welcome to Block 2, The conceptual backbone of all Data Science ()
     url: /dst/notready.html
 
 ## Lectures
 v0101:
-    text: 2.1.1 Overview of Regression
+    text: 2.1.1 Overview of Regression (35.15)
     url: /dst/notready.html
 
 v0102:
-    text: 2.1.2 - Modern Regression
+    text: 2.1.2 - Modern Regression (28.30)
     url: /dst/notready.html
 
 v0201:
-    text: 2.2.1 Statistical Testing - Classical Testing
+    text: 2.2.1 Statistical Testing - Classical Testing (25.50)
     url: /dst/notready.html
 
 v0202:
-    text: 2.2.2 - Statistical Testing - Empirical Testing
+    text: 2.2.2 - Statistical Testing - Empirical Testing (24.53)
     url: /dst/notready.html
 
 v0203:
-    text: 2.2.3 - Model Selection
+    text: 2.2.3 - Model Selection (36.26)
     url: /dst/notready.html
 
 ## Workshops
 v0301:
-    text: 2.2.3 - Workshop Lecture on Model Selection
+    text: 2.2.3 - Workshop Lecture on Regression (28.58)
     url: /dst/notready.html
 
