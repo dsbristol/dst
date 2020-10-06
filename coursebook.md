@@ -11,6 +11,7 @@ Content is arranged by blocks (single week of teaching content). You will not mi
 * [00 About](coursebook/00.md)
 * Block [01 Introduction and Exploratory Data Analysis](coursebook/01.md)
 * Block [02 Regression, Testing, and Model Selection](coursebook/02.md)
+* Block [03 Latent Structure, PCA and Clustering](coursebook/03.md)
 
 ## Reference information
 
