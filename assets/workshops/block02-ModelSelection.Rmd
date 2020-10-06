@@ -1,18 +1,24 @@
 ---
 title: "Model selection and regression"
 output: html_notebook
+version: 1.0.1
 ---
 In this workshop we focus on applying model selection to the regression framework. 
 
 We need the [10%](http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percent.gz) and [column names](http://kdd.ics.uci.edu/databases/kddcup99/kddcup.names) files from the previous workshop, "block01-EDA.Rmd" for download , in which the data are explained in a little more detail.
 
-We are going to make a linear regression model, account for some of the many issues that arise when working with real data; namely that there is an excess of 0 values. There are simpler ways to handle this with richer models, but going through the linear regression approach helps us understand the model better, and the real perils for data analysis.
+We are going to make a linear regression model, account for some of the many issues that arise when working with real data; namely that there is an *excess of 0 values*. There are simpler ways to handle this with richer models, but going through the linear regression approach helps us understand the model better, and the real perils for data analysis.
 
 ## Read the data:
 
 ```{r}
-kddata<-read.csv("../data/kddcup.data_10_percent.gz")
-kddnames=read.table("../data/kddcup.names",sep=":",skip=1,as.is=T)
+if (.Platform$OS.type=="windows"){ # Windows uses double backslash for directories...
+  kddata<-read.csv("..\\data\\kddcup.data_10_percent.gz")
+  kddnames=read.table("..\\data\\kddcup.names",sep=":",skip=1,as.is=T)
+}else{ # Everything else uses a forward slash.
+  kddata<-read.csv("../data/kddcup.data_10_percent.gz")
+  kddnames=read.table("../data/kddcup.names",sep=":",skip=1,as.is=T)
+}
 colnames(kddata)=c(kddnames[,1],"normal")
 ```
 Before we start, we'll load some useful packages:
@@ -116,6 +122,7 @@ What threshold should we use for the decisions? We could choose the threshold th
 zerodurationroc=roc(train[,"zeroduration"],trainzeropred1)
 plot(zerodurationroc,xlab="Specificity (1-False positive rate=True negative rate)",ylab="Sensitivity (True positive rate)")
 abline(a=0,b= 1)
+
 tw=which.min(abs(zerodurationroc$sensitivities-zerodurationroc$specificities))
 mythresh=zerodurationroc$thresholds[tw] # solving for the threshold that has sensitivity closest to the specificity
 points(zerodurationroc$sensitivities[tw],zerodurationroc$specificities[tw])
@@ -207,7 +214,7 @@ Overall then,
 
 * The predictions are discrete, because the data used for the predictions are discrete
 * There is a problem predicting the durations from discrete information only.
-* despite a strong correlation in the test data
+* despite a strong correlation in the data
 
 ## ACTIVITY 4: TEST DATA
 
@@ -230,7 +237,7 @@ cor(cordata2)
 * The test data looks very similar in structure to the training data.
 * What does this mean?
 
-## ACTIVITY 6: Model summaries 
+## ACTIVITY 5: Model summaries 
 
 Lets finally summarize the model in a more thorough way. We want to compare performance between the test and train datasets to see if we're overfitting in any particular area of the model.
 
