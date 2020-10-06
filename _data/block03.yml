@@ -1,4 +1,5 @@
 ## Slides
+
 s01-PCA:
     url: /dst/notready.html
 
@@ -8,9 +9,24 @@ s02.1-Clustering1:
 s02.2-Clustering2:
     url: /dst/notready.html
 
+## Code
+c01:
+    url: /dst/notready.html
+
+c02:
+    url: /dst/notready.html
 
 ## Worksheet
+
 ws01:
+    text: 3.1 Latent Spaces and PCA Worksheet
     url: /dst/notready.html
+
 ws02:
+    text: 3.2 Clustering Worksheet
+    url: /dst/notready.html
+
+## Workshop
+
+s03-SpectralEmbedding:
     url: /dst/notready.html
