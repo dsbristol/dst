@@ -31,6 +31,20 @@ layout: coursebook
 * [{{ site.data.vid03.v0202.text }}]({{ site.data.vid03.v0201.url }})
   * [Slides]({{ site.data.block03.s0202-Clustering2.url }})
   * [Reference R code]({{ site.data.block03.c02.url }})
+* 04.1 Non-parametric Statistics:
+  * [{{ site.data.vid04.v0101.text }}]({{ site.data.vid04.v0101.url }})
+    * [Slides]({{ site.data.block04.s0101.url }})
+  * [{{ site.data.vid04.v0102.text }}]({{ site.data.vid04.v0102.url }})
+    * [Slides]({{ site.data.block04.s0102.url }})
+  * [{{ site.data.vid04.v0103.text }}]({{ site.data.vid04.v0103.url }})
+    * [Slides]({{ site.data.block04.s0103.url }})
+  * [Reference R code]({{ site.data.block04.c01.url }})
+* 04.2 Missing Data:
+  * [{{ site.data.vid04.v0201.text }}]({{ site.data.vid04.v0201.url }})
+    * [Slides]({{ site.data.block04.s0201.url }})
+  * [{{ site.data.vid04.v0202.text }}]({{ site.data.vid04.v0202.url }})
+    * [Slides]({{ site.data.block04.s0202.url }})
+  * [Reference R code]({{ site.data.block04.c02.url }})
 
 ## Worksheets <a name="Worksheets"></a>
 
@@ -71,6 +85,8 @@ See [Appendix 1: Preparation](coursebook/appendix1-prep.md) for details.
   * [Rmd for 2.3 Model Selection for Regression R markdown]({{ site.data.block02.s03-ModelSelection.url }})
 * [{{ site.data.vid03.v0301.text }}]({{ site.data.vid03.v0301.url }})
   * [Rmd for 3.3 PCA and Clustering markdown]({{ site.data.block03.s03-SpectralEmbedding.url }})
+* [{{ site.data.vid04.v03.text }}]({{ site.data.vid04.v03.url }})
+  * [Rmd for 4.3 Workshop on Missing Data]({{ site.data.block04.s03.url }})
 
 
 ## Assessments <a name="Assessments"></a>

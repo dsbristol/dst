@@ -1,13 +1,20 @@
 ---
 title: Data Science Toolbox
 ---
-# Data Science Toolbox @ Bristol
+Start with:
 
-This page is managed by [Daniel Lawson](https://people.maths.bris.ac.uk/~madjl/) from the [Institute of Statistical Sciences](https://www.bristolmathsresearch.org/statistical-science/) at the [University of Bristol](https://www.bristol.ac.uk).
+## [The Data Science Toolbox Coursebook](coursebook.html).
 
-It will be populated with the public-facing material for the [Data Science Toolbox Masters course](https://www.bris.ac.uk/unit-programme-catalogue/UnitDetails.jsa;jsessionid=9A4E8E85CF53506A6177DBB05B80A134.nAC1004052063?ayrCode=20%2F21&unitCode=MATHM0029) for the [MSc in Mathematics of Cybersecurity](https://www.bristol.ac.uk/study/postgraduate/2020/sci/msc-mathematics-of-cybersecurity).
+### About Data Science Toolbox:
 
-Start with the [Coursebook](coursebook.html).
+* It is part of the [Course: MSc Cyber Security](https://www.bristol.ac.uk/maths/postgraduate/msc/cybersecurity),
+* Run by the [Institute of Statistical Sciences](https://www.bristolmathsresearch.org/statistical-science/),
+* In the [School of Mathematics](https://www.bristol.ac.uk/maths),
+* At the [University of Bristol, UK](https://www.bristol.ac.uk),
+* Run by [Daniel Lawson](https://people.maths.bris.ac.uk/~madjl/), a Senior Lecturer in Data Science.
 
-* TOC
-{:toc}
+It is designed to teach **All of Data Science** to Mathematics, Statistics or Computer Science undergraduates who have a little background in coding. It does this through thorough exploration of methods applied to **Real Cyber Security Datasets**.
+
+The page contains the public-facing material for the [Data Science Toolbox Masters course](https://www.bris.ac.uk/unit-programme-catalogue/UnitDetails.jsa;jsessionid=9A4E8E85CF53506A6177DBB05B80A134.nAC1004052063?ayrCode=20%2F21&unitCode=MATHM0029) for the [MSc in Mathematics of Cybersecurity](https://www.bristol.ac.uk/study/postgraduate/2020/sci/msc-mathematics-of-cybersecurity).
+
+
