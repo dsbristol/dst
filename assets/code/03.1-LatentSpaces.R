@@ -1,4 +1,11 @@
 ################################
+## Author: Dan Lawson (dan.lawson@bristol.ac.uk)
+## Licence: GPLv3
+## See https://dsbristol.github.io/dst/coursebook/03.html
+
+## Examples of SVD/PCA for cyber security
+
+################################
 ## Read the data
 source("https://raw.githubusercontent.com/dsbristol/dst/master/code/loadconndata.R")
 

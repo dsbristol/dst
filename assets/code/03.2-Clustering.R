@@ -1,6 +1,11 @@
+################################
+## Author: Dan Lawson (dan.lawson@bristol.ac.uk)
+## Licence: GPLv3
+## See https://dsbristol.github.io/dst/coursebook/03.html
 
 #################################
-## Clustering
+## Examples of Clustering
+## nb Run 03.1 first!
 
 ## Restore 03.1 content
 load(file="LatentSpacesOutput.RData")
