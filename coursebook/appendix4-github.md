@@ -85,6 +85,55 @@ Some video tutorials:
 * [GitHub Desktop Quick Intro For Windows](https://www.youtube.com/watch?v=77W2JSL7-r8)
 * [Learn Git in 20 minutes](https://www.youtube.com/watch?v=Y9XZQO1n_7c)
 
+## Command Line Git for Noteable
+
+You **can use Git** when using Jupyter Notebook via Noteable. To do this you need to become familiar with Command Line Git; see the references in **Deeper Git** above. The process is:
+
+[](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)
+
+1. Start **Jupyter Hub** by going to the Data Science Toolbox on **Blackboard** and selecting **Noteable**.
+2. Select **"R with Stan"**. This creates an instance that includes **Python 3 and R**. Press **Start**.
+3. Select the **"New"** button from the top right and select **"Terminal"**.
+4. You are now at a Linux Command Line prompt. You then need to **setup GitHub** to use your GitHub Account:
+```{sh}
+git config --global user.name "Your Name" # Replace with your name
+git config --global user.email "myemail@host.com" # Replace with your GitHub email address
+```
+5. Now you need to [generate a GitHub Access Token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token). This is like a limited password. You must give this access token the required permissions. I would recommend:
+   * Making a token specifically for Noteable, with a suitable name;
+   * Allowing full access to the **repo** but nothing else;
+   * Saving this access token somewhere secure.
+5. You are now ready to **clone your project**. This is done via the `git clone` command. We need to know the repository that you want. Go to [GitHub`](www.github.com), navigate to your project and select **Code**. You need to choose **HTTPS** mode as SSH is not currently supported on Noteable. You can then press the **copy to clipboard icon** to give you a link, which you can past into the command line. You will take the last part of this to make the following command that additionally contains your username and access token:
+```{sh}
+git clone https://username:accesstoken@github.com/projectuser/project.git
+```
+for example (with a fake access token):
+```{sh}
+git clone https://dsbristol:1234123412341234@github.com/dsbristol/dst_example_project.git
+```
+Remember that:
+	* `username` is your own GitHub username;
+	* `accesstoken` is the access token you created for this above;
+	* `projectuser` is the owner of the project;
+	* `project` is the name of the project.
+
+7. You can now make changes and commit them as normal. For example:
+```{sh}
+cd dst_example_project
+emacs README.md ## Make some changes
+git status
+git add -u
+git commit -m "I made some changes from Noteable"
+```
+
+### Notes :
+
+* Noteable should be secure enough to store an access token, though some might have concerns about security. If you are worried, you can instead ask it to [cache your password](https://www.phys.uconn.edu/~rozman/Courses/P2200_15F/downloads/github-caching_password_in_git.pdf):
+```{sh}
+git config --global credential.helper cache
+```
+* It is possible to modify a Git repository you already created to use your details, a new password, etc. You do this by editing the `.git/config` file in your repository. There are many online resources explaining this.
+
 ## Git is Evil! Make it go away!
 
 This is a collaborative process and I am always open to suggestions. If you have a good option, discuss it with me.
