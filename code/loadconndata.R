@@ -1,4 +1,6 @@
-## This file reads the data.
+## This R script reads data:
+## The Bro log data from [Secrepo](http://www.secrepo.com/Datasets%20Description/HTML_Bro_log_1/conn.html):
+## assigns headers to it and makes a useful subset for data exploration.
 
 ## Get the data from the repo
 conndata=read.table("https://github.com/dsbristol/dst/raw/master/data/conn_sample.log",as.is=T)
