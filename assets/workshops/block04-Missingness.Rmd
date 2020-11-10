@@ -1,8 +1,12 @@
 ---
-title: "WS_week7_Missingness"
+title: "Managing Missingness - Outliers and Missing Data"
+date: "Block 04"
 author: "Daniel Lawson"
-date: "31/10/2018"
+email: dan.lawson@bristol.ac.uk
 output: html_document
+version: 1.0.1
+fig_width: 10
+fig_height: 5
 ---
 # Overview
 This workshop examines different approaches for coping with missing data. We'll start with some data QC - outliers and detection of batch effects - before moving into missingness.

@@ -1,7 +1,12 @@
 ---
 title: "More EDA"
-output: html_notebook
-version: 1.0.1
+date: "Block 01"
+author: "Daniel Lawson"
+email: dan.lawson@bristol.ac.uk
+output: html_document
+version: 1.0.2
+fig_width: 10
+fig_height: 5
 ---
 
 You should have already run the introductory "01.3-WSL-1-EDA.Rmd" worksheet and become familiar with working with an RStudio RMarkdown document.

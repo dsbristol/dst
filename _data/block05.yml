@@ -1,6 +1,31 @@
+## Slides
+
+s0101:
+    text: 5.1.1 Introduction to Classification (Logistic Regression, Interpretation, ROC)
+    url: /dst/notready.html
+
+s0102:
+    text: 5.1.2 Introduction to Classification - The basics (kNN, LDA, SVM)
+    url: /dst/notready.html
+
+s02:
+    text: 5.2 Ensemble learning
+    url: /dst/notready.html
+
+## Code
+c01:
+    text: 5.1 Classification
+    url: /dst/notready.html
 
 ## Worksheet
 ws01:
     url: /dst/notready.html
 ws02:
     url: /dst/notready.html
+
+## Workshop
+
+s03:
+    text: 5.3 Workshop on Classification with base learners and ensembles
+    url: /dst/notready.html
+

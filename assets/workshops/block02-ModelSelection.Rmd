@@ -1,7 +1,13 @@
 ---
 title: "Model selection and regression"
-output: html_notebook
+date: "Block 02"
+author: "Daniel Lawson"
+email: dan.lawson@bristol.ac.uk
+output: html_document
 version: 1.0.1
+fig_width: 10
+fig_height: 5
+
 ---
 In this workshop we focus on applying model selection to the regression framework. 
 
