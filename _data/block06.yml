@@ -1,4 +1,30 @@
+## Slides
+
+s0101:
+    text: 6.1.1 Decisions, Trees, Forests, (Part 1, Trees)
+    url: /dst/notready.html
+
+s0102:
+    text: 5.1.2 Decisions, Trees, Forests (Part 2, Forests)
+    url: /dst/notready.html
+
+## Code
+c01:
+    text: 6.1 Random Forest and Trees
+    url: /dst/notready.html
 
 ## Worksheet
 ws01:
     url: /dst/notready.html
+
+## Workshop
+
+s0201:
+    text: 6.2.1 Workshop on Random Forests (R content)
+    url: /dst/notready.html
+
+s0202:
+    text: 6.2.2 Workshop on Random Forests (Python content)
+    url: /dst/notready.html
+
+
