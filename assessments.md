@@ -16,6 +16,7 @@ Undertaking a group project online is a difficult process that requires care and
 * [Appendix 3: Replicability](coursebook/appendix3-replicability.md), which explains how to make your project run reliably on others' computers.
 * [Appendix 4: GitHub](coursebook/appendix4-github.md), which explains how to use GitHub.
 * [Appendix 5: Bluecrystal](coursebook/appendix5-bluecrystal.md), which is our High Performance Computing Infrastructure, essential for later Assessments.
+* The [Equity Formula](/dst/assets/assessments/equityshare.nb.html) for redistributing marks where a different equity is agreed.
 
 ## Guidance
 
