@@ -1,4 +1,29 @@
+## Lectures
+
+s0101:
+    text: 7.1.1 Topic Models
+    url: /dst/assets/slides/07.1.1-TopicModels.pdf
+s0102:
+    text: 7.1.2 A lightning tour of Bayesian Statistics and Regularisation
+    url: /dst/assets/slides/07.1.2-Bayes.pdf
+s0103:
+    text: 7.1.3 Latent Dirichlet Allocation
+    url: /dst/assets/slides/07.1.3-LDA.pdf
+s02:
+    text: 7.2 Applying Topic Models
+    url: /dst/assets/slides/07.2-AppliedTopicModels.pdf
 
 ## Worksheet
 ws01:
-    url: /dst/notready.html
+    url: /dst/assets/worksheets/ws07.1_questions.pdf
+
+## Workshop
+
+s0301:
+    text: 7.3.1 Workshop on Topic Modelling (Part 1, Prereqs)
+    url: /dst/assets/workshops/block07-TopicModels_part1.ipynb
+
+s0302:
+    text: 7.3.2 Workshop on Topic Modelling (Part 2, Main content)
+    url: /dst/assets/workshops/block07-TopicModels_part2.ipynb
+
