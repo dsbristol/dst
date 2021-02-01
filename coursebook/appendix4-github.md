@@ -77,6 +77,7 @@ Conflicts are inevitable. Some are easy to resolve with [GitHub Desktop](https:/
 There is no need to use GitHub Desktop; for some things you need **command line git** and it allows you work effectively on a remote server, such as [BlueCrystal](appendix5-bluecrystal.md). There are many resources including:
 
 * [Chrys Woods' Git Tutorial](https://chryswoods.com/beginning_git/index.html) - Chrys provides this tutorial to students and staff at the University of Bristol. I highly recommend going through it to understand Git more deeply.
+  * He also covers more advanced usage in [Python and Data](http://chryswoods.com/python_and_data/index.html).
 * [swcarpentry](http://swcarpentry.github.io/git-novice/) is another excellent resource with descriptions at several layers of complexity.
   * Which notes that [Rstudio has integrated Git functionality](https://swcarpentry.github.io/git-novice/14-supplemental-rstudio/index.html). You are welcome to use this, but don't become reliant as it will not help you for Python usage.
 
