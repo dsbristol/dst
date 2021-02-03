@@ -32,7 +32,9 @@ See my [HPC notes on Github](https://github.com/danjlawson/hpc-notes) for code.
 * It explains how to [copy files](https://www.acrc.bris.ac.uk/protected/hpc-docs/transferring_data/index.html) to and from the HPC.
 * You add popular software (such as R, python, compilers, etc) using [Modules](https://www.acrc.bris.ac.uk/protected/hpc-docs/software/index.html). This makes getting things set up quite straightforward.
 * The most important change is that you will *submit jobs* instead of running them manually. This is handled by a [scheduler](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/index.html), which is slightly different on BC3 vs 4.
-* You do this by writing a [job submission script](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/serial.html). There are a couple of gotchas:
+* You do this by writing a [job submission script](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/serial.html).
+
+There are a couple of gotchas:
 * The script needs to have access to any software. Do this by using the right modules, or having them in your PATH. I do this by adding the following to my `~/.bashrc` file, which lets me put any binaries I want to access in `~/bin`:
 ```{bash}
 export PATH="$HOME/bin:$PATH"
@@ -47,6 +49,7 @@ export PATH="$HOME/bin:$PATH"
 * The most important class of parallel jobs are **embarrassingly parallel**. This means that they can run independently. Doing this is totally trivial with and [array job](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/array.html). You will set an *array index variable* (differently no BC3/4) in your script, which you should either use as:
   * Input to your script, or
   * an index for which of a predefined list of commands to run.
+  * I've already done the work making this simple in the case of [BC3](https://github.com/danjlawson/hpc-notes).
 * If you want multiple cores per run (for example you are using python/R with a parallel package) then you simply request more cpus for each job. This is also the best way to ask for more memory! It is best to request simple fractions of what the nodes have. e.g. BC3 has many 16 core nodes. Using `ncpus:8` asks for half of a node, and should not use more than half of the memory.
 * [GPU jobs](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/gpu.html) are pretty simple to run too: just ask for a gpu and request the gpu queue.
 * It is good practice to output useful information such as the date and duration of the job, etc to stdout. See e.g. [variables](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/variables.html).
