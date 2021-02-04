@@ -15,7 +15,7 @@ Content is arranged by blocks (single week of teaching content). You will not mi
 * Block [04 Non-parametrics and Missing Data](coursebook/04.md)
 * Block [05 Supervised Learning and Ensembles](coursebook/05.md)
 * Block [06 Decision Trees and Random Forests](coursebook/06.md)
-* Block [07 Topic Models and Baye](coursebook/07.md)
+* Block [07 Topic Models and Bayesian Methods](coursebook/07.md)
 * Block [08 Algorithms for Data Science](coursebook/08.md)
 * Block [09 Perceptions and Neural Networks](coursebook/09.md)
 * Block [10 Parallel Algorithms](coursebook/10.md)
