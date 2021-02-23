@@ -1,4 +1,27 @@
+## Lectures
+
+s0101:
+    text: 9.1.1 Neural Nets and the Perceptron (Part 1, the Perceptron)
+    url: /dst/notready.html
+s0102:
+    text: 9.1.2 Neural Nets and the Perceptron (Part 2, Deep Networks)
+    url: /dst/notready.html
+
+s02:
+    text: 9.2 Practicalities of Neural Nets
+    url: /dst/notready.html
 
 ## Worksheet
 ws01:
+    url: /dst/notready.html
+
+
+## Workshop
+
+s03:
+    text: 9.3 Workshop on Tensorflow and Keras
+    url: /dst/notready.html
+
+s0302:
+    text: Neural Network script
     url: /dst/notready.html

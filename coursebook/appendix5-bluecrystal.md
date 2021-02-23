@@ -60,3 +60,60 @@ export PATH="$HOME/bin:$PATH"
   * You will need to choose a single server node to log on to.
   * screen takes some getting used to.
   * My setup is [.screenrc](https://raw.githubusercontent.com/danjlawson/hpc-notes/main/screen/dotscreenrc), which you put into `$HOME/.screenrc` (as it says in the header of the file.)
+
+### Bluecrystal Keras and Tensorflow
+
+1. To get a version of anaconda that works with Tensorflow:
+```{sh}
+module load languages/python-anaconda3-2019.10
+```
+You can add this to your `.bashrc` file so that this is always loaded for you.
+2. To install tensorflow and all dependencies, we need to make a [conda environment](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) for it.
+Note that you need to do these commands separately as some require interactive confirmation.
+```{sh}
+conda create -y -n tf-env
+conda activate tf-env
+conda install tensorflow keras ipython pandas scikit-learn
+ ## NB By default there is no interactive python!
+  ## You can install anything else and it will be placed in the appropriate place by conda
+```
+3. You will then need to write a script that will complete your desired task.
+However, note that **bluecrystal phase 4** is required to run **Tensorflow** GPU jobs; you will be using the CPU on phase 3.
+    * You can do this interactively by using `qsub -I` as noted in my [HPC notes](https://github.com/danjlawson/hpc-notes); see the [GPU Jobs documentation](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/gpu.html). The appropriate command is `qsub -I -l nodes=1:ppn=16 -l walltime=60:00:00` to request an interactive session with 16 cores for 60 hours (test with one core for one hour: `qsub -I -l nodes=1:ppn=1 -l walltime=1:00:00`). In my interactive session, the following got things working:
+```{sh}
+conda init ## Required to make conda happy on the nodes
+source ~/.bashrc ## Required to load what conda init just did
+conda activate tf-env ## Gets us into our GPU environment
+ipython3
+```
+    * I was then able to run ipython interactively on the compute node:
+```{python}
+from keras.models import Sequential
+from keras.layers import Dense
+import numpy as np
+np.random.seed(7)
+import requests
+url = 'https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv?raw=true'
+r = requests.get(url, allow_redirects=True)
+open('pima-indians-diabetes.data.csv', 'wb').write(r.content)
+dataset = np.loadtxt("pima-indians-diabetes.data.csv", delimiter=",")
+X = dataset[:,0:8]
+Y = dataset[:,8]
+  # create model
+model = Sequential()
+model.add(Dense(12, input_dim=8, activation='relu'))
+model.add(Dense(8, activation='relu'))
+model.add(Dense(1, activation='sigmoid'))
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+model.fit(X, Y, epochs=150, batch_size=10)
+```
+    * Remember that to exit this environment you use `conda deactivate`.
+    * You can even configure `jupyter notebook` to allow you to access it remotely, but this is non-trivial.
+4. Some further thoughts on `conda`:
+    * If you followed the instructions above, the environment content was placed in `~/.conda/envs/tf-env`. You can set this manually.
+    * We can ensure that we all get the same environment by creating a file that describes it completely.
+```{sh}
+conda env export > tf-env.yml
+```
+    * This can be passed into conda create using `conda create -f tf-env.yml`
+	* You can easily run the provided [python script](09.md) as a job, which is the recommended way to get large runs done.
