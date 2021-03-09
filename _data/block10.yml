@@ -1,4 +1,28 @@
 
+
+## Lectures
+s0101:
+    text: 10.1.1 Introduction to Parallelism (Part 1, Parallel computers) 
+    url: /dst/assets/slides/10.1.1-ParallelAlgorithms_Part1.pdf
+
+s0102:
+    text: 10.1.2 Introduction to Parallelism (Part 2, Vectorisation, Mapping and Reducing) 
+    url: /dst/assets/slides/10.1.2-ParallelAlgorithms_Part2.pdf
+
 ## Worksheet
 ws01:
-    url: /dst/notready.html
+    url: /dst/assets/worksheets/ws10.1_questions.pdf
+    
+## Workshop
+
+s02:
+    text: 10.2 Coding Parallel Algorithms
+    url: /dst/assets/workshops/block10-CodingParallelAlgorithms.ipynb
+
+s0201:
+    text: 10.2.1 Parallel Example 1
+    url: /dst/assets/workshops/block10-parallel01.py
+
+s0202:
+    text: 10.2.2 Parallel Example 2
+    url: /dst/assets/workshops/block10-parallel02.py
