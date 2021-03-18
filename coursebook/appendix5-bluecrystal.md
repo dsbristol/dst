@@ -63,9 +63,13 @@ export PATH="$HOME/bin:$PATH"
 
 ### Bluecrystal Keras and Tensorflow
 
-1. To get a version of anaconda that works with Tensorflow:
+1. To get a version of anaconda that works with Tensorflow on BC3:
 ```{sh}
 module load languages/python-anaconda3-2019.10
+```
+Or for BC4:
+```{sh}
+module load languages/anaconda2/5.3.1.tensorflow-1.12
 ```
 You can add this to your `.bashrc` file so that this is always loaded for you.
 2. To install tensorflow and all dependencies, we need to make a [conda environment](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) for it.
