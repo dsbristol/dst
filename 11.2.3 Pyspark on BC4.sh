@@ -9,7 +9,7 @@ pip install pyspark --user
 
 
 ##
-rm -rf folder
+rm -rf output/folder
 spark-submit 2.1-SparkInputOutput.py &> 2.1-SparkInputOutput.log
 grep -v INFO 2.1-SparkInputOutput.log | grep -v WARN
 

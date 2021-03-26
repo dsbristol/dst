@@ -18,7 +18,7 @@
 
 ## To install a working Java/Hadoop pairing: note that I recommend upgrading to the most recent version
 module load Java/1.8.0_92
-wget https//archive.apache.org/dist/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz
+wget https://archive.apache.org/dist/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz
 tar -xzvf hadoop-3.1.2.tar.gz
 
 #############
