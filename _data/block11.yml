@@ -1,20 +1,20 @@
 ## Lectures
 s0101:
     text: 11.1.1 Parallel Data with MapReduce and Spark (Part 1, Introduction)
-    url: /dst/assets/slides/11.1.1-MapReduce.pdf
+    url: /dst/notready.html
 
 s0102:
     text: 11.1.2 Parallel Data with MapReduce and Spark (Part 2, Spark)
-    url: /dst/assets/slides/11.1.2-Spark.pdf
+    url: /dst/notready.html
 
 
 ## Worksheet
 ws01:
-    url: /dst/assets/worksheets/ws11.1_questions.pdf
+    url: /dst/notready.html
 
   
 ## Workshop
 
 s02:
     text: 11.2 Pyspark and Hadoop
-    url: https://github.com/dsbristol/pyspark
+    url: /dst/notready.html
