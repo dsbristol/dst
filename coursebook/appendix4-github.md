@@ -5,7 +5,11 @@ layout: coursebook
 
 # Git, GitHub, GitHub Desktop
 
-Git 
+* [Git](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F) is a Version Management system that is integral to modern data science. It works using your local `repository' which it can synchronise with a remote repository.
+* [Github](https://github.com/) is one choice of server to store your remote repository. Most services allow you to a) distribute code, and b) share development within a team. We will use Github because it is also allows for some user friendly interfaces, specifically:
+* [Github Desktop](https://desktop.github.com/) is an easy to use solution for working with Git that removes some of the technical requirements for understanding.
+
+Getting to grips with Git is an essential component of the course.
 
 ## Get a GitHub Account and required software
 
@@ -143,4 +147,4 @@ I can imagine a few options:
 
 * OneDrive/GoogleDrive/Dropbox: None of these are designed for co-creation of content alone. You will have a miserable experience.
 * [Google Colab](colab.research.google.com/) or [alternatives](https://www.kaggle.com/getting-started/99185), specifically that let all collaborators edit the same document, live. All of these options should support dumping your project into a GitHub Repository, so feel free to try.
-* We expect a better collaboration tool to be provided by the University soon. 
+* We expect a better collaboration tool to be provided by the University in the future. 

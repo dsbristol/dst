@@ -17,7 +17,7 @@ Content is arranged by blocks (single week of teaching content). You will not mi
 * Block [06 Decision Trees and Random Forests](coursebook/06.md)
 * Block [07 Topic Models and Bayesian Methods](coursebook/07.md)
 * Block [08 Algorithms for Data Science](coursebook/08.md)
-* Block [09 Perceptions and Neural Networks](coursebook/09.md)
+* Block [09 Perceptrons and Neural Networks](coursebook/09.md)
 * Block [10 Parallel Algorithms](coursebook/10.md)
 * Block [11 Parallel Infrastructure and Spark](coursebook/11.md)
 * Block [12 Ethics and Privacy](coursebook/12.md)

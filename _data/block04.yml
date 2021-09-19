@@ -2,45 +2,45 @@
 
 s0101:
     text: 4.1.1 Nonparametrics and kernels (Part 1, Transforms)
-    url: /dst/assets/slides/04.1.1-Nonparametrics.pdf
+    url: /dst/notready.html
 
 s0102:
     text: 4.1.2 Nonparametrics and kernels (Part 2, Density Estimation)
-    url: /dst/assets/slides/04.1.2-Nonparametrics.pdf
+    url: /dst/notready.html
 
 s0103:
     text: 4.1.3 Nonparametrics and kernels (Part 3, The Kernel Trick)
-    url: /dst/assets/slides/04.1.3-Nonparametrics.pdf
+    url: /dst/notready.html
 
 s0201:
     text: 4.2.1 Outliers and Missing data (Part 1, Outliers)
-    url: /dst/assets/slides/04.2.1-OutliersMissingData.pdf
+    url: /dst/notready.html
 
 s0202:
     text: 4.2.2 Outliers and Missing data (Part 1, Missing Data)
-    url: /dst/assets/slides/04.2.2-OutliersMissingData.pdf
+    url: /dst/notready.html
 
 ## Code
 c01:
     text: 4.1 Nonparametrics Code
-    url: /dst/assets/code/04.1-Nonparametrics.R
+    url: /dst/notready.html
 
 c02:
     text: 4.2 Missing Data Code
-    url: /dst/assets/code/04.2-MissingData.R
+    url: /dst/notready.html
 
 ## Worksheet
 
 ws01:
     text: 4.1 Non-parametrics
-    url: /dst/assets/worksheets/ws04.1_questions.pdf
+    url: /dst/notready.html
 
 ws02:
     text: 4.2 Outliers and Missing Data
-    url: /dst/assets/worksheets/ws04.2_questions.pdf
+    url: /dst/notready.html
 
 ## Workshop
 
 s03:
     text: 4.3 Workshop on Missing Data
-    url: /dst/assets/workshops/block04-Missingness.Rmd
+    url: /dst/notready.html
