@@ -45,6 +45,68 @@ layout: coursebook
   * [{{ site.data.vid04.v0202.text }}]({{ site.data.vid04.v0202.url }})
     * [Slides]({{ site.data.block04.s0202.url }})
   * [Reference R code]({{ site.data.block04.c02.url }})
+* 05.1 Introduction to Classification:
+  * [{{ site.data.vid05.v0101.text }}]({{ site.data.vid05.v0101.url }})
+    * [Slides]({{ site.data.block05.s0101.url }})
+  * [{{ site.data.vid05.v0102.text }}]({{ site.data.vid05.v0102.url }})
+    * [Slides]({{ site.data.block05.s0102.url }})
+  * [Reference R code]({{ site.data.block05.c01.url }})
+* 05.2 Ensemble Methods:
+  * [{{ site.data.vid05.v02.text }}]({{ site.data.vid05.v02.url }})
+    * [Slides]({{ site.data.block05.s02.url }})
+*  06.1 Decision Trees and Random Forests:
+  * [{{ site.data.vid06.v0101.text }}]({{ site.data.vid06.v0101.url }})
+    * [Slides]({{ site.data.block06.s0101.url }})
+  * [{{ site.data.vid06.v0102.text }}]({{ site.data.vid06.v0102.url }})
+    * [Slides]({{ site.data.block06.s0102.url }})
+  * [Reference R code]({{ site.data.block06.c01.url }})
+* 07.1 Topic Models, Bayes, Regularization, Latent Dirichlet Allocation:
+  * [{{ site.data.vid07.v0101.text }}]({{ site.data.vid07.v0101.url }})
+    * [Slides]({{ site.data.block07.s0101.url }})
+  * [{{ site.data.vid07.v0102.text }}]({{ site.data.vid07.v0102.url }})
+    * [Slides]({{ site.data.block07.s0102.url }})
+  * [{{ site.data.vid07.v0103.text }}]({{ site.data.vid07.v0103.url }})
+    * [Slides]({{ site.data.block07.s0103.url }})
+* 07.2 Applying Topic Models:
+  * [{{ site.data.vid07.v02.text }}]({{ site.data.vid07.v02.url }})
+    * [Slides]({{ site.data.block07.s02.url }})
+* 08.1 Analysing Algorithms: Complexity, Algorithms and Turing Machines
+  * [{{ site.data.vid08.v0101.text }}]({{ site.data.vid08.v0101.url }})
+    * [Slides]({{ site.data.block08.s0101.url }})
+  * [{{ site.data.vid08.v0102.text }}]({{ site.data.vid08.v0102.url }})
+    * [Slides]({{ site.data.block08.s0102.url }})
+  * [{{ site.data.vid08.v0103.text }}]({{ site.data.vid08.v0103.url }})
+    * [Slides]({{ site.data.block08.s0103.url }})
+* 08.2 Algorithms for Data Science: Data Structures and Algorithms for Big Data
+  * [{{ site.data.vid08.v0201.text }}]({{ site.data.vid08.v0201.url }})
+    * [Slides]({{ site.data.block08.s0201.url }})
+  * [{{ site.data.vid08.v0202.text }}]({{ site.data.vid08.v0202.url }})
+    * [Slides]({{ site.data.block08.s0202.url }})
+* 09.1 Neural Nets and the Perceptron
+  * [{{ site.data.vid09.v0101.text }}]({{ site.data.vid09.v0101.url }})
+    * [Slides]({{ site.data.block09.s0101.url }})
+  * [{{ site.data.vid09.v0102.text }}]({{ site.data.vid09.v0102.url }})
+    * [Slides]({{ site.data.block09.s0102.url }})
+* 09.2 Practicalities of Neural Nets
+  * [{{ site.data.vid09.v02.text }}]({{ site.data.vid09.v02.url }})
+    * [Slides]({{ site.data.block09.s02.url }})
+*  10.1 Introduction to Parallelism
+  * [{{ site.data.vid10.v0101.text }}]({{ site.data.vid10.v0101.url }})
+    * [Slides]({{ site.data.block10.s0101.url }})
+  * [{{ site.data.vid10.v0102.text }}]({{ site.data.vid10.v0102.url }})
+    * [Slides]({{ site.data.block10.s0102.url }})
+* 11.1 Parallel data with MapReduce and Spark
+  * [{{ site.data.vid11.v0101.text }}]({{ site.data.vid11.v0101.url }})
+    * [Slides]({{ site.data.block11.s0101.url }})
+  * [{{ site.data.vid11.v0102.text }}]({{ site.data.vid11.v0102.url }})
+    * [Slides]({{ site.data.block11.s0102.url }})
+* 12.1 Ethics in Data Science
+  * [{{ site.data.vid12.v0101.text }}]({{ site.data.vid12.v0101.url }})
+    * [Slides]({{ site.data.block12.s0101.url }})
+  * [{{ site.data.vid12.v0102.text }}]({{ site.data.vid12.v0102.url }})
+    * [Slides]({{ site.data.block12.s0102.url }})
+  * [{{ site.data.vid12.v0103.text }}]({{ site.data.vid12.v0103.url }})
+    * [Slides]({{ site.data.block12.s0103.url }})
 
 ## Worksheets <a name="Worksheets"></a>
 
@@ -87,7 +149,31 @@ See [Appendix 1: Preparation](coursebook/appendix1-prep.md) for details.
   * [Rmd for 3.3 PCA and Clustering markdown]({{ site.data.block03.s03-SpectralEmbedding.url }})
 * [{{ site.data.vid04.v03.text }}]({{ site.data.vid04.v03.url }})
   * [Rmd for 4.3 Workshop on Missing Data]({{ site.data.block04.s03.url }})
-
+* [{{ site.data.vid05.v03.text }}]({{ site.data.vid05.v03.url }})
+  * [Rmd for 5.3 Workshop on Ensemble Methods]({{ site.data.block05.s03.url }})
+* [{{ site.data.vid06.v0201.text }}]({{ site.data.vid06.v0201.url }})
+  * [Rmd for 6.2 Workshop on Random Forests]({{ site.data.block06.s0201.url }})
+* [{{ site.data.vid06.v0202.text }}]({{ site.data.vid06.v0202.url }})
+  * [Python for 6.2 Workshop on Random Forests]({{ site.data.block06.s0202.url }})
+* [{{ site.data.vid07.v0301.text }}]({{ site.data.vid07.v0301.url }})
+  * [Rmd for 7.3.1 Topic Models (Software and downloading data)]({{ site.data.block07.s0301.url }})
+* [{{ site.data.vid07.v0302.text }}]({{ site.data.vid07.v0302.url }})
+  * [Python Notebook: 7.3.2 Topic Models]({{ site.data.block07.s0302.url }})
+* [{{ site.data.vid08.v03.text }}]({{ site.data.vid08.v03.url }})
+  * [Python Notebook: Workshop on the Empirical evaluation of computational complexity]({{ site.data.block08.s03.url }})
+* [{{ site.data.vid09.v03.text }}]({{ site.data.vid09.v03.url }})
+  * [Python Notebook: Workshop 09.3 on Tensorflow with Keras]({{ site.data.block09.s03.url }})
+  * [Neural Network run as a script.]({{ site.data.block09.s0302.url }})
+* [{{ site.data.vid10.v02.text }}]({{ site.data.vid10.v02.url }})
+  * [10.2 Python Notebook: Workshop on Coding Parallel Algorithms]({{ site.data.block10.s02.url }})
+  * The following scripts should be placed in the directory you run the workshop notebook from. They are derivatives from the workshop content and easily replicated. Their use is discussed in the Workshop.
+	* [Script 01]({{ site.data.block10.s0201.url }}) 
+	* [Script 02]({{ site.data.block10.s0202.url }})
+* 11.2 Workshop Lecture on Coding Parallel Algorithms, split into the following parts:
+  * [{{ site.data.vid11.v0200.text }}]({{ site.data.vid11.v0200.url }})
+  * [{{ site.data.vid11.v0201.text }}]({{ site.data.vid11.v0201.url }})
+  * [{{ site.data.vid11.v0202.text }}]({{ site.data.vid11.v0202.url }})
+  * [11.2 Python Notebook: Workshop on Coding Parallel Algorithms]({{ site.data.block11.s02.url }})
 
 ## Assessments <a name="Assessments"></a>
 

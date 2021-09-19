@@ -7,50 +7,52 @@ layout: coursebook
 
 Content is arranged by blocks (single week of teaching content). These are scheduled for odd weeks in the University system.
 
-There are three assessments per term, due in Weeks 3,7,11,16,29,24.
+There are three assessments per term, due in Weeks 3,8,12,16,29,24.
 
 ### Semester 1
 
-* Week 1 (5th October)
+* Week 1 (27th September)
   * [00 About](coursebook/00.md)
   * Block [01 Introduction](coursebook/01.md)
   * [Assessment 0]({{ site.data.assessment0.url }}) *Set*
-* Week 3 (19th October)
+* Week 3 (11th October)
   * Block [02 Exploratory Data Analysis](coursebook/02.md)
-  * [Assessment 0]({{ site.data.assessment0.url }}) *Due* (**22nd October** Thursday noon)
+  * [Assessment 0]({{ site.data.assessment0.url }}) *Due* (Thursday noon)
   * [Assessment 1]({{ site.data.assessment1.url }}) *Set*
-* Week 5 (2nd November)
+* Week 5 (25th September)
   * Block 03
-* Week 7 (16th November)
+* Week 7 (8th November)
   * Block 04
-  * [Assessment 1]({{ site.data.assessment1.url }}) *Due* (**19th November** Thursday noon)
-  * [Assessment 2]({{ site.data.assessment2.url }}) *Set*)
-* Week 9 (30th November)
+* Week 8
+  * [Assessment 1]({{ site.data.assessment1.url }}) *Due* (Thursday noon)
+* Week 9 (22nd November)
   * Block 05
-* Week 11 (14th December)
+  * [Assessment 2]({{ site.data.assessment2.url }}) *Set*)
+* Week 11 (6th December)
   * Block 06
-  * [Assessment 2]({{ site.data.assessment2.url }}) *Due* (**17th December** Thursday noon)
+* Week 12
+  * [Assessment 2]({{ site.data.assessment2.url }}) *Due* (Thursday noon)
 
 ### Semester 2
 
-* Week 13 (1st February)
+* Week 13 (24th January)
   * Block 07
   * [Assessment 3]({{ site.data.assessment3.url }}) *Set*
-* Week 15 (15th February)
+* Week 15 (7th February)
   * Block 08
 * Week 16
-  * [Assessment 3]({{ site.data.assessment3.url }}) *Due* (**25th February** Thursday noon)
-* Week 17 (1st March)
+  * [Assessment 3]({{ site.data.assessment3.url }}) *Due* (Thursday noon)
+* Week 17 (21st Feb)
   * Block 09
   * [Assessment 4]({{ site.data.assessment4.url }}) *Set*
-* Week 19 (15th March)
+* Week 19 (7th March)
   * Block 10
 * Week 20
-* [Assessment 4]({{ site.data.assessment4.url }}) *Due* (**25th March** Thursday noon)
-* Week 21 (Date to be confirmed!)
+* [Assessment 4]({{ site.data.assessment4.url }}) *Due* (Thursday noon)
+* Week 21 (21st March)
   * Block 11
   * [Assessment 5]({{ site.data.assessment5.url }}) *Set*
-* Week 23 (3rd May)
+* Week 23 (25th April)
   * Block 12
 * Week 24
-  * [Assessment 5]({{ site.data.assessment5.url }}) *Due* (**13th May** Thursday noon)
+  * [Assessment 5]({{ site.data.assessment5.url }}) *Due* (Thursday noon)
