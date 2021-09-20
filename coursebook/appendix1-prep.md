@@ -17,7 +17,7 @@ layout: coursebook
 
 * Jupyter Notebook
 
-**Before the Block X Workshop** you must:
+**Before the Block 7 Workshop** you must:
 
 * Request access to Bluecrystal Phase 4 (NB DO THIS A WEEK IN ADVANCE)
 * Set up access to to Bluecrystal Phase 4
@@ -26,11 +26,6 @@ layout: coursebook
 
 * Install [R Studio](https://rstudio.com/products/rstudio/download/) and [R](https://www.r-project.org/)
 * How to set up [Github Desktop and Git](appendix4-github.md)
-* How to set up Jupyter Notebook with python
-* How to set up Jupyter Notebook with R
 * How to get access to [BlueCrystal](appendix5-bluecrystal.md)
-* Windows/OSX/Linux
 * Virtual environments: see [Appendix 3: Replicability](appendix3-replicability.md)
 * [How to work with Markdown](https://guides.github.com/features/mastering-markdown/)
-
-TODO: LOTS TO DO

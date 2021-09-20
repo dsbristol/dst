@@ -28,10 +28,10 @@ In Data Science Toolbox, we will be using this primarily for:
 See my [HPC notes on Github](https://github.com/danjlawson/hpc-notes) for code.
 
 * Start with the [Documentation](https://www.bristol.ac.uk/acrc/high-performance-computing/hpc-documentation-support-and-training/).
-* This which has instructions to access [BC3 & BC4](https://www.acrc.bris.ac.uk/protected/hpc-docs/connecting/index.html) from Windows, Linux and Mac.
+* This which has instructions to access [BC4](https://www.acrc.bris.ac.uk/protected/hpc-docs/connecting/index.html) from Windows, Linux and Mac.
 * It explains how to [copy files](https://www.acrc.bris.ac.uk/protected/hpc-docs/transferring_data/index.html) to and from the HPC.
 * You add popular software (such as R, python, compilers, etc) using [Modules](https://www.acrc.bris.ac.uk/protected/hpc-docs/software/index.html). This makes getting things set up quite straightforward.
-* The most important change is that you will *submit jobs* instead of running them manually. This is handled by a [scheduler](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/index.html), which is slightly different on BC3 vs 4.
+* The most important change is that you will *submit jobs* instead of running them manually. This is handled by a [scheduler](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/index.html).
 * You do this by writing a [job submission script](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/serial.html).
 
 There are a couple of gotchas:
@@ -41,16 +41,16 @@ export PATH="$HOME/bin:$PATH"
 ```
   * You can set this up for yourself by `mkdir ~/bin` and then when you download or create a binary, put it there.
 * You need your scripts to change to the correct directory themselves. Luckily the script knows where it was run from so make your first command:
-  * On BC3 this is `cd "${PBS_O_WORKDIR}"`, on BC4 it is `cd "${SLURM_SUBMIT_DIR}"`.
+  * On BC4 it is `cd "${SLURM_SUBMIT_DIR}"`.
 * There much **not be any lines before the submission information**, comment or otherwise! So every script:
   * Must start with the "shebang" (`#!/bin/bash` which says what will run your job; stick with bash unless you know what you are doing!);
-  * The following lines will be your `#PBS` (BC3) or `#SBATCH` (BC4) instructions;
+  * The following lines will be your `#SBATCH` (BC4) instructions;
   * Only then put your own code or comments. If comments, safest to separate with a blank comment line first.
-* The most important class of parallel jobs are **embarrassingly parallel**. This means that they can run independently. Doing this is totally trivial with and [array job](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/array.html). You will set an *array index variable* (differently no BC3/4) in your script, which you should either use as:
+* The most important class of parallel jobs are **embarrassingly parallel**. This means that they can run independently. Doing this is totally trivial with and [array job](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/array.html). You will set an *array index variable* in your script, which you should either use as:
   * Input to your script, or
   * an index for which of a predefined list of commands to run.
-  * I've already done the work making this simple in the case of [BC3](https://github.com/danjlawson/hpc-notes).
-* If you want multiple cores per run (for example you are using python/R with a parallel package) then you simply request more cpus for each job. This is also the best way to ask for more memory! It is best to request simple fractions of what the nodes have. e.g. BC3 has many 16 core nodes. Using `ncpus:8` asks for half of a node, and should not use more than half of the memory.
+  * I've already done the work making this simple [with some helper scripts](https://github.com/danjlawson/hpc-notes).
+* If you want multiple cores per run (for example you are using python/R with a parallel package) then you simply request more cpus for each job. This is also the best way to ask for more memory! It is best to request simple fractions of what the nodes have. e.g. BC4 has many 24 core nodes. Using `ncpus:8` asks for one third of a node, and should not use more than one third of the memory.
 * [GPU jobs](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/gpu.html) are pretty simple to run too: just ask for a gpu and request the gpu queue.
 * It is good practice to output useful information such as the date and duration of the job, etc to stdout. See e.g. [variables](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/variables.html).
 
@@ -63,11 +63,7 @@ export PATH="$HOME/bin:$PATH"
 
 ### Bluecrystal Keras and Tensorflow
 
-1. To get a version of anaconda that works with Tensorflow on BC3:
-```{sh}
-module load languages/python-anaconda3-2019.10
-```
-Or for BC4:
+1. To get a version of anaconda that works with Tensorflow on BC4:
 ```{sh}
 module load languages/anaconda2/5.3.1.tensorflow-1.12
 ```
@@ -82,7 +78,7 @@ conda install tensorflow keras ipython pandas scikit-learn
   ## You can install anything else and it will be placed in the appropriate place by conda
 ```
 3. You will then need to write a script that will complete your desired task.
-However, note that **bluecrystal phase 4** is required to run **Tensorflow** GPU jobs; you will be using the CPU on phase 3.
+However, note that **bluecrystal phase 4** is required to run **Tensorflow** GPU jobs.
     * You can do this interactively by using `qsub -I` as noted in my [HPC notes](https://github.com/danjlawson/hpc-notes); see the [GPU Jobs documentation](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/gpu.html). The appropriate command is `qsub -I -l nodes=1:ppn=16 -l walltime=60:00:00` to request an interactive session with 16 cores for 60 hours (test with one core for one hour: `qsub -I -l nodes=1:ppn=1 -l walltime=1:00:00`). In my interactive session, the following got things working:
 ```{sh}
 conda init ## Required to make conda happy on the nodes
