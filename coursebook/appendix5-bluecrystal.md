@@ -44,10 +44,25 @@ export PATH="$HOME/bin:$PATH"
   * On BC4 it is `cd "${SLURM_SUBMIT_DIR}"`.
 * There much **not be any lines before the submission information**, comment or otherwise! So every script:
   * Must start with the "shebang" (`#!/bin/bash` which says what will run your job; stick with bash unless you know what you are doing!);
-  * The following lines will be your `#SBATCH` (BC4) instructions;
+  * The following lines will be your `#SBATCH` instructions, for example:
+```{bash}
+#SBATCH --job-name=test-job-name
+#SBATCH --partition=test
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=2
+#SBATCH --time=0-1:00:00
+#SBATCH --mem=1000M
+#SBATCH --error=.log/error.txt
+#SBATCH --output=.log/log.txtexport
+```
   * Only then put your own code or comments. If comments, safest to separate with a blank comment line first.
 * The most important class of parallel jobs are **embarrassingly parallel**. This means that they can run independently. Doing this is totally trivial with and [array job](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/array.html). You will set an *array index variable* in your script, which you should either use as:
-  * Input to your script, or
+```{bash}
+#SBATCH --array=100-109
+echo i="${SLURM_ARRAY_TASK_ID}"
+```
+  * Then as input to your script, e.g. `./run_cmd.py $i` or
   * an index for which of a predefined list of commands to run.
   * I've already done the work making this simple [with some helper scripts](https://github.com/danjlawson/hpc-notes).
 * If you want multiple cores per run (for example you are using python/R with a parallel package) then you simply request more cpus for each job. This is also the best way to ask for more memory! It is best to request simple fractions of what the nodes have. e.g. BC4 has many 24 core nodes. Using `ncpus:8` asks for one third of a node, and should not use more than one third of the memory.
@@ -71,6 +86,7 @@ You can add this to your `.bashrc` file so that this is always loaded for you.
 2. To install tensorflow and all dependencies, we need to make a [conda environment](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) for it.
 Note that you need to do these commands separately as some require interactive confirmation.
 ```{sh}
+conda init ## Required to make conda happy on the nodes
 conda create -y -n tf-env
 conda activate tf-env
 conda install tensorflow keras ipython pandas scikit-learn
@@ -79,7 +95,7 @@ conda install tensorflow keras ipython pandas scikit-learn
 ```
 3. You will then need to write a script that will complete your desired task.
 However, note that **bluecrystal phase 4** is required to run **Tensorflow** GPU jobs.
-    * You can do this interactively by using `qsub -I` as noted in my [HPC notes](https://github.com/danjlawson/hpc-notes); see the [GPU Jobs documentation](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/gpu.html). The appropriate command is `qsub -I -l nodes=1:ppn=16 -l walltime=60:00:00` to request an interactive session with 16 cores for 60 hours (test with one core for one hour: `qsub -I -l nodes=1:ppn=1 -l walltime=1:00:00`). In my interactive session, the following got things working:
+    * You can do this interactively by using `srun -I` as noted in my [HPC notes](https://github.com/danjlawson/hpc-notes); see the [GPU Jobs documentation](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/gpu.html). The appropriate command is `srun --nodes=1 --ntasks-per-node=16 --time=60:00:00 --pty bash -i` to request an interactive session with 16 cores for 60 hours (test with one core for one hour: `srun --nodes=1 --ntasks-per-node=1 --time=01:00:00 --pty bash -i`). In my interactive session, the following got things working:
 ```{sh}
 conda init ## Required to make conda happy on the nodes
 source ~/.bashrc ## Required to load what conda init just did
