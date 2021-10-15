@@ -13,5 +13,14 @@
     border-bottom-right-radius: 4px;
 }
 
+sub {
+	font-size: smaller;
+	vertical-align: sub;
+}
+sup {
+	font-size: smaller;
+	vertical-align: super;
+}
+
 
 @import "{{ site.theme }}";
