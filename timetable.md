@@ -31,7 +31,7 @@ There are three assessments per term, due in Weeks 3,8,12,16,29,24.
 * Week 11 (6th December)
   * Block [06 Decision Trees and Random Forests](coursebook/06.md)
 * Week 12
-  * [Assessment 2]({{ site.data.assessment2.url }}) *Due* (Thursday noon)
+  * [Assessment 2]({{ site.data.assessment2.url }}) *Due* (**Wednesday** noon)
 
 ### Semester 2
 
