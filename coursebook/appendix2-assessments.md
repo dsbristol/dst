@@ -13,7 +13,7 @@ This is a list of the assessment details:
 * Unit Code: MATHM0029
 * Formative Assessments (that do not contribute to grade):
   - [Assessment 0]({{ site.data.assessment0.url }}) (Semester 1)
-* Summative Assessments (that contribute to grade): total 50% (best 4 of 5)
+* Summative Assessments (that contribute to grade): total 50% (each 10%)
   - [Assessment 1]({{ site.data.assessment1.url }}) (Semester 1)
   - [Assessment 2]({{ site.data.assessment2.url }}) (Semester 1)
   - [Assessment 3]({{ site.data.assessment3.url }}) (Semester 2)

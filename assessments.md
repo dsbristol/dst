@@ -3,7 +3,7 @@ title: Assessments
 layout: coursebook
 ---
 
-Assessments are month-long group projects, allowing a deep-delve into a specific area of Data Science applied to Cyber Security. They make up a total of 50% of the course mark (best 4 of 5) and are the single most important part of the course.
+Assessments are month-long group projects, allowing a deep-delve into a specific area of Data Science applied to Cyber Security. They make up a total of 50% of the course mark (each 10%) and are the single most important part of the course.
 
 The [Assessment List](coursebook/appendix2-assessments.md) lists each assessment, which are released in the appropriate Block of the [timetable](timetable.md).
 
