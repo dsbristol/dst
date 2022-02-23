@@ -100,10 +100,10 @@ conda install tensorflow keras ipython pandas scikit-learn
   ## You can install anything else and it will be placed in the appropriate place by conda
 ```
 3. You will then need to write a script that will complete your desired task.
-However, note that **bluecrystal phase 4** is required to run **Tensorflow** GPU jobs.
-    * You can do this interactively by using `srun -I` as noted in my [HPC notes](https://github.com/danjlawson/hpc-notes); see the [GPU Jobs documentation](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/gpu.html). 
-	* For an interactive testing environment:`srun --nodes=1 --ntasks-per-node=1 --time=01:00:00 --pty bash -i`).
-	* To request an interactive session with 16 cores for 60 hours (test with one core for one hour: `srun --nodes=1 --ntasks-per-node=16 --time=60:00:00 --pty bash -i` .
+However, note that **bluecrystal phase 4** or **bluepebble** are most easily configurable to run **Tensorflow** GPU jobs.
+    * You can do this interactively by using `srun -i` as noted in my [HPC notes](https://github.com/danjlawson/hpc-notes); see the [GPU Jobs documentation](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/gpu.html). 
+	* For an interactive testing environment with one core for one hour:`srun --nodes=1 --ntasks-per-node=1 --time=01:00:00 --pty bash -i`).
+	* To request an interactive session with 16 cores for 60 hours: `srun --nodes=1 --ntasks-per-node=16 --time=60:00:00 --pty bash -i` .
 	* In my interactive session, the following got things working:
 ```{sh}
 conda init ## Required to make conda happy on the nodes
