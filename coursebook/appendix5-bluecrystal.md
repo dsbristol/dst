@@ -15,8 +15,10 @@ Students on the [MSc Mathematics of Cybersecurity](https://www.bristol.ac.uk/stu
 * To connect from offsite, you will need to be on the University of Bristol [VPN](https://uob.sharepoint.com/sites/itservices/SitePages/vpn.aspx), or use [SEIS](https://seis.bristol.ac.uk/).
 
 In Data Science Toolbox, we will be using this primarily for:
-	* Large Compute Jobs;
-	* GPU (Graphics Processing Unit) jobs, specifically for learning Neural Networks.
+
+* Large Compute Jobs;
+* GPU (Graphics Processing Unit) jobs, specifically for learning Neural Networks;
+* Access to software for parallel computing.
 
 ### Project details:
 
@@ -78,9 +80,13 @@ echo i="${SLURM_ARRAY_TASK_ID}"
 
 ### Bluecrystal Keras and Tensorflow
 
-1. To get a version of anaconda that works with Tensorflow on BC4:
+1. To get a version of anaconda that works with Tensorflow **on BlueCrystal Phase4**:
 ```{sh}
 module load languages/anaconda2/5.3.1.tensorflow-1.12
+```
+Or on **BluePebble**:
+```{sh}
+module load lang/python/anaconda/3.9.7-2021.12-tensorflow.2.7.0
 ```
 You can add this to your `.bashrc` file so that this is always loaded for you.
 2. To install tensorflow and all dependencies, we need to make a [conda environment](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) for it.
@@ -95,7 +101,10 @@ conda install tensorflow keras ipython pandas scikit-learn
 ```
 3. You will then need to write a script that will complete your desired task.
 However, note that **bluecrystal phase 4** is required to run **Tensorflow** GPU jobs.
-    * You can do this interactively by using `srun -I` as noted in my [HPC notes](https://github.com/danjlawson/hpc-notes); see the [GPU Jobs documentation](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/gpu.html). The appropriate command is `srun --nodes=1 --ntasks-per-node=16 --time=60:00:00 --pty bash -i` to request an interactive session with 16 cores for 60 hours (test with one core for one hour: `srun --nodes=1 --ntasks-per-node=1 --time=01:00:00 --pty bash -i`). In my interactive session, the following got things working:
+    * You can do this interactively by using `srun -I` as noted in my [HPC notes](https://github.com/danjlawson/hpc-notes); see the [GPU Jobs documentation](https://www.acrc.bris.ac.uk/protected/hpc-docs/scheduler/gpu.html). 
+	* For an interactive testing environment:`srun --nodes=1 --ntasks-per-node=1 --time=01:00:00 --pty bash -i`).
+	* To request an interactive session with 16 cores for 60 hours (test with one core for one hour: `srun --nodes=1 --ntasks-per-node=16 --time=60:00:00 --pty bash -i` .
+	* In my interactive session, the following got things working:
 ```{sh}
 conda init ## Required to make conda happy on the nodes
 source ~/.bashrc ## Required to load what conda init just did
