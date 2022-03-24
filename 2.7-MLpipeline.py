@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 ## Interactive session
 
 spark = SparkSession.builder.appName('ml-bank').getOrCreate()
-df = spark.read.csv('bank.csv', header = True, inferSchema = True)
+df = spark.read.csv('data/bank.csv', header = True, inferSchema = True)
 df.printSchema()
 
 ## Converting to pandas
@@ -29,18 +29,18 @@ numeric_data = numeric_data1.toPandas()
 
 ## Plotting to a file
 matplotlib.use('Agg')
-axs = pd.scatter_matrix(numeric_data, figsize=(8, 8));
+axs = pd.plotting.scatter_matrix(numeric_data, figsize=(8, 8));
 
-n = len(numeric_data.columns)
-for i in range(n):
-    v = axs[i, 0]
-    v.yaxis.label.set_rotation(0)
-    v.yaxis.label.set_ha('right')
-    v.set_yticks(())
-    h = axs[n-1, i]
-    h.xaxis.label.set_rotation(90)
-    h.set_xticks(())
-plt.savefig('banks.png')
+# n = len(numeric_data.columns)
+# for i in range(n):
+#     v = axs[i, 0]
+#     v.yaxis.label.set_rotation(0)
+#     v.yaxis.label.set_ha('right')
+#     v.set_yticks(())
+#     h = axs[n-1, i]
+#     h.xaxis.label.set_rotation(90)
+#     h.set_xticks(())
+plt.savefig('output/banks.png')
 plt.close()
 
 ## Getting rid of useless columns
@@ -50,14 +50,15 @@ df.printSchema()
 
 #######################
 ## Preparing the data
-from pyspark.ml.feature import OneHotEncoderEstimator, StringIndexer, VectorAssembler
+from pyspark.ml.feature import OneHotEncoder, StringIndexer, VectorAssembler
 
 categoricalColumns = ['job', 'marital', 'education', 'default', 'housing', 'loan', 'contact', 'poutcome']
 stages = []
 
 for categoricalCol in categoricalColumns:
     stringIndexer = StringIndexer(inputCol = categoricalCol, outputCol = categoricalCol + 'Index')
-    encoder = OneHotEncoderEstimator(inputCols=[stringIndexer.getOutputCol()], outputCols=[categoricalCol + "classVec"])
+    encoder = OneHotEncoder(inputCols=[stringIndexer.getOutputCol()],
+                                outputCols=[categoricalCol + "classVec"])
     stages += [stringIndexer, encoder]
 
 label_stringIdx = StringIndexer(inputCol = 'deposit', outputCol = 'label')
@@ -105,7 +106,7 @@ beta = np.sort(lrModel.coefficients)
 
 plt.plot(beta)
 plt.ylabel('Beta Coefficients')
-plt.savefig('bank_betas.png')
+plt.savefig('output/bank_betas.png')
 plt.close()
 
 ######################
@@ -128,7 +129,7 @@ plt.ylabel('False Positive Rate')
 plt.xlabel('True Positive Rate')
 plt.title('ROC Curve')
 plt.legend()
-plt.savefig('banks_roc.png')
+plt.savefig('output/banks_roc.png')
 plt.close()
 
 print('Training set areaUnderROC: ' + str(trainingSummary.areaUnderROC))

@@ -29,7 +29,7 @@ grep "Lines" 2.4-ReadAndFilter.log
 # conda install psutil
 
 ## Spark isn't happy deleting contents of files due to permissions
-rm -rf target/tmp/myCollaborativeFilter
+rm -rf output/tmp/myCollaborativeFilter
 ## Run a basic distributed ML algorithm
 spark-submit 2.5-MLlibRecommender.py &> 2.5-MLlibRecommender.log
 grep -v INFO 2.5-MLlibRecommender.log | grep -v WARN
@@ -38,6 +38,7 @@ grep -v INFO 2.5-MLlibRecommender.log | grep -v WARN
 rm -rf pyspark_wc
 spark-submit 2.6-MapReduceWordcount.py &> 2.6-MapReduceWordcount.log
 grep -v INFO 2.6-MapReduceWordcount.log | grep -v WARN
+## See hdfs/pyspark_wc/part* for the output
 
 ##########
 ## https://towardsdatascience.com/machine-learning-with-pyspark-and-mllib-solving-a-binary-classification-problem-96396065d2aa

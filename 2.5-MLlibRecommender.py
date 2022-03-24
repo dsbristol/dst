@@ -4,7 +4,7 @@ from pyspark.mllib.recommendation import ALS, MatrixFactorizationModel, Rating
 
 if __name__ == "__main__":
    sc = SparkContext(appName="Pspark mllib Example")
-   data = sc.textFile("test_data.csv")
+   data = sc.textFile("data/test_data.csv")
    ratings = data.map(lambda l: l.split(','))\
       .map(lambda l: Rating(int(l[0]), int(l[1]), float(l[2])))
    

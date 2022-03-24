@@ -1,5 +1,5 @@
 from pyspark import SparkContext
-logFile = "books/5720.txt"  
+logFile = "data/books/5720.txt"  
 sc = SparkContext("local", "first app")
 logData = sc.textFile(logFile).cache()
 numAs = logData.filter(lambda s: 'a' in s).count()
