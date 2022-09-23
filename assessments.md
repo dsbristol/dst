@@ -3,6 +3,8 @@ title: Assessments
 layout: coursebook
 ---
 
+# Assessment Overview
+
 There are **two** types of assessments:
 
 * **Group Assessments** are are approx two-month long, allowing a deep-delve into a specific area of Data Science applied to Cyber Security. They make up a total of 60% of the course mark (each 20%).
@@ -20,7 +22,7 @@ Undertaking a group project online is a difficult process that requires care and
 * [Appendix 5: Bluecrystal](coursebook/appendix5-bluecrystal.md), which is our High Performance Computing Infrastructure, essential for later Assessments.
 * The [Equity Formula](/dst/assets/assessments/equityshare.nb.html) for redistributing marks where a different equity is agreed.
 
-## Guidance
+## Guidance on Group Assessments
 
 The individual assessment instructions has significant guidance. This is extra thoughts that are less directly relevant but give context.
 

@@ -15,12 +15,12 @@ This is a list of the assessment details:
   - [Assessment 0]({{ site.data.assessment0.url }}) (Semester 1)
   - [Individual Assessment 0]({{ site.data.individualassessment0.url }}) (Semester 1)
 * Summative Assessments: total 60% (each 20%)
-  - [Assessment 1]({{ site.data.assessment1.url }}) (Semester 1)
-  - [Assessment 2]({{ site.data.assessment2.url }}) (Semester 2)
-  - [Assessment 3]({{ site.data.assessment3.url }}) (Semester 2)
+  - [Assessment 1: Supervised Prediction]({{ site.data.assessment1.url }}) (Semester 1)
+  - [Assessment 2: Text as Data]({{ site.data.assessment2.url }}) (Semester 2)
+  - [Assessment 3: Data at Scale]({{ site.data.assessment3.url }}) (Semester 2)
 * Individual Portfolios: total 40% (each 20%)
-  - [Individual Portfolio 1]({{ site.data.individualassessment1.url }}) (Semester 1)
-  - [Individual Portfolio 2]({{ site.data.individualassessment2.url }}) (Semester 2)
+  - [Individual Portfolio 1: Statistical Machine Learning]({{ site.data.individualassessment1.url }}) (Semester 1)
+  - [Individual Portfolio 2: Data Science and Engineering]({{ site.data.individualassessment2.url }}) (Semester 2)
 
 Note that additional information about the replicability of packages is at [Appendix 3: Replicability](appendix3-replicability.md), and there is a complete [Example Assessment](https://github.com/dsbristol/dst_example_project).
 
