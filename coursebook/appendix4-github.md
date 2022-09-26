@@ -23,6 +23,13 @@ To get going on GitHub you need to:
 3. Install [GitHub Desktop](https://desktop.github.com/). There are many places to look for help, including the very good [GitHub official Docs](https://docs.github.com/en/desktop), and [Desktop-Specific tutorials](https://www.softwaretestinghelp.com/github-desktop-tutorial/) and [Git background](https://swcarpentry.github.io/git-novice/).
 4. Set up an [ssh key](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh) and add it to your account. This allows passwordless access and is essential for hassle-free operation.
 
+## Using the Git/Bash Command Line
+
+* [Git for Windows](https://gitforwindows.org/) installs a pretty good command line, based on Bash. It provides a similar experience to Bash for Linux or Mac, and is well integrated with git.
+* There are many tutorials for bash. You can find one yourself, but the [UoB Intro to Command Line](https://alleetanner.github.io/intro-to-command-line/) is very good.
+* The important commands are:
+  * `ls` for *list directory*. I like `ls -lhrt` which lists files in long format (l), human readable sizes (s), reverse order (r) and by most recent edit (t).
+  * `cd` for *change directory*. For example `cd ~/.ssh` changes to the `.ssh` directory inside your home (which is what the tilde at the start means).
 
 ## Create a Repository for an Assessment
 
