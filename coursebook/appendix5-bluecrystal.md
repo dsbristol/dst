@@ -22,7 +22,7 @@ In Data Science Toolbox, we will be using this primarily for:
 
 ### Project details:
 
-- Project: MATH023982
+- Project: MATH027744
 - Title : Data Science Toolbox - Cybersecurity Masters (correct year)
 
 ## Getting started
