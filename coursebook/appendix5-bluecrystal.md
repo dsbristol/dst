@@ -3,7 +3,11 @@ title: Appendix 5 - Bluecrystal
 layout: coursebook
 ---
 
-Students on the [MSc Mathematics of Cybersecurity](https://www.bristol.ac.uk/study/postgraduate/2020/sci/msc-mathematics-of-cybersecurity/) have access to [bluecrystal phase 4](https://www.acrc.bris.ac.uk/acrc/phase4.htm). The process is as follows:
+# Bluecrystal HPC
+
+Use of the High Performance Computing (HPC) system is now optional for Data Science Toolbox. These notes are simply provided in case they are of value.
+
+Students can have access to [bluecrystal phase 4](https://www.acrc.bris.ac.uk/acrc/phase4.htm). The process is as follows:
 * The course organiser sets up a teaching project for the correct academic year.
 * Students complete the [webform](https://www.acrc.bris.ac.uk/login-area/apply.cgi) to have their accounts activated. The required information is SURNAME, FIRSTNAME, USERNAME, EMAIL, and  PROJECT CODE (below).
   * For help we can contact [service-desk-hpc@bristol.ac.uk](mailto:service-desk-hpc@bristol.ac.uk)

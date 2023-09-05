@@ -1,7 +1,9 @@
 ---
-title: Replicability of code in R and Python
+title: Appendix 2 - Replicability of code in R and Python
 layout: coursebook
 ---
+
+# Replicability
 
 This page records notes on replicability that would otherwise be buried in technical content.
 
