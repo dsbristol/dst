@@ -1,0 +1,198 @@
+---
+title: "Spectral Methods"
+date: "Block 03"
+author: "Daniel Lawson"
+email: dan.lawson@bristol.ac.uk
+output: html_notebook
+version: 1.0.1
+fig_width: 10
+fig_height: 5
+---
+This workshop explores spectral clustering on cyber data using DBSCAN.
+
+Remember to look at the code examples from the lectures for analogous data for other methods.
+
+Continue with the KDD11 dataset from the previous workshop. We'll read it in as before.
+
+```{r}
+if (.Platform$OS.type=="windows"){ # Windows uses double backslash for directories...
+  kddata<-read.csv("..\\data\\kddcup.data_10_percent.gz")
+  kddnames=read.table("..\\data\\kddcup.names",sep=":",skip=1,as.is=T)
+}else{ # Everything else uses a forward slash.
+  kddata<-read.csv("../data/kddcup.data_10_percent.gz")
+  kddnames=read.table("../data/kddcup.names",sep=":",skip=1,as.is=T)
+}
+colnames(kddata)=c(kddnames[,1],"normal")
+```
+
+Before we start, we'll load some useful packages.
+```{r}
+library(purrr) # allows the nice %>% notation; part of the "tidyverse"
+```
+Now we make some data suitable for spectral embedding
+```{r}
+testdata=kddata[,c("src_bytes","dst_bytes",
+                   "count","srv_count",
+                     "dst_host_count","dst_host_srv_count")]
+testdatatrans=apply(testdata,2,function(x)log(x+1))
+```
+
+## Activity 1: Spectral Embedding
+
+Make a suitable "spectral embedding" (SVD or PCA) from the transformed test data, and plot the sigenvalues to choose the number of PCs.
+
+```{r}
+testdatatrans.svd <- svd(testdatatrans)
+```
+
+Plotting the data:
+```{r}
+plot(testdatatrans.svd$d,xlab="Eigenvalue index",ylab="Eigenvalue",log="y")
+```
+
+It looks like we want the first 3 PCs, which we will record in a variable:
+```{r}
+npcs=3
+```
+
+Extensions: Try rerunning the following analysis using more or fewer PCs. How does the choice of representation effect our analysis - what if we scale differently? What if we normalise features?
+
+## Activity 2: Exploratory plots
+
+We make a plot of the data, annotated by the "normal" category that it has been assigned. 
+Because there are very many examples of some classes of data, we retain only up to 5000 of each class.
+
+Get the indices of different classes of data:
+```{r}
+normaltab=table(kddata[,"normal"])
+normallist=lapply(names(normaltab),function(x)which(kddata[,"normal"]==x))
+normalsamples=lapply(normallist,function(x){
+  if(length(x)<5000) return(x)
+  return(sample(x,size = 5000))
+})
+```
+Plot the PCA:
+```{r}
+i=1;j=2
+plot(testdatatrans.svd$u[,i],
+     testdatatrans.svd$u[,j],type="n",
+     col="#33333311",pch=19,cex=0.3)
+for(index in 1:length(normalsamples)){
+  points(testdatatrans.svd$u[normalsamples[[index]],c(i,j)],
+         col=index+1,pch=19,cex=0.3)
+}
+```
+Looks very convincing! The "line" structures are potentially interesting, and contrast to the "blob" strunctures in the larger clusters.
+
+Extensions: Comment on the utility of spectral clustering, given the segregation that you see. Is it possible that the "yellow" cluster that overlaps the "cyan" cluster could be identified? Under what circumstances? How could you check?
+
+## Activity 3: DBscan
+
+Q3: Perform parameter tuning for clustering using "dbscan". First, use the function "kNNdist" to test what sort of thresholds for the parameter "eps" might be useful. Consider c(0.01,0.001,0.0001,0.00001,0.000001). Remember to only process up to your chosen number of PCs.
+```{r}
+library("dbscan")
+test=kNNdist(testdatatrans.svd$u[,1:npcs], k = 5,all=TRUE)
+testmin=apply(test,1,min)
+```
+
+```{r}
+plot(sort(testmin[testmin>1e-8]),log="y")
+threshholds= c(0.01,0.001,0.0001,0.00001,0.000001)
+abline(h=c(0.01,0.001,0.0001,0.00001,0.000001))
+abline(h=0.0001,col="red") # we chose this number.
+## abline(h=0.001) # would give bigger clusters
+## abline(h=0.00001) # would give smaller clusters
+```
+
+Extension: Experiment with other thresholds and see how the clustering behaves.
+
+## Activity 4: downsampling
+
+Unfortunately, dbscan runs out of memory when applied to the full dataset. However, in the previous analysis we used it with 226943 samples, and here we have 
+```{r}
+dim(testdatatrans.svd$u)[1]
+``` 
+so a small amount of downsampling should solve the problem. Make a list of indices that can be used to downsample the main dataset, keeping all examples of small classes and up to 60000 of the larger classes. You should get 188752 entries. Then use this clustering to run dbscan.
+```{r}
+set.seed(1)
+normalsamples2=lapply(normallist,function(x){
+  if(length(x)<60000) return(x)
+  return(sample(x,size = 60000))
+})
+myindices=unlist(normalsamples2) %>% sort
+length(myindices)
+```
+
+Now do the clustering:
+```{r}
+dbscanres=dbscan(testdatatrans.svd$u[myindices,1:3],0.0001)
+```
+
+We can examine the results in a simple way using "table", to ask: How many classes are recovered? How do they associate with the labels?
+
+```{r}
+table(dbscanres$cluster)
+```
+
+Now we will display this with a heatmap:
+```{r}
+pdf("test_kddspectralembedding_dbscan.pdf",height=10,width=10)
+    plot(testdatatrans.svd$u[myindices,1],
+         testdatatrans.svd$u[myindices,2],xlab="",
+         ylab="",main=paste("K=41 + noise"),
+         col=c("#66666666",rainbow(41))[dbscanres$cluster+1],pch=19,cex=0.5)
+    plot(testdatatrans.svd$u[myindices,1],
+         testdatatrans.svd$u[myindices,3],xlab="",
+         ylab="",main=paste("K=41 + noise"),
+         col=c("#66666666",rainbow(41))[dbscanres$cluster+1],pch=19,cex=0.5)
+    plot(testdatatrans.svd$u[myindices,2],
+         testdatatrans.svd$u[myindices,3],xlab="",
+         ylab="",main=paste("K=41 + noise"),
+         col=c("#66666666",rainbow(41))[dbscanres$cluster+1],pch=19,cex=0.5)
+dev.off()
+```
+Examining these plots, it is clear that there are some important distinctions between the inferred clusters. We can make a table of the labels and clustering:
+```{r}
+mytable=data.frame(cluster=dbscanres$cluster,label=kddata[myindices,"normal"])
+mytab=table(mytable)
+myfreq=mytab/rowSums(mytab)
+heatmap(myfreq,scale="none",main="Frequency of label given cluster",)
+```
+
+
+```{r}
+myfreq2=t(t(mytab)/colSums(mytab))
+heatmap(myfreq2,scale="none",main="Frequency of cluster given label")
+```
+
+## Activity 5: Clustering as a classifier
+
+How well does the clustering describes each label?
+```{r}
+bestmatch=cbind(bestfreq=apply(myfreq,1,max),count=apply(mytab,1,sum))
+print(bestmatch)
+accuracy=sum(bestmatch[,1]*bestmatch[,2])/sum(bestmatch[,2])
+print(paste("Accuracy in training data:",accuracy))
+```
+Overall:
+
+* The mean accuracy is low, but the accuracy for every cluster except 0 and 3 is high.
+  * Cluster 3 is very large.
+  * There are very many clusters that are close to perfectly associated with a label. 
+  * Even the "unclustered" data (0) is only very small. 
+* Therefore, with any other assignmemt, we can be more confident.
+  * "Cluster" is a good feature.
+* If we were given new data, we might find which cluster it most resembled but this might be concerning as the data might not look like any of the currently observed data. 
+* Also, a clustering offers little in the way of uncertainty assessment, and probably overfits to the small strands of data that we have available.
+* for example, all those tiny clusters are unlikely to be "real".
+
+Extensions: 
+
+* Comment on what we can and cannot do with this representation of the data.
+* Would we expect clustering to match labels? How would we do better?
+
+## Mastery:
+
+This worksheet applied dbscan and investigated its' clustering. What about the other clustering methods discussed? Which is best? Which even run? What is the right metric of performance? Can we use labels to choose the correct density threshold?
+
+How would you go about making a real classifier from a clustering model, that can be deployed on a training dataset?

@@ -1,0 +1,280 @@
+---
+title: "Model selection and regression"
+date: "Block 02"
+author: "Daniel Lawson"
+email: dan.lawson@bristol.ac.uk
+output: html_document
+version: 1.0.1
+fig_width: 10
+fig_height: 5
+
+---
+In this workshop we focus on applying model selection to the regression framework. 
+
+We need the [10%](http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percent.gz) and [column names](http://kdd.ics.uci.edu/databases/kddcup99/kddcup.names) files from the previous workshop, "block01-EDA.Rmd" for download , in which the data are explained in a little more detail.
+
+We are going to make a linear regression model, account for some of the many issues that arise when working with real data; namely that there is an *excess of 0 values*. There are simpler ways to handle this with richer models, but going through the linear regression approach helps us understand the model better, and the real perils for data analysis.
+
+## Read the data:
+
+```{r}
+if (.Platform$OS.type=="windows"){ # Windows uses double backslash for directories...
+  kddata<-read.csv("..\\data\\kddcup.data_10_percent.gz")
+  kddnames=read.table("..\\data\\kddcup.names",sep=":",skip=1,as.is=T)
+}else{ # Everything else uses a forward slash.
+  kddata<-read.csv("../data/kddcup.data_10_percent.gz")
+  kddnames=read.table("../data/kddcup.names",sep=":",skip=1,as.is=T)
+}
+colnames(kddata)=c(kddnames[,1],"normal")
+```
+Before we start, we'll load some useful packages:
+```{r}
+library(dplyr) # allows the nice %>% notation, along with many other functionalities
+library(caret) # for Cross-validation functions
+library("pROC") # For reporting performance ("Receiver-Operating-Characteristic" or ROC curves)
+```
+
+## Overall goal
+
+We're going to try to predict log duration.  We'll make a function to add all the transformed columns that we will use.
+
+We'll also do something about missing data here. In any assessed work, changing the **model for missing data** is a good way to broaden your set of models.
+
+There is not enough data for some services. We need to do something about that.
+
+Some initial EDA:
+```{r}
+list("protocoltype"=table(kddata[,"protocol_type"]),
+  "service_raw"=table(kddata[,"service"]) %>% length,
+  "service_transformed"=table(kddata[,"service"]) %>% length,
+  "zeroduration"=table(kddata[,"duration"]==0))
+```
+* There are 12k records with a duration, and 482k records with zero duration!
+* Note that we only know to ask how many "zeroduration" events there are, after some EDA that would have have given weird results. 
+* I would detect this with a scatterplot, though checking for zero-inflated values is always wise.
+
+We'll therefore define some transformed variables, made neat by defining a transformation function that can be applied as we like
+
+```{r}
+trans=function(x){
+  x[,"logduration"]=log10(x[,"duration"])
+  x[,"zeroduration"]=(x[,"duration"]==0)
+  
+  stab=table(x[,"service"])
+  sother=names(stab[stab<10])
+  x[x[,"service"]%in%sother,"service"]="other"
+  x[,"service"]=as.factor(as.character(x[,"service"]))
+  
+  x
+}
+kddata2=trans(kddata)
+```
+
+kddata2 is going to contain some infinite values in the logduration column. That means we must avoid ever accessing them in a model!
+
+## Activity 1: Constructing test and training data
+
+We'll now make a test dataset and a training dataset. We'll do this manually here, though there are tools to do it for you that we will see in later workshops.
+
+```{r}
+set.seed(1)
+n=dim(kddata)[1]
+s=sample(1:n,n/2)
+train=kddata2[s,]
+test=kddata2[-s,]
+```
+
+Some basic histograms. 
+
+```{r}
+hist(train[,"duration"],breaks=51)
+hist(train[,"logduration"],breaks=51)
+table(train[,"zeroduration"])
+```
+
+It is clear that duration is often exactly zero. If it is not, then there is an interesting distribution of duration.
+
+It is therefore a good idea to use a two-stage prediction: is the duration zero? If not, what will it be?
+
+This is useful for learning too, as we first predict a category, and then a regular regression.
+
+## ACTIVITY 1: Train a model
+
+We train two models on the training data: one for "zeroduration", and one for "logduration" conditional on the duration not being zero.
+
+```{r}
+modelzero1 <- glm(zeroduration ~ protocol_type + service,
+                  data = train,family=binomial(link='logit'))
+## Note how we do logistic regression: a binomial with logit link function.
+modeldur1 <- lm(logduration ~ protocol_type + service, 
+                data = train[!train[,"zeroduration"],]) # The duration model is always CONDITIONAL on not being a zero duration record
+trainzeropred1 <- modelzero1 %>% predict(train)
+```
+
+* What does this model actually mean? How good could we expect it to be?
+* How could we improve it?
+
+Important note: there is a problem because all icmp protocol records have zero duration:
+
+```{r}
+# traindurpred1 <- modeldur1 %>% predict(train) ## Error!
+traindurpred1 <- modeldur1 %>% predict(train[!train[,"zeroduration"],])
+```
+We can fix that by using a decision rule in those cases. (Later in the course we'll use methods that can deduce this sort of thing for themselves.)
+
+What threshold should we use for the decisions? We could choose the threshold that places equal value on true positives, and false positives.
+
+```{r}
+zerodurationroc=roc(train[,"zeroduration"],trainzeropred1)
+plot(zerodurationroc,xlab="Specificity (1-False positive rate=True negative rate)",ylab="Sensitivity (True positive rate)")
+abline(a=0,b= 1)
+
+tw=which.min(abs(zerodurationroc$sensitivities-zerodurationroc$specificities))
+mythresh=zerodurationroc$thresholds[tw] # solving for the threshold that has sensitivity closest to the specificity
+points(zerodurationroc$sensitivities[tw],zerodurationroc$specificities[tw])
+```
+
+Now we are finally ready to make a Model of the duration, which we will describe for the training dataset.
+
+```{r}
+myprediction=function(test,modelzero,modeldur,threshzero){
+  ## A function to perform two-stage prediction for duration
+  ## First predict the zeros
+  predictionszero <- modelzero %>% predict(test)
+  predictionszerocat=sapply(predictionszero,function(y){y>threshzero})
+  ## Then go on to predict the duration, if it is not zero
+  predictionszerocat[test[,"protocol_type"]=="icmp"]=TRUE # manual decision for this prediction
+  predictionsdur = rep(-Inf,dim(test)[1])
+  predictionsdur[!predictionszerocat] <- modeldur %>% predict(test[!predictionszerocat,])
+  ## Return the useful information
+  data.frame("zeroduration"=predictionszerocat,
+             "logduration"=predictionsdur,
+             "zerodurationraw"=predictionszero,
+             "duration"=exp(predictionsdur))
+}
+## Apply the function to the training data
+trainpred0=myprediction(train,modelzero1,modeldur1,mythresh)
+## Report the results as a contingency table
+trainconftable0=table(data.frame(predzero=trainpred0[,"zeroduration"],zero=train[,"zeroduration"]))
+print(trainconftable0) 
+print(trainconftable0/rowSums(trainconftable0))
+```
+
+* There are very many zeroes, meaning that our **training set is biased**. 
+* The model is predicting too many zeros, because the classes were unbalanced. 
+* Therefore we often fail to predict non-zero when the data really are non-zero.
+* We should really fix that. Lets see what we could try instead?
+* What does logistic regression really do? What do the choices about the threshold actually say?
+
+## ACTIVITY 2: A different threshold
+
+We will rerun the analysis, using a threshold of 0, and make the same contingency table.
+
+```{r}
+trainpred=myprediction(train,modelzero1,modeldur1,0)
+trainconftable=table(data.frame(predzero=trainpred[,"zeroduration"],zero=train[,"zeroduration"]))
+print(trainconftable)
+print(trainconftable/rowSums(trainconftable))
+```
+
+* In what sense is this predicting things better? 
+* Are there any circumstanges in which the first model would be preferred?
+
+## ACTIVITY 3: Model EDA
+
+Now lets examine what our predictions actually mean, by plotting what the truth is against the model expects.
+
+```{r}
+plot(train$logduration,trainpred$logduration)
+abline(a=0,b=1)
+```
+
+* There are many values at the same location in this plot
+* All zero predictions are omitted.
+
+Examine the correlation:
+
+```{r}
+cordata=cbind(truth=train$logduration,pred=trainpred$logduration)
+cordata=cordata[apply(cordata,1,min)>-Inf,]
+cor(cordata)
+```
+
+Lets go back to the linear space,
+
+```{r}
+par(mfrow=c(1,2))
+plot(10^(train$logduration),10^(trainpred$logduration),main="Linear space")
+abline(a=0,b=1)
+```
+
+What is the performance here?
+
+```{r}
+cor(10^(train$logduration),10^(trainpred$logduration))
+```
+
+* This is worse, but not awful.
+
+Overall then,
+
+* The predictions are discrete, because the data used for the predictions are discrete
+* There is a problem predicting the durations from discrete information only.
+* despite a strong correlation in the data
+
+## ACTIVITY 4: TEST DATA
+
+We held out the test data. What can they tell us about the model?
+
+Lets use the model thresholding at zero and see its performance.
+
+```{r}
+testpred=myprediction(test,modelzero1,modeldur1,0)
+plot(test$logduration,testpred$logduration)
+abline(a=0,b=1)
+```
+
+```{r}
+cordata2=cbind(truth=test$logduration,pred=testpred$logduration)
+cordata2=cordata2[apply(cordata2,1,min)>-Inf,]
+cor(cordata2)
+```
+
+* The test data looks very similar in structure to the training data.
+* What does this mean?
+
+## ACTIVITY 5: Model summaries 
+
+Lets finally summarize the model in a more thorough way. We want to compare performance between the test and train datasets to see if we're overfitting in any particular area of the model.
+
+```{r}
+trainok=!train$zeroduration & !trainpred$zeroduration
+testok=!test$zeroduration & !testpred$zeroduration
+
+# Make predictions and compute the R2, RMSE and MAE
+perfduration=data.frame( R2 = c(R2(train$logduration[trainok], trainpred$logduration[trainok]),
+                   R2(test$logduration[testok], testpred$logduration[testok])),
+            RMSE = c(RMSE(train$logduration[trainok], trainpred$logduration[trainok]),
+                   RMSE(test$logduration[testok], testpred$logduration[testok])),
+            MAE = c(MAE(train$logduration[trainok], trainpred$logduration[trainok]),
+                   MAE(test$logduration[testok], testpred$logduration[testok])))
+rownames(perfduration)=c("train","test")
+perfzero=data.frame( R2 = c(R2(train$zeroduration, trainpred$zeroduration),
+                            R2(test$zeroduration, testpred$zeroduration)),
+            RMSE = c(RMSE(train$zeroduration, trainpred$zeroduration),
+                            RMSE(test$zeroduration, testpred$zeroduration)),
+            MAE=c(MAE(train$zeroduration, trainpred$zeroduration),
+                            MAE(test$zeroduration, testpred$zeroduration)))
+rownames(perfzero)=c("train","test")
+
+print(perfduration)
+print(perfzero)
+```
+
+Things to think about:
+
+* We do very well at predicting zero vs non-zero, and the test/train discrepancy is tiny. Why?
+* We do pretty well at predicting duration too, though there is a test/train discrepancy. Why?
+* How would this prediction perform on real traffic from a different service?
+* How could we make a better - or at least different - cross-validation setup?
+

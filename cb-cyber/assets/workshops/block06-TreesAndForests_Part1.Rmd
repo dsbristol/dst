@@ -1,0 +1,260 @@
+---
+title: "Classification with Trees And Forests (Part 1)"
+author: "Daniel Lawson"
+date: "Block 06"
+author: "Daniel Lawson"
+email: dan.lawson@bristol.ac.uk
+output: html_document
+version: 1.0.1
+fig_width: 10
+fig_height: 5
+
+---
+# Overview
+
+This adds trees and forests to our experimentations from last time in classification.
+
+It is our last practical in R...
+
+We implement a Random Forest in R, and save some data for comparison to python. This uses the same represetnation as we used in block05
+
+## The regular boiler plate stuff.
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library("knitr")
+```
+
+## Data input
+
+We're making a simple classification problem out of the netflow data: can we tell what is HTTP?
+
+## Make a test/train data split
+
+```{r}
+source("https://raw.githubusercontent.com/dsbristol/dst/master/code/testtrainconndata.R")
+```
+
+# block05 code:
+
+```{r}
+require("pROC")
+learnmodel=function(modelclass,formula,train,test, 
+                    predictfn=function(x,newdata)predict(x,newdata,type="response"),
+                    ...){ 
+  ## Start by sorting out the formula target
+  if(class(formula)=="character") formula=formula(formula)
+  y=as.character(formula[2])
+  
+  ## Now run the learning 
+  model=modelclass(formula,data=train,...)
+  
+  ## Predict on training data
+  trainpred0=predictfn(model,newdata=train)
+  trainpred=ifelse(trainpred0 > 0.5,1,0)
+  
+  ## Predict on testing data
+  testpred0=predictfn(model,newdata=test)
+  testpred=ifelse(testpred0 > 0.5,1,0)
+  
+  ## Organise the data for return
+  trainres=data.frame(truth=train[,y],pred=trainpred,pred0=trainpred0)
+  testres=data.frame(truth=test[,y],pred=testpred,pred0=testpred0)
+  
+  ## Compute ROC
+  testroc=roc(truth~pred0,data=as.data.frame(testres))
+  list(model=model,
+       trainres=trainres,
+       testres=testres,
+       train=train,
+       test=test,
+       roc=testroc)
+}
+```
+
+
+## Logistic regression
+```{r}
+require("MASS")
+logisticregression=function(formula,data,...){
+  glm(formula,family=binomial(link='logit'),data=data,...)
+}
+testlogistic <- logisticregression(http ~.,data=train)
+
+logisticmodel=learnmodel(logisticregression,http~.,train,test)
+```
+
+## KNN
+```{r}
+library("class")
+knnclass=function(formula,data,k){
+  ## knn does not provide the usual interface, so we define it from scratch here
+  ## We need to know what the x and y parts of y~x are, and to store all the data and k
+  if(class(formula)=="character") formula=formula(formula)
+  y=as.character(formula[2])
+  x=labels(terms(formula, data=data))
+  ret=list(formula=formula,train=data,k=k,x=x,y=y)
+  class(ret)="knnclass"
+  ret
+}
+predict.knnclass=function(x,newdata,...){
+  ## knn can now be run on the new data. It returns the results as a factor with attributes "pr" where the probability of that classification is made. So we have to transform this into a probability.
+  predtmp=knn(x$train[,x$x], newdata[,x$x], x$train[,x$y], k = x$k, prob=TRUE)
+  pred0=attr(predtmp,"pr")
+  pred=as.numeric(predtmp)-1
+  pred0[pred==0] = 1-pred0[pred==0]
+  pred0
+}
+## use the new functions
+knnmodel=learnmodel(knnclass,http~.,train,test,k=5,predictfn=predict.knnclass)
+```
+
+## LDA
+```{r}
+predictlda=function(x,newdata,...){
+  ## The lda class hides the scores in the posterior
+  predict(x,newdata,type="response")$posterior[,1]
+}
+ldamodel=learnmodel(lda,http~.,train,test,predictfn=predictlda)
+```
+
+## Support Vector Machine
+```{r}
+library(e1071)
+svmmodel=learnmodel(svm,http~.,train,test,kernel="linear")
+svmrmodel=learnmodel(svm,http~.,train,test,kernel="radial")
+```
+
+## Linear Stacking
+```{r}
+lintrain=cbind(train,
+               data.frame(logistic=logisticmodel$trainres$pred0,
+                    lda=ldamodel$trainres$pred0,
+                    svm=svmmodel$trainres$pred0))
+lintest=cbind(test,
+               data.frame(logistic=logisticmodel$testres$pred0,
+                    lda=ldamodel$testres$pred0,
+                    svm=svmmodel$testres$pred0))
+linstackmodel=learnmodel(logisticregression,http~.,lintrain,lintest)
+```
+
+## Boosting
+```{r}
+library("fastAdaboost")
+predictada=function(x,newdata){
+  predict(x,newdata=newdata,type='response')$prob[,2]
+}
+adamodel=learnmodel(adaboost,http~.,train,test,predictfn=predictada,nIter=10)
+```
+
+#########################################
+#########################################
+#########################################
+#########################################
+# New content!
+
+## Activity 1: Learn a tree model using the function "tree". 
+
+You will need ?tree and should examine whether it returns the expected structure, or whether you have to define a custom model learning function. Do you need a special predictfn?
+```{r}
+require("tree")
+treemodel=learnmodel(tree,http~.,train,test,predictfn=predict)
+```
+
+## Activity 2. Learn a Random Forest model using the function "randomForest". 
+
+You will need ?randomForest and should examine whether it returns the expected structure, or whether you have to define a custom model learning function. Do you need a special predictfn?
+```{r}
+require("randomForest")
+rfmodel=learnmodel(randomForest,http~.,train,test,predictfn=predict)
+```
+
+## Activity 3. Learn a Gradient Boosting Machine using the function "gbm". 
+
+This fits a decision tree using boosting, though differently implemented from adaboost. You will need ?gbm and should examine whether it returns the expected structure, or whether you have to define a custom model learning function. Do you need a special predictfn?
+Fit 3 models, for a tree depth of 1 ( the default), 2 and 3.
+```{r}
+require(gbm)
+gbmpredict=function(gbmmodel,newdata){
+  predict(gbmmodel,newdata,n.trees=gbmmodel$n.trees)
+}
+gbmmodel1=learnmodel(gbm,http~.,train,test,predictfn=gbmpredict,n.trees=1000, interaction.depth=1)
+gbmmodel2=learnmodel(gbm,http~.,train,test,predictfn=gbmpredict,n.trees=1000, interaction.depth=2)
+gbmmodel3=learnmodel(gbm,http~.,train,test,predictfn=gbmpredict,n.trees=1000, interaction.depth=3)
+```
+
+## Activity 4: Stacking everything
+```{r}
+stacktrain=cbind(train,
+               data.frame(logistic=logisticmodel$trainres$pred0,
+                    lda=ldamodel$trainres$pred0,
+                    svm=svmmodel$trainres$pred0,
+                    svmr=svmrmodel$trainres$pred0,
+                    knn=knnmodel$trainres$pred0,
+                    ada=adamodel$trainres$pred0,
+                    tree=treemodel$trainres$pred0,
+                    rf=rfmodel$trainres$pred0,
+                    gbm1=gbmmodel1$trainres$pred0,
+                    gbm2=gbmmodel2$trainres$pred0,
+                    gbm3=gbmmodel3$trainres$pred0
+                    ))
+stacktest=cbind(test,
+               data.frame(logistic=logisticmodel$testres$pred0,
+                    lda=ldamodel$testres$pred0,
+                    svm=svmmodel$testres$pred0,
+                    svmr=svmrmodel$testres$pred0,
+                    knn=knnmodel$testres$pred0,
+                    ada=adamodel$testres$pred0,
+                    tree=treemodel$testres$pred0,
+                    rf=rfmodel$testres$pred0,
+                    gbm1=gbmmodel1$testres$pred0,
+                    gbm2=gbmmodel2$testres$pred0,
+                    gbm3=gbmmodel3$testres$pred0
+                    ))
+stackmodel=learnmodel(randomForest,http~.,stacktrain,stacktest)
+```
+
+
+# Interpretation
+
+## Activity 5. ROC curves.
+
+The code below plots the new boosting and stacking ROC curves. How do they perform? Why do you think that the performance is ordered as we see?
+```{r}
+require("pROC")
+
+par(mfrow=c(1,3))
+for(xmax in c(1,0.05,0.005)){
+    plot(1-logisticmodel$roc$specificities,logisticmodel$roc$sensitivities,type="l",
+         xlab="False Positive Rate",ylab="True Positive Rate",xlim=c(0,xmax),col=2)
+    lines(1-ldamodel$roc$specificities,ldamodel$roc$sensitivities,col=3)
+    lines(1-svmmodel$roc$specificities,svmmodel$roc$sensitivities,col=4)
+    lines(1-svmrmodel$roc$specificities,svmrmodel$roc$sensitivities,col=4,lty=2)
+    lines(1-knnmodel$roc$specificities,knnmodel$roc$sensitivities,col=5,lty=2)
+    lines(1-linstackmodel$roc$specificities,linstackmodel$roc$sensitivities,col=6,lty=2)
+    lines(1-adamodel$roc$specificities,adamodel$roc$sensitivities,col=7,lty=2)
+    lines(1-treemodel$roc$specificities,treemodel$roc$sensitivities,col=8,lty=2,lwd=2)
+    lines(1-rfmodel$roc$specificities,rfmodel$roc$sensitivities,col=9,lty=2,lwd=2)
+    
+    lines(1-gbmmodel1$roc$specificities,gbmmodel1$roc$sensitivities,col=1,lty=3,lwd=2)
+    lines(1-gbmmodel2$roc$specificities,gbmmodel2$roc$sensitivities,col=2,lty=3,lwd=2)
+    lines(1-gbmmodel3$roc$specificities,gbmmodel3$roc$sensitivities,col=3,lty=3,lwd=2)
+    
+    lines(1-stackmodel$roc$specificities,stackmodel$roc$sensitivities,col=2,lty=1,lwd=3)
+    
+    abline(a=0,b=1)
+    if(xmax==1){
+        legend("bottomright",c("Logistic","LDA","SVM (linear)","SVM (radial)","K-NN","Stacked linear methods","Adaboost","Tree","Random Forest","GBM1","GBM2","GBM3","Stacked"),
+               text.col=c(2,3,4,4,5,6,7,8,9,1,2,3,2),
+               col     =c(2,3,4,4,5,6,7,8,9,1,2,3,2),
+               lty     =c(1,1,1,2,1,2,2,2,2,3,3,3,1),
+               lwd     =c(1,1,1,1,1,1,1,2,2,2,2,2,3),bty="n",cex=0.5)
+    }
+}
+```
+
+## Save the data in a format we can easily read into python. We will be interested in comparing ROC for the Random Forest.
+```{r}
+write.csv(train,file="conndataC_train.csv")
+write.csv(test,file="conndataC_test.csv")
+write.csv(data.frame(fpr=1-rfmodel$roc$specificities,tpr=rfmodel$roc$sensitivities),file="conndataC_RFroc.csv")
+```
