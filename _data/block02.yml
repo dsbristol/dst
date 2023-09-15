@@ -1,19 +1,9 @@
 
 ## Slides
 s0101-Regression:
-    url: /dst/assets/slides/02.1.1-OverviewRegression.pdf
-
-s0102-Regression:
-    url: /dst/assets/slides/02.1.2-ModernRegression.pdf
-
+    url: /dst/assets/slides/02.1-ModernRegression.pdf
 s0201-Testing:
-    url: /dst/assets/slides/02.2.1-StatisticalTesting-ClassicalTesting.pdf
-
-s0202-Testing:
-    url: /dst/assets/slides/02.2.2-StatisticalTesting-Empirical.pdf
-
-s0203-Testing:
-    url: /dst/assets/slides/02.2.3-ModelSelection.pdf
+    url: /dst/assets/slides/02.2-StatisticalTesting.pdf
 
 ## Code
 c01-Regression:
@@ -34,4 +24,4 @@ ws02:
 
 ## Portfolio
 portfolio:
-    url: /dst/assets/worksheets/portfolio02.pdf
+    url: /dst/assets/assessments/portfolio01.pdf
