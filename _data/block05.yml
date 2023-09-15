@@ -23,6 +23,10 @@ ws01:
 ws02:
     url: /dst/notready.html
 
+## Portfolio
+portfolio:
+    url: /dst/notready.html
+
 ## Workshop
 
 s03:

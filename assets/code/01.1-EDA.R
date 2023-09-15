@@ -3,17 +3,24 @@
 ## Licence: GPLv3
 ## See https://dsbristol.github.io/dst/coursebook/02.html
 
-## Examples applying Exploratory Data Analysis to cyber secirity data
+## Examples applying Exploratory Data Analysis
 
-source("https://raw.githubusercontent.com/dsbristol/dst/master/code/loadconndata.R")
+data("mtcars")
 
 ##########################
-table(conndata2[,c("service","id.resp_p")])
+table(mtcars[,c("vs","gear")])
 
 ##########################
 library("knitr") # nice way to display tables
-kable(table(conndata[,c("proto","service")]))
+kable(table(mtcars[,c("vs","gear")]))
 
+####### CURRENTLY ENDS HERE!!!!
+
+
+
+
+
+ 
 ##########################
 ## Boxplot-like summary
 mat <- cbind(Uni05 = (1:100)/21, Norm = rnorm(100),

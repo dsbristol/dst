@@ -26,6 +26,10 @@ ws02:
     text: 3.2 Clustering Worksheet
     url: /dst/notready.html
 
+## Portfolio
+portfolio:
+    url: /dst/notready.html
+    
 ## Workshop
 
 s03-SpectralEmbedding:

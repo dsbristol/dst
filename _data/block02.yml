@@ -1,33 +1,37 @@
 
 ## Slides
 s0101-Regression:
-    url: /dst/notready.html
+    url: /dst/assets/slides/02.1.1-OverviewRegression.pdf
 
 s0102-Regression:
-    url: /dst/notready.html
+    url: /dst/assets/slides/02.1.2-ModernRegression.pdf
 
 s0201-Testing:
-    url: /dst/notready.html
+    url: /dst/assets/slides/02.2.1-StatisticalTesting-ClassicalTesting.pdf
 
 s0202-Testing:
-    url: /dst/notready.html
+    url: /dst/assets/slides/02.2.2-StatisticalTesting-Empirical.pdf
 
 s0203-Testing:
-    url: /dst/notready.html
+    url: /dst/assets/slides/02.2.3-ModelSelection.pdf
 
 ## Code
 c01-Regression:
-    url: /dst/notready.html
+    url: /dst/assets/code/02.1-Regression.R
 
 c02-Testing:
-    url: /dst/notready.html
+    url: /dst/assets/code/02.2-Testing.R
 
 ## Workshop
 s03-ModelSelection:
-    url: /dst/notready.html
+    url: /dst/assets/workshops/block02-ModelSelection.Rmd
 
 ## Worksheet
 ws01:
-    url: /dst/notready.html
+    url: /dst/assets/worksheets/ws02.1_questions.pdf
 ws02:
-    url: /dst/notready.html
+    url: /dst/assets/worksheets/ws02.2_questions.pdf
+
+## Portfolio
+portfolio:
+    url: /dst/assets/worksheets/portfolio02.pdf

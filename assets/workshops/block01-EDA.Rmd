@@ -11,10 +11,10 @@ fig_height: 5
 
 You should have already run the introductory "01.3-WSL-1-EDA.Rmd" worksheet and become familiar with working with an RStudio RMarkdown document.
 
-## DATA
+# DATA
 Here we're going to go a little further and explore a new dataset, the [KDD99](http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html) dataset. Read about the competition [task specification](http://kdd.ics.uci.edu/databases/kddcup99/task.html).
 
-We use the [10%](http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percent.gz) and [column names](http://kdd.ics.uci.edu/databases/kddcup99/kddcup.names) files, which you can download directly.
+We use the [10%](http://kdd.org/cupfiles/KDDCupData/1999/kddcup.data_10_percent.zip) and [column names](http://kdd.org/cupfiles/KDDCupData/1999/kddcup.names) files, which you can download directly. We use the opportunity of exploring **external data** to make some suggestions for your group assessment project structure.
 
 **DATA ORGANISATION**: It is very helpful to keep the project structure that I use, so your code "just runs". Therefore work in a directory ("workshops") and keep your data in a directory called "data" in the PARENT DIRECTORY, e.g. both inside "dst", so that your file structure looks like this:
 
@@ -26,31 +26,23 @@ We use the [10%](http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percen
 
 **OBTAINING DATA**: It is essential that it is clear how to obtain the data used in an analysis. It is OK to have manual steps if they are clearly described, but automation is best.
 
-To automate this, we could describe the process for obtaining the data. On Linux you can directly run a shell script from Rstudio:
-```{sh} 
-## Note: this is SHELL code, not R code
-wd=`pwd`
-mkdir -p ../data
-cd ../data
-wget http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percent.gz
-wget http://kdd.ics.uci.edu/databases/kddcup99/kddcup.names
-cd $wd
-```
-on Mac you will have to replace `wget` with `curl -O`, or get GNU wget with `brew install wget`, or set an alias with `alias wget="curl -O"` in your `.bashrc` file, before executing the above section. On Windows you need [Rtools](https://cran.r-project.org/bin/windows/Rtools/) which is a simple install plus a one-line additional step.
+To automate this, we will use internal R functions which work regardless of file system. We would like a cross-platform (Windows/Linux/Mac) solution, and this is provided by the `file.path` function in R, rather than specifying folder locations completely. For example, Windows would use `..\\data\\file`, whereas Mac/Linux would be `../data/file`. Run `?file.path` to learn more.
 
-Of course it is possible to do this natively in R, and this may be preferable, even though R is not for this sort of 
+This could look like this:
+
+```{r}
+if(!dir.exists(file.path("..","data"))) dir.create(file.path("..","data"))
+if(!file.exists(file.path("..","data","kddcup.data_10_percent.gz"))) download.file("http://kdd.org/cupfiles/KDDCupData/1999/kddcup.data_10_percent.zip", destfile=file.path("..","data","kddcup.data_10_percent.gz"))
+if(!file.exists(file.path("..","data","kddcup.names"))) download.file("http://kdd.org/cupfiles/KDDCupData/1999/kddcup.names",destfile=file.path("..","data","kddcup.names"))
+```
+
 
 ## Workshop start
 
 The data are read in as follows:
 ```{r}
-if (.Platform$OS.type=="windows"){ # Windows uses double backslash for directories...
-  kddata<-read.csv("..\\data\\kddcup.data_10_percent.gz")
-  kddnames=read.table("..\\data\\kddcup.names",sep=":",skip=1,as.is=T)
-}else{ # Everything else uses a forward slash.
-  kddata<-read.csv("../data/kddcup.data_10_percent.gz")
-  kddnames=read.table("../data/kddcup.names",sep=":",skip=1,as.is=T)
-}
+kddata<-read.csv(file.path("..","data","kddcup.data_10_percent.gz"))
+kddnames=read.table(file.path("..","data","kddcup.names"),sep=":",skip=1,as.is=T)
 colnames(kddata)=c(kddnames[,1],"normal")
 ```
 

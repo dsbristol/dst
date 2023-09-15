@@ -12,7 +12,11 @@ s0102:
 ## Worksheet
 ws01:
     url: /dst/notready.html
-    
+
+## Portfolio
+portfolio:
+    url: /dst/notready.html
+
 ## Workshop
 
 s02:
