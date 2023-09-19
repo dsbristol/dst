@@ -26,9 +26,8 @@ Content is arranged by blocks (single week of teaching content). You will not mi
 * [Assessments](assessments.md)
 * [Timetable](timetable.md)
 * [Appendix 1: Preparation](coursebook/appendix1-prep.md)
-* [Appendix 2: Replicability](appendix2-replicability.md)
-* [Appendix 3: GitHub](appendix3-github.md)
-* [Appendix 4: How to Read a Paper](appendix4-howtoreadapaper.md)
-* [Appendix 5: Bluecrystal High Performance Computing](coursebook/appendix5-bluecrystal.md)
+* [Appendix 2: Replicability](coursebook/appendix2-replicability.md)
+* [Appendix 3: GitHub](coursebook/appendix3-github.md)
+* [Appendix 4: How to Read a Paper](coursebook/appendix4-howtoreadapaper.md)
 * [Programme Catalogue Course Handbook](https://www.bris.ac.uk/unit-programme-catalogue/UnitDetails.jsa?ayrCode=20%2F23&unitCode=MATHM0029)
 
