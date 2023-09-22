@@ -1,11 +1,7 @@
 ## Slides
 
-s0101:
-    text: 5.1.1 Introduction to Classification (Logistic Regression, Interpretation, ROC)
-    url: /dst/notready.html
-
-s0102:
-    text: 5.1.2 Introduction to Classification - The basics (kNN, LDA, SVM)
+s01:
+    text: 5.1 Introduction to Classification
     url: /dst/notready.html
 
 s02:
