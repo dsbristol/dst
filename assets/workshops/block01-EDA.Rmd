@@ -4,17 +4,25 @@ date: "Block 01"
 author: "Daniel Lawson"
 email: dan.lawson@bristol.ac.uk
 output: html_document
-version: 1.0.2
+version: 2.0.0
 fig_width: 10
 fig_height: 5
 ---
 
-You should have already run the introductory "01.3-WSL-1-EDA.Rmd" worksheet and become familiar with working with an RStudio RMarkdown document.
+You should have already run the introductory [01.3-WSL-1-EDA.Rmd](https://dsbristol.github.io/dst/assets/code/01.3-WSL-1-EDA.Rmd) worksheet and become familiar with working with an RStudio RMarkdown document.
 
-# DATA
+# 1.0 DATA
 Here we're going to go a little further and explore a new dataset, the [KDD99](http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html) dataset. Read about the competition [task specification](http://kdd.ics.uci.edu/databases/kddcup99/task.html).
 
 We use the [10%](http://kdd.org/cupfiles/KDDCupData/1999/kddcup.data_10_percent.zip) and [column names](http://kdd.org/cupfiles/KDDCupData/1999/kddcup.names) files, which you can download directly. We use the opportunity of exploring **external data** to make some suggestions for your group assessment project structure.
+
+### Notes on the data
+
+Cyber security data is often very weird. These data were generated in a competition setting where teams were hacking one another. The connection activity was then recorded on the internet connection, classified by what generated that traffic, and turned into "features", i.e. a data frame. Because the computers are "doing something" all the time, there is "normal" traffic in here, but there is a very large number of "cyber attack" related traffic, which is unrealistic of real data. Also the ability to classify everything your computer is doing to obtain "true labels" is unusual.
+
+The details are very involved but all we really care about is that there are some labels, and our task as data scientists is to see whether the classification task of identifying attacks is feasible.
+
+## 1.1 Data Import
 
 **DATA ORGANISATION**: It is very helpful to keep the project structure that I use, so your code "just runs". Therefore work in a directory ("workshops") and keep your data in a directory called "data" in the PARENT DIRECTORY, e.g. both inside "dst", so that your file structure looks like this:
 
@@ -26,7 +34,7 @@ We use the [10%](http://kdd.org/cupfiles/KDDCupData/1999/kddcup.data_10_percent.
 
 **OBTAINING DATA**: It is essential that it is clear how to obtain the data used in an analysis. It is OK to have manual steps if they are clearly described, but automation is best.
 
-To automate this, we will use internal R functions which work regardless of file system. We would like a cross-platform (Windows/Linux/Mac) solution, and this is provided by the `file.path` function in R, rather than specifying folder locations completely. For example, Windows would use `..\\data\\file`, whereas Mac/Linux would be `../data/file`. Run `?file.path` to learn more.
+To automate this, DIFFERENTLY AND BETTER THAN THE RECORDING, we will use internal R functions which work regardless of file system. We would like a cross-platform (Windows/Linux/Mac) solution, and this is provided by the `file.path` function in R, rather than specifying folder locations completely. For example, Windows would use `..\\data\\file`, whereas Mac/Linux would be `../data/file`. Run `?file.path` to learn more.
 
 This could look like this:
 
@@ -36,8 +44,11 @@ if(!file.exists(file.path("..","data","kddcup.data_10_percent.gz"))) download.fi
 if(!file.exists(file.path("..","data","kddcup.names"))) download.file("http://kdd.org/cupfiles/KDDCupData/1999/kddcup.names",destfile=file.path("..","data","kddcup.names"))
 ```
 
+#### See Question B1W1 in Block 1 Portfolio
 
-## Workshop start
+about how to generate data.
+
+## 1.2 Exploratory Data Analysis (1D)
 
 The data are read in as follows:
 ```{r}
@@ -62,7 +73,7 @@ We need to pay attention to variables that:
 
 ## Activity 1: EDA for the "normal" class label
 
-The $Y$ value is a multiple-category label called "normal" in the data.
+The $Y$ value is a multiple-category label called "normal" in the data. This is the attack type, with value "normal" being "not an attack" and everything else being an attack.
 
 * We will make a barplot of the "normal" column, using an appropriate scaling. 
 * Use the inline help (?par). 
@@ -82,33 +93,45 @@ kddlist=lapply(labs,function(x){
 })
 ```
 
+The Tidyverse data objects have nice ways to examine these sorts of conditional statements.
+
+## 1.3 Exploratory Data Analysis (1D)
+
 ## Activity 2: Heatmap of the mean for each variable within each category
 
 ```{r}
 kddmean=t(sapply(kddlist,function(x)colMeans(x[,c(1,5:41)])))
 library("gplots")
-heatmap.2(log(kddmean+1),margins =c(9,15),trace="none",cexCol = 0.5)
+heatmap.2(log(kddmean+1),margins =c(9,15),trace="none",cexCol = 0.5,main="Heatmap 1")
 mycols=c("dst_bytes","src_bytes","duration","dst_host_svd_count","dst_host_count","srv_count","count")
 ```
+Q: Why has `trace="none"` been passed into heatmap.2? How do we find out what it does?
+Q: What is the "+1" doing in the log?
 
-* What does the function colMeans do? 
-* We make a matrix of the mean of each *numeric* variable, within each group, and plot the result as a *heatmap*. 
-* What are the 7 most important features? In what sense are they important?
-* Why has `trace="none"` been passed into heatmap.2? How do we find out what it does?
+We can obtain the top 7 features by their variance across the classes in this plot using:
+```{r}
+head(sort(apply(log(kddmean+1),2,var),decreasing=TRUE),7)
+```
 
 Now we want to standardize the features and repeat the *heatmap*.
 ```{r}
-kddfreq=apply(kddmean,2,function(x)x/(sum(x)+1))
-heatmap.2(kddfreq[,!is.nan(kddfreq[1,])],margins =c(9,15),trace="none",cexCol = 0.5)
+kddfreq=apply(kddmean,2,function(x)x/(sum(x)+1)) ## Divide each column ()
+heatmap.2(kddfreq[,!is.nan(kddfreq[1,])],margins =c(9,15),trace="none",cexCol = 0.5,main="Heatmap 2")
+```
+Q: What is this standardization? What is the "+1" doing in the frequency calculation? (We cover this later in the course)
+
+The corresponding variance in the features for this heatmap is:
+```{r}
+head(sort(apply(kddfreq,2,var),decreasing=TRUE),7)
 ```
 
-* What is this standardization?
-* Do the important features change? 
-* What does this mean about the solvability of the problem?
+#### See Question B1W2 in Block 1 Portfolio
+
+about what these results mean.
 
 ## Activity 3: Comparison for the categorical variables
 
-* We make a *table* of the interaction between the class label and the *categorical* variables. 
+We will now make a *table* of the interaction between the class label and the *categorical* variables. 
 
 ```{r}
 mycategorical=colnames(kddata)[2:4]
@@ -117,6 +140,7 @@ classlist=lapply(mycategorical,function(mycat){
 })
 for(i in 1:3) heatmap.2(log(classlist[[i]]+1),margins =c(9,15),trace="none",main=mycategorical[i])
 ```
+Some things to reflect on:
 
 * What about scale here? Explore different choices of scaling function.
 * Describe some key features that you see in the data.
@@ -132,16 +156,20 @@ for(i in 1:3) heatmap.2(log(classlist[[i]]+1),margins =c(9,15),trace="none",main
 kddsd=t(sapply(kddlist,function(x){
   apply(x[,c(1,5:41)],2,sd)
 }))
-heatmap.2(log(kddsd/(kddmean+0.01)+1),margins =c(9,15),trace="none")
+heatmap.2(log(kddsd/(kddmean+0.01)+1),margins =c(9,15),trace="none",main="Heatmap 3")
 ```
 * Again, what interpretations can you make about the data?
 * What would happen if we do not scale the s.d. to the individual mean entry? 
 * What if we use a linear instead of a log scale?
 * Is high variability good, or bad, for inference?
 
+#### See Question B1W3 in Block 1 Portfolio
+
+about what these results mean.
+
 ## Activity 5: Final thoughts and reflection
 
 * The dataset contains attacks that are not listed here. 
-* Comment on what the above Exploratory Data analysis might mean for the hopes of detecting different properties of attack.
+* Consider what the above Exploratory Data analysis might mean for the hopes of detecting different properties of attack.
 * How you might go about making a model that will perform well out-of-sample, *comparing* "normal" to other classes of "attack"?
-* Follow this up in Assessment 0.
+* You might choose to explore this further in Assessment 0.
