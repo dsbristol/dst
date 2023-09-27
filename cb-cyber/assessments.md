@@ -1,6 +1,6 @@
 ---
 title: Assessments
-layout: coursebook
+layout: coursebook-cyber
 ---
 
 # Assessment Overview

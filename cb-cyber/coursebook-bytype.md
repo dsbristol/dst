@@ -1,6 +1,6 @@
 ---
 title: Coursebook (by type)
-layout: coursebook
+layout: coursebook-cyber
 ---
 # Coursebook for Data Science Toolbox
 

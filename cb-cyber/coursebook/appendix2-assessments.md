@@ -1,6 +1,6 @@
 ---
 title: List of Assessments
-layout: coursebook
+layout: coursebook-cyber
 ---
 
 # Assessments

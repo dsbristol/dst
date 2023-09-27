@@ -1,6 +1,6 @@
 ---
 title: Timetable
-layout: coursebook
+layout: coursebook-cyber
 ---
 
 # Timetable

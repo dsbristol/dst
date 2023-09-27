@@ -1,6 +1,6 @@
 ---
 title: A1 
-layout: coursebook
+layout: coursebook-cyber
 ---
 
 # Appendix 1: Critical preparation

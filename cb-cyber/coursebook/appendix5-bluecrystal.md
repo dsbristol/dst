@@ -1,6 +1,6 @@
 ---
 title: Appendix 5 - Bluecrystal
-layout: coursebook
+layout: coursebook-cyber
 ---
 
 Students on the [MSc Mathematics of Cybersecurity](https://www.bristol.ac.uk/study/postgraduate/2020/sci/msc-mathematics-of-cybersecurity/) have access to [bluecrystal phase 4](https://www.acrc.bris.ac.uk/acrc/phase4.htm). The process is as follows:

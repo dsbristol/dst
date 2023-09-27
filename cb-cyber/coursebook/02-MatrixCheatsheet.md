@@ -1,6 +1,6 @@
 ---
 title: Matrix and Vector operations
-layout: coursebook
+layout: coursebook-cyber
 usemathjax: true
 ---
 

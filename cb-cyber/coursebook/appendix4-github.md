@@ -1,6 +1,6 @@
 ---
 title: Appendix 4 - Github
-layout: coursebook
+layout: coursebook-cyber
 ---
 
 # Git, GitHub, GitHub Desktop

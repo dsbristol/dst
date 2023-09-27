@@ -1,6 +1,6 @@
 ---
 title: Replicability of code in R and Python
-layout: coursebook
+layout: coursebook-cyber
 ---
 
 This page records notes on replicability that would otherwise be buried in technical content.
