@@ -11,6 +11,13 @@ fig_height: 5
 
 You should have already run the introductory [01.3-WSL-1-EDA.Rmd](https://dsbristol.github.io/dst/assets/code/01.3-WSL-1-EDA.Rmd) worksheet and become familiar with working with an RStudio RMarkdown document.
 
+# 0.0 Requirements
+
+Its good practice to get the requirements right at the top. The following solution checks for the requirements, and then installs them if they are not present.
+
+```{r}
+if(!require("gplots")) install.packages("gplots")
+```
 # 1.0 DATA
 Here we're going to go a little further and explore a new dataset, the [KDD99](http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html) dataset. Read about the competition [task specification](http://kdd.ics.uci.edu/databases/kddcup99/task.html).
 

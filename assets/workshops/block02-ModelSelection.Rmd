@@ -14,6 +14,15 @@ fig_height: 5
 
 Here we will consider two datasets that exhibit different structural features and therefore different implications for Cross-Validation.
 
+## 0. Requirements
+
+Its good practice to get the requirements right at the top. The following solution checks for the requirements, and then installs them if they are not present.
+
+```{r}
+if(!require("ggplot2")) install.packages("ggplot2")
+if(!require("caret")) install.packages("caret")
+```
+
 ## 1. Data
 
 ### 1.1 Diamonds Dataset
@@ -21,7 +30,6 @@ Here we will consider two datasets that exhibit different structural features an
 The Diamonds Dataset is a classic dataset for over 50k diamonds, describing their price and features. You can read more about it in many places, for example [Kaggle](https://www.kaggle.com/datasets/shivam2503/diamonds) (though it did not originate there). Its built into the `ggplot2` package in R and can be accessed directly:
 
 ```{r}
-if(!require("ggplot2")) install.packages("ggplot2")
 library("ggplot2") # Ironically we're using this for the data, and not for the plotting!
 head(diamonds)
 ```
@@ -134,7 +142,6 @@ about the interpretation of these results.
 We will use the library "caret" for cross-validation training and control. This is not strictly necessary, but provides some helpful features in the computation of AIC and performing *stepwise* regression to search model space.
 
 ```{r}
-if(!require("caret")) install.packages("caret")
 library(caret)
 ```
 
