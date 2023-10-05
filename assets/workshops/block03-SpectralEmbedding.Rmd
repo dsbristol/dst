@@ -4,7 +4,7 @@ date: "Block 03"
 author: "Daniel Lawson"
 email: dan.lawson@bristol.ac.uk
 output: html_notebook
-version: 1.0.1
+version: 2.0.1
 fig_width: 10
 fig_height: 5
 ---
@@ -12,57 +12,88 @@ This workshop explores spectral clustering on cyber data using DBSCAN.
 
 Remember to look at the code examples from the lectures for analogous data for other methods.
 
-Continue with the KDD11 dataset from the previous workshop. We'll read it in as before.
+## 0. Requirements
 
 ```{r}
-if (.Platform$OS.type=="windows"){ # Windows uses double backslash for directories...
-  kddata<-read.csv("..\\data\\kddcup.data_10_percent.gz")
-  kddnames=read.table("..\\data\\kddcup.names",sep=":",skip=1,as.is=T)
-}else{ # Everything else uses a forward slash.
-  kddata<-read.csv("../data/kddcup.data_10_percent.gz")
-  kddnames=read.table("../data/kddcup.names",sep=":",skip=1,as.is=T)
-}
+if(!require("purrr")) install.packages("purrr") # allows the nice %>% notation; part of the "tidyverse"
+if(!require("dbscan")) install.packages("dbscan") # density based clustering
+library(purrr) 
+```
+
+## 1. Data
+
+We will continue with the KDD11 dataset from the first workshop. Recall that we downloaded it with:
+
+```{r}
+if(!dir.exists(file.path("..","data"))) dir.create(file.path("..","data"))
+if(!file.exists(file.path("..","data","kddcup.data_10_percent.gz"))) download.file("http://kdd.org/cupfiles/KDDCupData/1999/kddcup.data_10_percent.zip", destfile=file.path("..","data","kddcup.data_10_percent.gz"))
+if(!file.exists(file.path("..","data","kddcup.names"))) download.file("http://kdd.org/cupfiles/KDDCupData/1999/kddcup.names",destfile=file.path("..","data","kddcup.names"))
+```
+
+We'll read it in as before.
+
+```{r}
+kddata<-read.csv(file.path("..","data","kddcup.data_10_percent.gz"))
+kddnames=read.table(file.path("..","data","kddcup.names"),sep=":",skip=1,as.is=T)
 colnames(kddata)=c(kddnames[,1],"normal")
 ```
 
-Before we start, we'll load some useful packages.
-```{r}
-library(purrr) # allows the nice %>% notation; part of the "tidyverse"
-```
-Now we make some data suitable for spectral embedding
+### 1.1 Data transformations
+
+Now we make the data suitable for spectral embedding. There are several motivations here:
+
+a) You can take an SVD of anything. However, any reasonable interpretation of SVD assumes **additive noise**. When the data are inherently multiplicative, we need to take a logarithm for this assumption hold. Here the data are heavy tailed, an indication of some sort of multiplicative noise.
+b) Much of these data are categorical. Whilst we could use categorical data for SVD, it would need to be one-hot encoded and scaled appropriately. You should do that for assignments but its overkill here.
+c) We did EDA on the data and found several columns to contain hard-to-interpret structure. These do too, but we'll be able to do the work of exploring them.
+
+We will consider a few transformations here. You should rerun the analysis with different choices to get an understanding of how they effect the inference.
+
 ```{r}
 testdata=kddata[,c("src_bytes","dst_bytes",
                    "count","srv_count",
                      "dst_host_count","dst_host_srv_count")]
-testdatatrans=apply(testdata,2,function(x)log(x+1))
+#transformation=function(x)x # Identity
+#transformation=function(x)(x-mean(x))/sd(x) # standardize and center
+#transformation=function(x)x/sd(x) # standardize only
+transformation=function(x){xx=log(1+x);(xx)/sd(xx)} # log transform and then standardize
+# transformation=function(x)log(1+x) # log transform
+testdatatrans=apply(testdata,2,transformation)
 ```
 
-## Activity 1: Spectral Embedding
+### 1.2 Spectral Embedding
 
-Make a suitable "spectral embedding" (SVD or PCA) from the transformed test data, and plot the sigenvalues to choose the number of PCs.
+Make a suitable "spectral embedding" (SVD or PCA) from the transformed test data, and plot the Eigenvalues to choose the number of PCs.
 
 ```{r}
 testdatatrans.svd <- svd(testdatatrans)
 ```
 
-Plotting the data:
+Plotting the eigenvalues (a "scree plot"):
 ```{r}
-plot(testdatatrans.svd$d,xlab="Eigenvalue index",ylab="Eigenvalue",log="y")
+plot(testdatatrans.svd$d,xlab="Eigenvalue index",ylab="Eigenvalue",log="")
 ```
 
-It looks like we want the first 3 PCs, which we will record in a variable:
+#### See Q1 in Block 3 Portfolio
+
+about exploring the different transformations that are possible and how they impact inference.
+
+With this transformation choice it looks like we want the first 3 PCs, which we will record in a variable:
 ```{r}
 npcs=3
 ```
 
 Extensions: Try rerunning the following analysis using more or fewer PCs. How does the choice of representation effect our analysis - what if we scale differently? What if we normalise features?
 
-## Activity 2: Exploratory plots
+#### See Q2 in Block 3 Portfolio
+
+about the correct number of PCs to retain.
+
+## 2.1 Visualising Eigenvectors
 
 We make a plot of the data, annotated by the "normal" category that it has been assigned. 
 Because there are very many examples of some classes of data, we retain only up to 5000 of each class.
 
-Get the indices of different classes of data:
+First we will obtain class labels the indices of different classes of data, and order them by the number of each class:
 ```{r}
 normaltab=table(kddata[,"normal"])
 normallist=lapply(names(normaltab),function(x)which(kddata[,"normal"]==x))
@@ -70,31 +101,46 @@ normalsamples=lapply(normallist,function(x){
   if(length(x)<5000) return(x)
   return(sample(x,size = 5000))
 })
+names(normalsamples)=names(normaltab)
+normalsizes=sapply(normalsamples,length)
+normalsamples=normalsamples[order(normalsizes,decreasing=TRUE)]
+normalsizes=normalsizes[order(normalsizes,decreasing=TRUE)]
+normalsizes
 ```
+From this we can see that we have downsampled `neptune`, `normal`, and `smurf` classes. We have very few cases of several attacks.
+
 Plot the PCA:
 ```{r}
 i=1;j=2
 plot(testdatatrans.svd$u[,i],
-     testdatatrans.svd$u[,j],type="n",
-     col="#33333311",pch=19,cex=0.3)
-for(index in 1:length(normalsamples)){
+     testdatatrans.svd$u[,j],type="n",xlab=paste0("PC",i),ylab=paste0("PC",j),
+     col="#33333311",pch=19,cex=0.3) ## Plot where the points are omitted
+legend("topleft",legend=names(normalsamples),text.col=1:length(normalsamples),col=1:length(normalsamples),pch=c(19,1,2)[ceiling((1:30)/10)],cex=0.5)
+for(index in 1:length(normalsamples)){ ## Question: why would we plot the points in decreasing size order?
   points(testdatatrans.svd$u[normalsamples[[index]],c(i,j)],
-         col=index+1,pch=19,cex=0.3)
+         col=index+1,pch=c(19,1,2)[ceiling((1:30)/10)],cex=0.3)
 }
 ```
-Looks very convincing! The "line" structures are potentially interesting, and contrast to the "blob" strunctures in the larger clusters.
+This looks reassuring that there is structure to find for classification. The "line" structures are potentially interesting, and contrast to the "blob" structures in the larger clusters.
 
-Extensions: Comment on the utility of spectral clustering, given the segregation that you see. Is it possible that the "yellow" cluster that overlaps the "cyan" cluster could be identified? Under what circumstances? How could you check?
 
-## Activity 3: DBscan
+#### See Q3 in Block 3 Portfolio
+about the interpretation of these results.
 
-Q3: Perform parameter tuning for clustering using "dbscan". First, use the function "kNNdist" to test what sort of thresholds for the parameter "eps" might be useful. Consider c(0.01,0.001,0.0001,0.00001,0.000001). Remember to only process up to your chosen number of PCs.
+## 3.1 Clustering with DBscan
+
+Here we perform parameter tuning for clustering using "dbscan". 
+
+First, we use the function "kNNdist" which obtains the k nearest neighbours. We will explore this to test what sort of thresholds for the parameter "eps" might be useful.
+
 ```{r}
 library("dbscan")
 test=kNNdist(testdatatrans.svd$u[,1:npcs], k = 5,all=TRUE)
 testmin=apply(test,1,min)
+range(testmin)
 ```
 
+Now we'll plot all of the minimum values. This gives the distance to the closest other point, for every point.
 ```{r}
 plot(sort(testmin[testmin>1e-8]),log="y")
 threshholds= c(0.01,0.001,0.0001,0.00001,0.000001)
@@ -103,12 +149,16 @@ abline(h=0.0001,col="red") # we chose this number.
 ## abline(h=0.001) # would give bigger clusters
 ## abline(h=0.00001) # would give smaller clusters
 ```
+From this analysis, we can see that nearly all points are within 1e-04 of another point.
 
 Extension: Experiment with other thresholds and see how the clustering behaves.
 
-## Activity 4: downsampling
+#### See Q4 in Block 3 Portfolio
+about running DBSCAN.
 
-Unfortunately, dbscan runs out of memory when applied to the full dataset. However, in the previous analysis we used it with 226943 samples, and here we have 
+#### 3.1.1 Downsampling
+
+Unfortunately, dbscan runs out of memory when applied to the full dataset. Here we have 
 ```{r}
 dim(testdatatrans.svd$u)[1]
 ``` 
@@ -123,6 +173,8 @@ myindices=unlist(normalsamples2) %>% sort
 length(myindices)
 ```
 
+### 3.1.2 DBScan clustering
+
 Now do the clustering:
 ```{r}
 dbscanres=dbscan(testdatatrans.svd$u[myindices,1:3],0.0001)
@@ -136,36 +188,34 @@ table(dbscanres$cluster)
 
 Now we will display this with a heatmap:
 ```{r}
-pdf("test_kddspectralembedding_dbscan.pdf",height=10,width=10)
+##pdf("test_kddspectralembedding_dbscan.pdf",height=10,width=10)
     plot(testdatatrans.svd$u[myindices,1],
-         testdatatrans.svd$u[myindices,2],xlab="",
-         ylab="",main=paste("K=41 + noise"),
+         testdatatrans.svd$u[myindices,2],
+         xlab="PC1",ylab="PC2",main=paste("K=41 + noise"),
          col=c("#66666666",rainbow(41))[dbscanres$cluster+1],pch=19,cex=0.5)
     plot(testdatatrans.svd$u[myindices,1],
-         testdatatrans.svd$u[myindices,3],xlab="",
-         ylab="",main=paste("K=41 + noise"),
+         testdatatrans.svd$u[myindices,3],xlab="PC1",ylab="PC3",main=paste("K=41 + noise"),
          col=c("#66666666",rainbow(41))[dbscanres$cluster+1],pch=19,cex=0.5)
     plot(testdatatrans.svd$u[myindices,2],
-         testdatatrans.svd$u[myindices,3],xlab="",
-         ylab="",main=paste("K=41 + noise"),
+         testdatatrans.svd$u[myindices,3],xlab="PC2",ylab="PC3",,main=paste("K=41 + noise"),
          col=c("#66666666",rainbow(41))[dbscanres$cluster+1],pch=19,cex=0.5)
-dev.off()
+##dev.off()
 ```
 Examining these plots, it is clear that there are some important distinctions between the inferred clusters. We can make a table of the labels and clustering:
 ```{r}
 mytable=data.frame(cluster=dbscanres$cluster,label=kddata[myindices,"normal"])
 mytab=table(mytable)
 myfreq=mytab/rowSums(mytab)
-heatmap(myfreq,scale="none",main="Frequency of label given cluster",)
+heatmap(t(myfreq),scale="none",main="Frequency of label given cluster",cexRow=0.7)
 ```
 
 
 ```{r}
 myfreq2=t(t(mytab)/colSums(mytab))
-heatmap(myfreq2,scale="none",main="Frequency of cluster given label")
+heatmap(t(myfreq2),scale="none",main="Frequency of cluster given label",cexRow = 0.7)
 ```
 
-## Activity 5: Clustering as a classifier
+### 3.1.3 Interpretation as a classifier
 
 How well does the clustering describes each label?
 ```{r}
@@ -174,17 +224,23 @@ print(bestmatch)
 accuracy=sum(bestmatch[,1]*bestmatch[,2])/sum(bestmatch[,2])
 print(paste("Accuracy in training data:",accuracy))
 ```
+
 Overall:
 
 * The mean accuracy is low, but the accuracy for every cluster except 0 and 3 is high.
   * Cluster 3 is very large.
   * There are very many clusters that are close to perfectly associated with a label. 
   * Even the "unclustered" data (0) is only very small. 
-* Therefore, with any other assignmemt, we can be more confident.
+* Therefore, with any other assignment, we can be more confident.
   * "Cluster" is a good feature.
 * If we were given new data, we might find which cluster it most resembled but this might be concerning as the data might not look like any of the currently observed data. 
 * Also, a clustering offers little in the way of uncertainty assessment, and probably overfits to the small strands of data that we have available.
 * for example, all those tiny clusters are unlikely to be "real".
+
+#### See Q5 in Block 3 Portfolio
+about interpreting the results DBSCAN.
+
+
 
 Extensions: 
 

@@ -4,7 +4,7 @@ date: "Block 01"
 author: "Daniel Lawson"
 email: dan.lawson@bristol.ac.uk
 output: html_document
-version: 2.0.0
+version: 2.0.1
 fig_width: 10
 fig_height: 5
 ---
@@ -59,7 +59,8 @@ about how to generate data.
 
 The data are read in as follows:
 ```{r}
-kddata<-read.csv(file.path("..","data","kddcup.data_10_percent.gz"))
+system("gunzip ..\\data\\kddcup.data_10_percent.gz")
+kddata<-read.csv(file.path("..","data","kddcup.data_10_percent"))
 kddnames=read.table(file.path("..","data","kddcup.names"),sep=":",skip=1,as.is=T)
 colnames(kddata)=c(kddnames[,1],"normal")
 ```

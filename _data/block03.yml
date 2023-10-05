@@ -1,33 +1,33 @@
 ## Slides
 
 s01-PCA:
-    url: /dst/notready.html
+    url: /dst/assets/slides/03.1-LatentStructuresPCA.pdf
 
 s02-Clustering:
-    url: /dst/notready.html
+    url: /dst/assets/slides/03.2-Clustering.pdf
 
 ## Code
 c01:
-    url: /dst/notready.html
+    url: /dst/assets/code/03.1-LatentSpaces.R
 
 c02:
-    url: /dst/notready.html
+    url: /dst/assets/code/03.2-Clustering.R
 
 ## Worksheet
 
 ws01:
     text: 3.1 Latent Spaces and PCA Worksheet
-    url: /dst/notready.html
+    url: /dst/assets/worksheets/ws03.1_questions.pdf
 
 ws02:
     text: 3.2 Clustering Worksheet
-    url: /dst/notready.html
+    url: /dst/assets/worksheets/ws03.2_questions.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/notready.html
+    url: /dst/assets/assessments/Portfolio03.pdf
     
 ## Workshop
 
 s03-SpectralEmbedding:
-    url: /dst/notready.html
+    url: /dst/assets/workshops/block03-SpectralEmbedding.Rmd

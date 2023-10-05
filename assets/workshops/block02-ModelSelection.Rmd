@@ -4,7 +4,7 @@ date: "Block 02"
 author: "Daniel Lawson"
 email: dan.lawson@bristol.ac.uk
 output: html_document
-version: 1.0.1
+version: 2.0.2
 fig_width: 10
 fig_height: 5
 
