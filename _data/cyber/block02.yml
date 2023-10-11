@@ -1,43 +1,43 @@
 
 ## Slides
 s0101-Regression:
-    url0: /dst/assets/slides/02.1.1-OverviewRegression.pdf
-    url: /dst/assets/slides/02.1.1-OverviewRegression.pdf
+    url0: /cb-cyber/assets/slides/02.1.1-OverviewRegression.pdf
+    url: /cb-cyber/assets/slides/02.1.1-OverviewRegression.pdf
 
 s0102-Regression:
-    url0: /dst/assets/slides/02.1.2-ModernRegression.pdf
-    url: /dst/assets/slides/02.1.2-ModernRegression.pdf
+    url0: /cb-cyber/assets/slides/02.1.2-ModernRegression.pdf
+    url: /cb-cyber/assets/slides/02.1.2-ModernRegression.pdf
 
 s0201-Testing:
-    url0: /dst/assets/slides/02.2.1-StatisticalTesting-ClassicalTesting.pdf
-    url: /dst/assets/slides/02.2.1-StatisticalTesting-ClassicalTesting.pdf
+    url0: /cb-cyber/assets/slides/02.2.1-StatisticalTesting-ClassicalTesting.pdf
+    url: /cb-cyber/assets/slides/02.2.1-StatisticalTesting-ClassicalTesting.pdf
 
 s0202-Testing:
-    url0: /dst/assets/slides/02.2.2-StatisticalTesting-Empirical.pdf
-    url: /dst/assets/slides/02.2.2-StatisticalTesting-Empirical.pdf
+    url0: /cb-cyber/assets/slides/02.2.2-StatisticalTesting-Empirical.pdf
+    url: /cb-cyber/assets/slides/02.2.2-StatisticalTesting-Empirical.pdf
 
 s0203-Testing:
-    url0: /dst/assets/slides/02.2.3-ModelSelection.pdf
-    url: /dst/assets/slides/02.2.3-ModelSelection.pdf
+    url0: /cb-cyber/assets/slides/02.2.3-ModelSelection.pdf
+    url: /cb-cyber/assets/slides/02.2.3-ModelSelection.pdf
 
 ## Code
 c01-Regression:
-    url0: /dst/assets/code/02.1-Regression.R
-    url: /dst/assets/code/02.1-Regression.R
+    url0: /cb-cyber/assets/code/02.1-Regression.R
+    url: /cb-cyber/assets/code/02.1-Regression.R
 
 c02-Testing:
-    url0: /dst/assets/code/02.2-Testing.R
-    url: /dst/assets/code/02.2-Testing.R
+    url0: /cb-cyber/assets/code/02.2-Testing.R
+    url: /cb-cyber/assets/code/02.2-Testing.R
 
 ## Workshop
 s03-ModelSelection:
-    url0: /dst/assets/workshops/block02-ModelSelection.Rmd
-    url: /dst/assets/workshops/block02-ModelSelection.Rmd
+    url0: /cb-cyber/assets/workshops/block02-ModelSelection.Rmd
+    url: /cb-cyber/assets/workshops/block02-ModelSelection.Rmd
 
 ## Worksheet
 ws01:
-    url0: /dst/assets/worksheets/ws02.1_questions.pdf
-    url: /dst/assets/worksheets/ws02.1_questions.pdf
+    url0: /cb-cyber/assets/worksheets/ws02.1_questions.pdf
+    url: /cb-cyber/assets/worksheets/ws02.1_questions.pdf
 ws02:
-    url0: /dst/assets/worksheets/ws02.2_questions.pdf
-    url: /dst/assets/worksheets/ws02.2_questions.pdf
+    url0: /cb-cyber/assets/worksheets/ws02.2_questions.pdf
+    url: /cb-cyber/assets/worksheets/ws02.2_questions.pdf
