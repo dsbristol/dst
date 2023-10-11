@@ -2,37 +2,37 @@
 
 s0101:
     text: 5.1.1 Introduction to Classification (Logistic Regression, Interpretation, ROC)
-    url0: /dst/assets/slides/05.1.1-Classification-Intro.pdf
-    url: /dst/assets/slides/05.1.1-Classification-Intro.pdf
+    url0: /dst/cyber/assets/slides/05.1.1-Classification-Intro.pdf
+    url: /dst/cyber/assets/slides/05.1.1-Classification-Intro.pdf
 
 s0102:
     text: 5.1.2 Introduction to Classification - The basics (kNN, LDA, SVM)
-    url0: /dst/assets/slides/05.1.2-Classification-SVMandKNN.pdf
-    url: /dst/assets/slides/05.1.2-Classification-SVMandKNN.pdf
+    url0: /dst/cyber/assets/slides/05.1.2-Classification-SVMandKNN.pdf
+    url: /dst/cyber/assets/slides/05.1.2-Classification-SVMandKNN.pdf
 
 s02:
     text: 5.2 Ensemble learning
-    url0: /dst/assets/slides/05.2-EnsembleLearning.pdf
-    url: /dst/assets/slides/05.2-EnsembleLearning.pdf
+    url0: /dst/cyber/assets/slides/05.2-EnsembleLearning.pdf
+    url: /dst/cyber/assets/slides/05.2-EnsembleLearning.pdf
 
 ## Code
 c01:
     text: 5.1 Classification
-    url0: /dst/assets/code/05.1-Classification.R
-    url: /dst/assets/code/05.1-Classification.R
+    url0: /dst/cyber/assets/code/05.1-Classification.R
+    url: /dst/cyber/assets/code/05.1-Classification.R
 
 ## Worksheet
 ws01:
-    url0: /dst/assets/worksheets/ws05.1_questions.pdf
-    url: /dst/assets/worksheets/ws05.1_questions.pdf
+    url0: /dst/cyber/assets/worksheets/ws05.1_questions.pdf
+    url: /dst/cyber/assets/worksheets/ws05.1_questions.pdf
 ws02:
-    url0: /dst/assets/worksheets/ws05.2_questions.pdf
-    url: /dst/assets/worksheets/ws05.2_questions.pdf
+    url0: /dst/cyber/assets/worksheets/ws05.2_questions.pdf
+    url: /dst/cyber/assets/worksheets/ws05.2_questions.pdf
 
 ## Workshop
 
 s03:
     text: 5.3 Workshop on Classification with base learners and ensembles
-    url0: /dst/assets/workshops/block05-Classification.Rmd
-    url: /dst/assets/workshops/block05-Classification.Rmd
+    url0: /dst/cyber/assets/workshops/block05-Classification.Rmd
+    url: /dst/cyber/assets/workshops/block05-Classification.Rmd
 
