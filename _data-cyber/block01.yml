@@ -1,0 +1,29 @@
+
+## Slides
+s0101-Intro:
+    url0: /dst/assets/slides/01.1-Intro.pdf
+    url: /dst/assets/slides/01.1-Intro.pdf
+
+s0102-EDA:
+    url0: /dst/assets/slides/01.2-EDA.pdf
+    url: /dst/assets/slides/01.2-EDA.pdf
+
+## Code
+c0101-EDA:
+    url0: /dst/assets/code/01.1-EDA.R
+    url: /dst/assets/code/01.1-EDA.R
+
+c0103-EDA:
+    url0: /dst/assets/code/01.3-WSL-1-EDA.Rmd
+    url: /dst/assets/code/01.3-WSL-1-EDA.Rmd
+
+## Workshop
+s0103-EDA:
+    url0: /dst/assets/workshops/block01-EDA.Rmd
+    url: /dst/assets/workshops/block01-EDA.Rmd
+
+## Worksheet
+ws02:
+    url0: /dst/assets/worksheets/ws01.2_questions.pdf
+    url: /dst/assets/worksheets/ws01.2_questions.pdf
+

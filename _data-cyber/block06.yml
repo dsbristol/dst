@@ -1,0 +1,36 @@
+## Slides
+
+s0101:
+    text: 6.1.1 Decisions, Trees, Forests, (Part 1, Trees)
+    url0: /dst/assets/slides/06.1.1-RandomForests_Part1.pdf
+    url: /dst/assets/slides/06.1.1-RandomForests_Part1.pdf
+
+s0102:
+    text: 5.1.2 Decisions, Trees, Forests (Part 2, Forests)
+    url0: /dst/assets/slides/06.1.2-RandomForests_Part2.pdf
+    url: /dst/assets/slides/06.1.2-RandomForests_Part2.pdf
+
+## Code
+c01:
+    text: 6.1 Random Forest and Trees
+    url0: /dst/assets/code/06.1-RandomForestSlideContent.ipynb
+    url: /dst/assets/code/06.1-RandomForestSlideContent.ipynb
+
+## Worksheet
+ws01:
+    url0: /dst/assets/worksheets/ws06.1_questions.pdf
+    url: /dst/assets/worksheets/ws06.1_questions.pdf
+
+## Workshop
+
+s0201:
+    text: 6.2.1 Workshop on Random Forests (R content)
+    url0: /dst/assets/workshops/block06-TreesAndForests_Part1.Rmd
+    url: /dst/assets/workshops/block06-TreesAndForests_Part1.Rmd
+
+s0202:
+    text: 6.2.2 Workshop on Random Forests (Python content)
+    url0: /dst/assets/workshops/block06-TreesAndForests_Part2.ipynb
+    url: /dst/assets/workshops/block06-TreesAndForests_Part2.ipynb
+
+

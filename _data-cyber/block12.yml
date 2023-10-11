@@ -1,0 +1,20 @@
+## Lectures
+s0101:
+    text: 12.1.1 Ethics in Data Science (Part 1, Overview)
+    url0: /dst/assets/slides/12.1.1-EthicsAndPrivacy.pdf
+    url: /dst/assets/slides/12.1.1-EthicsAndPrivacy.pdf
+
+s0102:
+    text: 12.1.2 Ethics in Data Science (Part 2, Disclosure)
+    url0: /dst/assets/slides/12.1.2-StatisticalDisclosure.pdf
+    url: /dst/assets/slides/12.1.2-StatisticalDisclosure.pdf
+
+s0103:
+    text: 12.1.3 Ethics in Data Science (Part 3, Fairness and Interpretability)
+    url0: /dst/assets/slides/12.1.3-Fairness.pdf
+    url: /dst/assets/slides/12.1.3-Fairness.pdf
+
+## Worksheet
+ws01:
+    url0: /dst/assets/worksheets/ws12.1_questions.pdf
+    url: /dst/assets/worksheets/ws12.1_questions.pdf
