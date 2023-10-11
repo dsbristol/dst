@@ -4,339 +4,204 @@ date: "Block 04"
 author: "Daniel Lawson"
 email: dan.lawson@bristol.ac.uk
 output: html_document
-version: 1.0.1
+version: 2.0.1
 fig_width: 10
 fig_height: 5
 ---
-# Overview
-This workshop examines different approaches for coping with missing data. We'll start with some data QC - outliers and detection of batch effects - before moving into missingness.
-
-## The regular boiler plate stuff.
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library("knitr")
-```
-
-## Data input
-Unlike in most of the other workshops, we're working with the Bro log data from [Secrepo](http://www.secrepo.com/Datasets%20Description/HTML_Bro_log_1/conn.html), which is used in the slide examples. This is because it is better suited to a missing data analysis as it contains an impressive amount of missingness!
-```{r}
-source("https://raw.githubusercontent.com/dsbristol/dst/master/code/loadconndata.R")
-
-conndataM=conndata
-for(i in c(9,10,11,16:19)) conndataM[,i]=as.numeric(conndataM[,i])
-for(i in c(7,8)) conndataM[,i]=as.factor(conndataM[,i])
-```
-## Activity 1: Is data missing at random?
-
-You should always check what the structure of missing data is in the data. Complete the analysis to find the proportions of missingness for each protocol. Is missingness skewed by protocol?
-```{r}
-## Not missing at random
-mtab0=data.frame(
-    missingduration=is.na(conndataM[,"duration"]),
-    proto=conndataM[,"proto"])
-mtab=table(mtab0)
-(apply(mtab,2,function(x)x/sum(x)))
-```
-Missingness (of the Duration field) is massively skewed by protocol, with ICMP being mostly complete and TCP being mostly missing.
-
-What about other data fields? Which fields have the most missingness?
-
-## Activity 2: Are there outliers in the data?
-
-Thinking about the duration data, we now check whether there are any extreme outliers. We'll do this with a simple plot. We want to work on the log-scale so it is helpful not to plot with the nature function, but to manually get the mid-points (x$mids) and density (x$density) of the object returned by hist to maka a plot. We will add a vertical line at a sensible definition of "extreme duration".
-```{r}
-nbreaks=101 ## Choose this
-thist=hist(conndataM[,"duration"],breaks=nbreaks,plot=FALSE)
-#png("../media/04.2-DurationOutliers2.png",height=500,width=800)
-plot(thist$mids,thist$density,log="y",type="b",
-     xlab="duration",ylab="histogram density")
-threshold=1200 # obvious threshold
-abline(v=threshold,col=2) 
-#dev.off()
-```
-The durations below this threshold could plausibly be from some distribution. Above it, they are clustered and contain massive gaps so are likely very different. There are only 5 such points however.
-
-Could we use a different definition? What about a parametric model? What are the arguments for and against a threshold at around 500?
-
-## Activity Are there batch effects in the data?
-
-There is a weird split in the data, with a long gap. This is a "day" effect. We can exploit this to make a new feature - which day an event was found in.
-
-We first make a histogram of the timeestamp, `conndataM[,"ts"]`. We add a vertical line to separate the day.
-```{r}
-## Demonstration of batch efect:
-hist(conndataM[,"ts"],breaks=101)
-daybreak=1331960000.0
-abline(v=daybreak,col=2)
-```
-
-Now we want to check if "day" has a significant effect on the durations. We do this by creating a "day" feature, and checking whether there is a linear effect on the log-duration. 
+# 0. Requirements
 
 ```{r}
-conndataM[,"day"]=0 + (conndataM[,"ts"]>daybreak)
-conndataM[,"logduration"]=log(conndataM[,"duration"])
-lm1=lm(logduration~proto+service +ts +id.resp_p+day,
-       data=conndataM[conndataM[,"duration"]<1200,])
-summary(lm1)
-```
-Is "day" is statistically significant? Is the effect important?
-
-Now we make a new regression model with day removed, and compare the R^2 values from "summary(lm1)$r.squared)". 
-```{r}
-lm0=lm(logduration~proto+service +ts +id.resp_p,
-       data=conndataM[conndataM[,"duration"]<1200,])
-print(paste("total R^2 without day:",summary(lm0)$r.squared,"R^2 with day:",summary(lm1)$r.squared))
-```
-In conclusion, the batch effect is statistically significant but probably not important.
-
-What other approaches could we have used? What test does the regression framework shown above actually use? What alternatives could we think of? Can you implement them?
-
-## Imputation
-
-We'll now use mean imputation. There are several choices for this - either the overall mean, or the mean within some category.
-
-Here we do mean imputation to complete the logduration field.
-
-* lm1 is a complete case analysis (outliers removed)
-* lm2 uses mean imputed data, and has the same outliers removed.
-* They both use the same model.
-```{r}
-## Mean imputation
-conndataMmean=conndataM
-conndataMmean[is.na(conndataMmean[,"logduration"]),
-              "logduration"]=
-    mean(na.omit(conndataMmean[,"logduration"]))
-
-tdata=conndataMmean[conndataMmean[,"logduration"]<log(threshold),]
-lm2=lm(logduration~proto+service +ts +id.resp_p+day,
-       data=tdata)
-ts1=summary(lm1)
-ts2=summary(lm2)
+if(!require("finalfit")) install.packages("finalfit")
+library("finalfit")
 ```
 
-## Acticity 4: Compare the inference under both available case or mean imputed data
+# 1. Overview and data
 
-So we first try looking at the output of the model:
+This workshop examines different approaches for coping with missing data. We'll start with some basic QC, using SVD to explore the data, and then look into missingness.
+
+Contrast the analysis here with that provided with the package at [https://cran.r-project.org/web/packages/finalfit/vignettes/missing.html](https://cran.r-project.org/web/packages/finalfit/vignettes/missing.html). 
+
+## 1.1 Data input
+
+The data comes from trhe finalfit package and is available after the "library" call:
 ```{r}
-print(ts1)
-print(ts2)
+summary(colon_s)
+```
+There is a lot of EDA work to do here. Be sure to check `?colon`. We'd like to predict survival, here "mort_5yr".
+
+## 1.2 QC
+
+Most fields are duplicated by a factor; lets get rid of this, including getting rid of the second "mort" variable we would like to predict, and do a basic missingness check:
+```{r}
+colon = as.data.frame(colon_s)[,-1] # remove the "id" column
+colon=colon[,-grep("factor",colnames(colon))]
+colon=colon[,!colnames(colon)%in%"mort_5yr.num"] # keep mort_5yr
+table(is.na(colon))
 ```
 
-How do you interpret these results? Which results would you prefer? 
+Missingness is at <1% in this data. Lets check how to manage it:
 
-Lets make an additional EDA plot to investigate this. We'll compare the estimates using mean imputation and complete-case, as a form of sensitivity analysis.
 ```{r}
-#png("../media/04.2-MeanImputation.png",
-#    height=500,width=800)
-par(xpd=TRUE)
-plot(ts1$coefficients[-1,1],
-     ts2$coefficients[-1,1],type="n",
-     xlab="Coefficient (available case)",
-     ylab="Coefficient (mean imputed)",bty="n")
-abline(v=0,h=0,col="grey")
-text(ts1$coefficients[-1,1],
-     ts2$coefficients[-1,1],
-     rownames(ts1$coefficients[-1,]))
-#dev.off()
+hist(rowSums(is.na(colon)),breaks=seq(-0.5,6.5),xlab="number of missing values",ylab="count")
 ```
-There is a significant change in the "UDP" protocol. Given that this has quite a lot of missing data, mean imputation could cause a bias.
+## 1.3 Predicting missingness
 
-Lets check that by comparing the means within each category (without imputation), to see how mean imputation would affect things.
+It isn't clear from this structure whether missingness is correlated. Is it predictable? We will test this by using a glm for whether any data were missing in a row, and augmenting the columns of the data with a new column "anymissing".
 ```{r}
-c(sapply(c("icmp","tcp","udp"),function(x){
-  mean(na.omit(conndataM[conndataM[,"proto"]==x,"logduration"]))
-}), all=mean(na.omit(conndataMmean[,"logduration"])))
+allpresent=colnames(colon)[colSums(is.na(colon))==0] # columns with no missingness
+allpresent=allpresent[allpresent!="anymissing"] # in case you run this twice!
+colonmiss=is.na(colon) # a dataframe of missingness
+colon$anymissing = as.numeric(rowSums(is.na(colon))>0)
+colonmissingmodel=glm(paste("anymissing~",paste(allpresent,collapse="+"),collapse=""),
+                      data=colon,family = binomial)
+colonmissingpred=predict(colonmissingmodel,newdata=colon)
+cor(colonmissingpred,colon$anymissing) # predictability of missingness
 ```
-UDP has a positive value whilst all other protocols have a negative value. Because duration varies by protocol, mean imputation is problematic.
+We find a correlation between missingness and the complete data of 0.18 which implies that missingness is not strongly predictable from this (alone). Which variables are associated?
 
-The conclusion would be that mean imputation as implemented is biased for udp. Of course this could be easily changed for this specific task by making the mean imputation depend on service and protocol.
-
-Can you create a regression-based imputation to allow each protocol to receive a different imputed value? How would you check that it is working?
-
-## Conservative Imputation
-
-For conservative netflow nesting, we are interested in findong all netflow events on a machine that could overlap in time, to detect tunnelling behaviour. We start with the data and definition of A containing B:
 ```{r}
-## Make some data
-testdata=conndataM[conndataM[,"id.orig_h"]=="192.168.202.76",]
-testdata=data.frame(start=testdata[,"ts"],
-                    end=rowSums(testdata[,c("ts","duration")]))
+summary(colonmissingmodel)
+```
+The `hospital` and `node4` variables are associated, but little else.
 
-## Is the interval defined by b contained in the interval defined by b? Allowisng some tolerance.
-NetflowContains=function(a,b,tol=0){
-    if(any(c(is.na(a),is.na(b))))return(NA)
-    (a[1]<b[1]+tol) &
-        ((a[2])>b[2]-tol)
+We can therefore assume a missing (mostly) at random design to test predictability of the inferred values.
+
+We note that `colnames(colon)` include variables that we expect to be strongly correlated, such as `nodes` and `node4`. That is a problem for primary inference but is a benefit for imputation...!
+
+#### See Q1 in Block 4 Portfolio
+
+about QC concerns we could look into further.
+
+# 2. SVD
+
+We will start by making an SVD to explore the data. This will be a complete case analysis for simplicity.
+
+```{r}
+tcolon=na.omit(colon)[,2:15]
+tlabels=as.numeric(na.omit(colon)[,"mort_5yr"])
+tsvd=svd(scale(tcolon))
+plot(tsvd$u[,1:2],pch=19,col=tlabels,xlab="PC1",ylab="PC2") 
+legend("topleft",col=1:2,text.col=1:2,pch=19,legend=c("Survived","Died"))
+```
+This looks pretty interesting. It implies that there is a strong ability to tell between the two classes, but there is structure in the data that is not strongly informative about that.
+
+```{r}
+## Feature plot
+plot(tsvd$v[,c(1,2)],type="n",xlab="PC1",ylab="PC2") 
+text(tsvd$v[,c(1,2)],labels = colnames(tcolon),cex=0.5)
+```
+A few of these are essentially at the same location. These are:
+```{r}
+tdist=as.matrix(dist(tsvd$v[,1:2]))
+diag(tdist)=max(tdist)
+thresh=0.05
+for(x in 1:dim(tdist)[1]){
+  if(any(tdist[x,]<thresh)) print(paste(c(colnames(tcolon)[x],colnames(tcolon)[tdist[x,]<thresh]),collapse=","))
 }
 ```
+This is interesting and a sign of duplication, but not a sign that we've done something bad in the choice of features to retain.
 
-Now the computation, with either avaiable cases or imputing 0 duration.
+#### See Q2 in Block 4 Portfolio
+
+about interpreting and analysing the SVD.
+
+# 3. Imputation modelling
+
+## 3.1 Building an imputation model
+
+Lets build regression-based imputation models for each missing variable:
+
 ```{r}
-## Available case analysis
-testrawmat=apply(testdata,1,function(x){
-    apply(testdata,1,function(y){
-        NetflowContains(x,y)
-    })
-})
-```
-
-## Activity 5: Apply conservative case analysis
-We we want to make sure that we **retain every possible B that could potentially fit inside an A**. We can therefore impute the data by replacing missing B durations with 0.
-```{r}
-## Conservative imputation analysis
-testconsmat=apply(testdata,1,function(x){
-    apply(testdata,1,function(y){
-        NetflowContains(x,ifelse(is.na(y),0,y))
-    })
-})
-```
-
-Examine the results. What conclusions can you draw?
-```{r}
-print("Available case analysis")
-(table(unlist(testrawmat)))
-print("Conservative imputation analysis")
-(table(unlist(testconsmat)))
-```
-There is a massive difference between the proportions! And the available case analysis contains a suspiciously low number of nested events. without more careful modelling of the lengths, it is hard to know the truth.
-
-### Getting interesting records
-
-We might want to get the overlapping records for plotting. That is done like so:
-```{r}
-tw=which(apply(testrawmat,1,any)) # the B's that match (inside an interval)
-twlist=lapply(tw,function(x)which(testrawmat[x,])) # the A's that match (the containing interval)
-allinrange=(testdata[,1]>= testdata[twlist[[1]],1]) & (testdata[,2]<= testdata[twlist[[1]],2])
-plotdata=testdata[which(allinrange),]
-rownames(plotdata)=1:dim(plotdata)[1]
-```
-
-And plotted like this:
-```{r}
-eventPlot=function(events,pch=c(19,4,NA),line.col=2,...){
-    events=as.matrix(events)
-    events=cbind(events,NA)
-    indexes=cbind(1:dim(events)[1],1:dim(events)[1],NA)
-    plot(as.vector(t(events)),as.vector(t(indexes)),pch=pch,las=1,
-         ylab="Record index",xlab="Time")
-    lines(as.vector(t(events)),as.vector(t(indexes)),col=line.col)
+missingcols=colnames(colon)[colSums(is.na(colon))>0] # columns with no missingness
+train=sample(1:dim(colon)[1])[1:700] # training data
+test=(1:dim(colon)[1])[!(1:dim(colon)[1])%in%train] # 229 reserved for training...
+sapply(missingcols,function(x)length(table(colon[ttest,x])))
+## correlation scores
+allscores=c() #
+allclasses=c() # correlation classes
+colonimp=colon
+for(v in missingcols){
+  ttest=test[!is.na(colon[test,v])] # get the subset of available values
+  tmiss=which(is.na(colon[,v])) # A list of missing data in this column
+  isbinary=length(table(colon[ttest,v]))==2 # whether this variable is a binary variable or not
+  if(isbinary){
+      tmodel=glm(paste(v,"~",paste(allpresent,collapse="+"),collapse=""),
+                      data=colon[train,c(v,allpresent)],family = binomial)
+  }else{
+    tmodel=lm(paste(v,"~",paste(allpresent,collapse="+"),collapse=""),
+                      data=colon[train,c(v,allpresent)]) 
+  }
+  ## glm will automatically omit missing data in the training data
+  tpred=predict(tmodel,newdata=colon[ttest,],type="response") # For performance evaluation, predicting the test data
+  tscore=cor(as.numeric(colon[ttest,v]),tpred) ## We will use correlation as a score
+  names(isbinary)=names(tscore)=v # annoyingly R loses the names so we put the name on manually 
+  print(paste("Correlation between observed and prediction for column",v,"=",tscore))
+  allscores=c(allscores,tscore)
+  allclasses=c(allclasses,isbinary)
+  ## Now we have scores, we'll apply the prediction to the unseen data
+  tpredimpute=predict(tmodel,newdata=colon[tmiss,,drop=FALSE],type="response") # For imputation
+  if(tscore>0.6){ # If imputation is good enough, use it
+    if(isbinary){
+      if(is.factor(colonimp[,v])){ 
+        colonimp[tmiss,v]=levels(colonimp[tmiss,v])[1+round(tpredimpute)]
+      }else {
+        colonimp[tmiss,v]=round(tpredimpute)
+      }
+    }else{
+      colonimp[tmiss,v]=tpredimpute
+    }
+  }
 }
-eventPlot(plotdata,)
 ```
-Where the containing interval is of course the largest one.
-
-Can you modify this to plot different regions, and highlight the sort of intervals that might be being lost in the complete-case data sift?
-
-## Nearest Neighbour Imputation
-
-Here we find the nearest neighbours (in some sense) of a datapoint and impute the missing values as the mean of the values in the neighbours. There are many ways to do this. Here we're using "svd" which is not aware of missing data itself, so requires complete data as features. We make an svd of the available data and then map the data with missing duration into the same space. This demonstrates how to work with svds.
-
-First we make the space:
+We see we get plenty of warnings, but several variables are relatively well predicted.
 ```{r}
-########################
-## Nearest neighbour
-testcols=c("ts",
-           "orig_ip_bytes","resp_ip_bytes",
-           "orig_pkts","resp_pkts")
-
-testdata_all_scaled <- apply(conndataM[,testcols], 2, scale)
-testindices=!is.na(conndataM[,"duration"])
-completedata=conndataM[testindices,]
-testdata_all.svd=svd(testdata_all_scaled[testindices,])
+c("cols with missingness"=sum(colSums(apply(colon,2,is.na))>0),
+  "after imputation"=sum(colSums(apply(colonimp,2,is.na))>0))
 ```
 
-Then we map the data into it.
+Its worth noting that one of the variables we predicted was `mort_5yr`; this a) bodes well for prediction, and b) could be dangerous if we use imputed values to truth our findings!
+
+#### See Q3 in Block 4 Portfolio
+
+about imputation.
+
+
+## 3.2 Imputation model before and after
+
+We now make models predicting mortality 
 ```{r}
-mapIntoSVD=function(X,svd){
-    Dinv=diag(1/svd$d)
-    X %*% svd$v %*% Dinv
-}
-newpos=mapIntoSVD(testdata_all_scaled[!testindices,],testdata_all.svd)
+modelunimputed=glm(mort_5yr~.,data=colon[train,],family = binomial)
+modelimputed=glm(mort_5yr~.,data=colonimp[train,],family = binomial)
+predunimputed=predict(modelunimputed,newdata=colon[test,],type="response") 
+predimputed=predict(modelimputed,newdata=colonimp[test,],type="response") 
 ```
 
-Check that mapIntoSVD is functioning correctly:
+This is how to examine the model structure:
 ```{r}
-test=mapIntoSVD(testdata_all_scaled[testindices,],testdata_all.svd)
-range(test-testdata_all.svd$u)
+summary(modelunimputed)
 ```
-The range is not zero but is within numerical tolerances, so we know it is doing the right thing. 
+Note that no p-values are significant, and 3 coefficients are not defined due to singularities.
 
-## Activity 6: Nearest Neighbour imputation:
-Lets do the imputation. Doing this is non-trivial but luckily there is an algorithm to efficiently compute the nearest neighbours. There is some messiness in computing the mean and assigning it back in the right place. We take the output of nn2 (called nnres) and use it to do mean imputation.
+Finally we can evaluate the predictive performance. We can do this via correlation:
 ```{r}
-library("RANN")
-nnres=nn2(test[,1:3],newpos[,1:3],k=5)
+tres=cbind(obs=as.numeric(colon[test,"mort_5yr"])-1,
+           predunimputed=predunimputed,
+           predimputed=predimputed)
+cor(trest)
 ```
-The following needs to be completed to make imputeddataNN contain the mean imputation.
+
+Or via "receiver operator curves" which we examine properly in the next two blocks:
 ```{r}
-imputeddataNN=conndataM
-imputedduration=apply(nnres$nn.idx,1,function(x){
-    mean(completedata[x,"duration"])
-})
-imputeddataNN[is.na(conndataM[,"duration"]),"duration"]=imputedduration
-imputeddataNN[,"logduration"]=log(imputeddataNN[,"duration"])
+require("pROC")
+unimputedroc=roc(obs~predunimputed,data=as.data.frame(tres))
+imputedroc=roc(obs~predimputed,data=as.data.frame(tres))
+cor(na.omit(tres))
+plot(1-unimputedroc$specificities,unimputedroc$sensitivities,type="l",
+         xlab="False Positive Rate",ylab="True Positive Rate",xlim=c(0,0.05),col=1)
+lines(1-imputedroc$specificities,imputedroc$sensitivities,col=2)
 ```
-To do a really thorough job of this, we should take the set of data that we have complete records for, and split this into a test/train dataset to evaluate performance. 
+In both measures, the performance is very good but imputation made the prediction worse.
 
-However, prediction accuracy doesn't directly translate into "correctness" as far as the downstream inferences go; here we were thinking about the effect of various features on the duration. So we might think about what effect this actually has. We can see imputation as a kind of sensitivity analysis. How do the different imputation approaches relate?
+#### See Q4 in Block 4 Portfolio
 
-We are comparing three models that all have the same model: `logduration ~ proto+service +ts +id.resp_p+day`, and all remove outliers. However they differ in the data that is used:
-
-* ts1: complete case, no outliers
-* ts2: mean imputation
-* ts3: nearest neighbour imputation
-
-Does that matter? Lets examine the inference:
-```{r}
-tdataNN=imputeddataNN[imputeddataNN[,"logduration"]<log(1200),]
-lm3=lm(logduration~proto+service +ts +id.resp_p+day,
-       data=tdataNN)
-ts3=summary(lm3)
-cor(ts1$coefficients[-1,1],ts2$coefficients[-1,1])
-cor(ts1$coefficients[-1,1],ts3$coefficients[-1,1])
-cor(ts3$coefficients[-1,1],ts2$coefficients[-1,1])
-```
-So the correlation is 85-90%. Is that high? Or signs of a problem? How would we know?
-
-We'll make the comparison plot as well:
-```{r}
-#png("../media/04.2-NNImputation.png",
-#    height=500,width=800)
-par(xpd=TRUE)
-plot(ts1$coefficients[-1,1],
-     ts3$coefficients[-1,1],type="n",
-     xlab="Coefficient (available case)",
-     ylab="Coefficient (NN imputed)",bty="n")
-abline(v=0,h=0,col="grey")
-text(ts1$coefficients[-1,1],
-     ts3$coefficients[-1,1],
-     rownames(ts1$coefficients[-1,]))
-#dev.off()
-```
-
-## Activity 7: Imputation wrap up.
-
-One way to examine the imputation model's performance is by how much variation it explains.
-
-Check the R^2 values, and plot the predictions of the models against the true values.
-
-What can you conclude from this? 
-
-The R^2 values for (mean,nearest neighbour) imputation:
-```{r}
-c(ts2$r.squared,ts3$r.squared)
-```
-And plotting the predictions from the nearest neighbour model:
-```{r}
-lm3pred=predict(lm3,newdata=conndataM)
-plot(exp(conndataM[,"logduration"]),exp(lm3pred),
-     log="xy")
-abline(a=0,b=1)
-```
-The  looks very different to both previous approaches.
-
-There is no need for cross validation to conclude that the imputation is terrible!  If this looked good, we'd like to do out-of-sample prediction to confirm that we can correctly predict the missing data.
-
-## Mastery:
-
-Missingness is an excellent topic to explore in your assessments. Changing the data changes the model. Can you work at it long enough to get an imputation procedure that works? How do you know it works - can you prove it with cross validation? How do you make sure that the test setup is fair? Particularly with nearest-neighbour approaches - what do duplicate values interact with your imputation?
+about overall results and interpretation.
