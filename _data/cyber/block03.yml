@@ -1,40 +1,40 @@
 ## Slides
 
 s01-PCA:
-    url0: /dst/cyber/assets/slides/03.1-LatentStructuresPCA.pdf
-    url: /dst/cyber/assets/slides/03.1-LatentStructuresPCA.pdf
+    url0: /dst/cb-cyber/assets/slides/03.1-LatentStructuresPCA.pdf
+    url: /dst/cb-cyber/assets/slides/03.1-LatentStructuresPCA.pdf
 
 s0201-Clustering1:
-    url0: /dst/cyber/assets/slides/03.2.1-Clustering-Part1.pdf
-    url: /dst/cyber/assets/slides/03.2.1-Clustering-Part1.pdf
+    url0: /dst/cb-cyber/assets/slides/03.2.1-Clustering-Part1.pdf
+    url: /dst/cb-cyber/assets/slides/03.2.1-Clustering-Part1.pdf
 
 s0202-Clustering2:
-    url0: /dst/cyber/assets/slides/03.2.2-Clustering-Part2.pdf
-    url: /dst/cyber/assets/slides/03.2.2-Clustering-Part2.pdf
+    url0: /dst/cb-cyber/assets/slides/03.2.2-Clustering-Part2.pdf
+    url: /dst/cb-cyber/assets/slides/03.2.2-Clustering-Part2.pdf
 
 ## Code
 c01:
-    url0: /dst/cyber/assets/code/03.1-LatentSpaces.R
-    url: /dst/cyber/assets/code/03.1-LatentSpaces.R
+    url0: /dst/cb-cyber/assets/code/03.1-LatentSpaces.R
+    url: /dst/cb-cyber/assets/code/03.1-LatentSpaces.R
 
 c02:
-    url0: /dst/cyber/assets/code/03.2-Clustering.R
-    url: /dst/cyber/assets/code/03.2-Clustering.R
+    url0: /dst/cb-cyber/assets/code/03.2-Clustering.R
+    url: /dst/cb-cyber/assets/code/03.2-Clustering.R
 
 ## Worksheet
 
 ws01:
     text: 3.1 Latent Spaces and PCA Worksheet
-    url0: /dst/cyber/assets/worksheets/ws03.1_questions.pdf
-    url: /dst/cyber/assets/worksheets/ws03.1_questions.pdf
+    url0: /dst/cb-cyber/assets/worksheets/ws03.1_questions.pdf
+    url: /dst/cb-cyber/assets/worksheets/ws03.1_questions.pdf
 
 ws02:
     text: 3.2 Clustering Worksheet
-    url0: /dst/cyber/assets/worksheets/ws03.2_questions.pdf
-    url: /dst/cyber/assets/worksheets/ws03.2_questions.pdf
+    url0: /dst/cb-cyber/assets/worksheets/ws03.2_questions.pdf
+    url: /dst/cb-cyber/assets/worksheets/ws03.2_questions.pdf
 
 ## Workshop
 
 s03-SpectralEmbedding:
-    url0: /dst/cyber/assets/workshops/block03-SpectralEmbedding.Rmd
-    url: /dst/cyber/assets/workshops/block03-SpectralEmbedding.Rmd
+    url0: /dst/cb-cyber/assets/workshops/block03-SpectralEmbedding.Rmd
+    url: /dst/cb-cyber/assets/workshops/block03-SpectralEmbedding.Rmd

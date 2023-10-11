@@ -2,36 +2,36 @@
 
 s0101:
     text: 8.1.1 Analysing Algorithms Part 1 (Complexity notation)
-    url0: /dst/cyber/assets/slides/08.1.1-Algorithms_Part1.pdf
-    url: /dst/cyber/assets/slides/08.1.1-Algorithms_Part1.pdf
+    url0: /dst/cb-cyber/assets/slides/08.1.1-Algorithms_Part1.pdf
+    url: /dst/cb-cyber/assets/slides/08.1.1-Algorithms_Part1.pdf
 s0102:
     text: 8.1.2 Analysing Algorithms Part 2 (Examining Algorithms)
-    url0: /dst/cyber/assets/slides/08.1.2-Algorithms_Part2.pdf
-    url: /dst/cyber/assets/slides/08.1.2-Algorithms_Part2.pdf
+    url0: /dst/cb-cyber/assets/slides/08.1.2-Algorithms_Part2.pdf
+    url: /dst/cb-cyber/assets/slides/08.1.2-Algorithms_Part2.pdf
 s0103:
     text: 8.1.3 Analysing Algorithms Part 3 (Turing Machines)
-    url0: /dst/cyber/assets/slides/08.1.3-Algorithms_Part3.pdf
-    url: /dst/cyber/assets/slides/08.1.3-Algorithms_Part3.pdf
+    url0: /dst/cb-cyber/assets/slides/08.1.3-Algorithms_Part3.pdf
+    url: /dst/cb-cyber/assets/slides/08.1.3-Algorithms_Part3.pdf
 
 s0201:
     text: 8.2.1 Algorithms for Data Science (Part 1 - Data Structures)
-    url0: /dst/cyber/assets/slides/08.2.1-DataScienceAlgorithms_Part1.pdf
-    url: /dst/cyber/assets/slides/08.2.1-DataScienceAlgorithms_Part1.pdf
+    url0: /dst/cb-cyber/assets/slides/08.2.1-DataScienceAlgorithms_Part1.pdf
+    url: /dst/cb-cyber/assets/slides/08.2.1-DataScienceAlgorithms_Part1.pdf
 s0202:
     text: 8.2.2 Algorithms for Data Science (Part 2 - Big Data Algorithms)
-    url0: /dst/cyber/assets/slides/08.2.2-DataScienceAlgorithms_Part2.pdf
-    url: /dst/cyber/assets/slides/08.2.2-DataScienceAlgorithms_Part2.pdf
+    url0: /dst/cb-cyber/assets/slides/08.2.2-DataScienceAlgorithms_Part2.pdf
+    url: /dst/cb-cyber/assets/slides/08.2.2-DataScienceAlgorithms_Part2.pdf
 
 ## Worksheet
 ws01:
-    url0: /dst/cyber/assets/worksheets/ws08.1_questions.pdf
-    url: /dst/cyber/assets/worksheets/ws08.1_questions.pdf
+    url0: /dst/cb-cyber/assets/worksheets/ws08.1_questions.pdf
+    url: /dst/cb-cyber/assets/worksheets/ws08.1_questions.pdf
 
 ## Workshop
 
 s03:
     text: 8.3 Workshop on the Empirical evaluation of computational complexity
-    url0: /dst/cyber/assets/workshops/block08-TimeComplexity.ipynb
-    url: /dst/cyber/assets/workshops/block08-TimeComplexity.ipynb
+    url0: /dst/cb-cyber/assets/workshops/block08-TimeComplexity.ipynb
+    url: /dst/cb-cyber/assets/workshops/block08-TimeComplexity.ipynb
 
 

@@ -3,32 +3,32 @@
 ## Lectures
 s0101:
     text: 10.1.1 Introduction to Parallelism (Part 1, Parallel computers) 
-    url0: /dst/cyber/assets/slides/10.1.1-ParallelAlgorithms_Part1.pdf
-    url: /dst/cyber/assets/slides/10.1.1-ParallelAlgorithms_Part1.pdf
+    url0: /dst/cb-cyber/assets/slides/10.1.1-ParallelAlgorithms_Part1.pdf
+    url: /dst/cb-cyber/assets/slides/10.1.1-ParallelAlgorithms_Part1.pdf
 
 s0102:
     text: 10.1.2 Introduction to Parallelism (Part 2, Vectorisation, Mapping and Reducing) 
-    url0: /dst/cyber/assets/slides/10.1.2-ParallelAlgorithms_Part2.pdf
-    url: /dst/cyber/assets/slides/10.1.2-ParallelAlgorithms_Part2.pdf
+    url0: /dst/cb-cyber/assets/slides/10.1.2-ParallelAlgorithms_Part2.pdf
+    url: /dst/cb-cyber/assets/slides/10.1.2-ParallelAlgorithms_Part2.pdf
 
 ## Worksheet
 ws01:
-    url0: /dst/cyber/assets/worksheets/ws10.1_questions.pdf
-    url: /dst/cyber/assets/worksheets/ws10.1_questions.pdf
+    url0: /dst/cb-cyber/assets/worksheets/ws10.1_questions.pdf
+    url: /dst/cb-cyber/assets/worksheets/ws10.1_questions.pdf
     
 ## Workshop
 
 s02:
     text: 10.2 Coding Parallel Algorithms
-    url0: /dst/cyber/assets/workshops/block10-CodingParallelAlgorithms.ipynb
-    url: /dst/cyber/assets/workshops/block10-CodingParallelAlgorithms.ipynb
+    url0: /dst/cb-cyber/assets/workshops/block10-CodingParallelAlgorithms.ipynb
+    url: /dst/cb-cyber/assets/workshops/block10-CodingParallelAlgorithms.ipynb
 
 s0201:
     text: 10.2.1 Parallel Example 1
-    url0: /dst/cyber/assets/workshops/block10-parallel01.py
-    url: /dst/cyber/assets/workshops/block10-parallel01.py
+    url0: /dst/cb-cyber/assets/workshops/block10-parallel01.py
+    url: /dst/cb-cyber/assets/workshops/block10-parallel01.py
 
 s0202:
     text: 10.2.2 Parallel Example 2
-    url0: /dst/cyber/assets/workshops/block10-parallel02.py
-    url: /dst/cyber/assets/workshops/block10-parallel02.py
+    url0: /dst/cb-cyber/assets/workshops/block10-parallel02.py
+    url: /dst/cb-cyber/assets/workshops/block10-parallel02.py

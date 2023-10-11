@@ -2,32 +2,32 @@
 
 s0101:
     text: 9.1.1 Neural Nets and the Perceptron (Part 1, the Perceptron)
-    url0: /dst/cyber/assets/slides/09.1.1-PerceptronsNeuralNets-Intro-Part1.pdf
-    url: /dst/cyber/assets/slides/09.1.1-PerceptronsNeuralNets-Intro-Part1.pdf
+    url0: /dst/cb-cyber/assets/slides/09.1.1-PerceptronsNeuralNets-Intro-Part1.pdf
+    url: /dst/cb-cyber/assets/slides/09.1.1-PerceptronsNeuralNets-Intro-Part1.pdf
 s0102:
     text: 9.1.2 Neural Nets and the Perceptron (Part 2, Deep Networks)
-    url0: /dst/cyber/assets/slides/09.1.2-PerceptronsNeuralNets-Networks-Part2.pdf
-    url: /dst/cyber/assets/slides/09.1.2-PerceptronsNeuralNets-Networks-Part2.pdf
+    url0: /dst/cb-cyber/assets/slides/09.1.2-PerceptronsNeuralNets-Networks-Part2.pdf
+    url: /dst/cb-cyber/assets/slides/09.1.2-PerceptronsNeuralNets-Networks-Part2.pdf
 
 s02:
     text: 9.2 Practicalities of Neural Nets
-    url0: /dst/cyber/assets/slides/09.2-PracticalitiesOfNeuralNets.pdf
-    url: /dst/cyber/assets/slides/09.2-PracticalitiesOfNeuralNets.pdf
+    url0: /dst/cb-cyber/assets/slides/09.2-PracticalitiesOfNeuralNets.pdf
+    url: /dst/cb-cyber/assets/slides/09.2-PracticalitiesOfNeuralNets.pdf
 
 ## Worksheet
 ws01:
-    url0: /dst/cyber/assets/worksheets/ws09.1_questions.pdf
-    url: /dst/cyber/assets/worksheets/ws09.1_questions.pdf
+    url0: /dst/cb-cyber/assets/worksheets/ws09.1_questions.pdf
+    url: /dst/cb-cyber/assets/worksheets/ws09.1_questions.pdf
 
 
 ## Workshop
 
 s03:
     text: 9.3 Workshop on Tensorflow and Keras
-    url0: /dst/cyber/assets/workshops/block09-NeuralNetworks.ipynb
-    url: /dst/cyber/assets/workshops/block09-NeuralNetworks.ipynb
+    url0: /dst/cb-cyber/assets/workshops/block09-NeuralNetworks.ipynb
+    url: /dst/cb-cyber/assets/workshops/block09-NeuralNetworks.ipynb
 
 s0302:
     text: Neural Network script
-    url0: /dst/cyber/assets/workshops/block09-NeuralNetworksScript.py
-    url: /dst/cyber/assets/workshops/block09-NeuralNetworksScript.py
+    url0: /dst/cb-cyber/assets/workshops/block09-NeuralNetworksScript.py
+    url: /dst/cb-cyber/assets/workshops/block09-NeuralNetworksScript.py

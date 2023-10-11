@@ -1,19 +1,19 @@
 ## Lectures
 s0101:
     text: 11.1.1 Parallel Data with MapReduce and Spark (Part 1, Introduction)
-    url0: /dst/cyber/assets/slides/11.1.1-MapReduce.pdf
-    url: /dst/cyber/assets/slides/11.1.1-MapReduce.pdf
+    url0: /dst/cb-cyber/assets/slides/11.1.1-MapReduce.pdf
+    url: /dst/cb-cyber/assets/slides/11.1.1-MapReduce.pdf
 
 s0102:
     text: 11.1.2 Parallel Data with MapReduce and Spark (Part 2, Spark)
-    url0: /dst/cyber/assets/slides/11.1.2-Spark.pdf
-    url: /dst/cyber/assets/slides/11.1.2-Spark.pdf
+    url0: /dst/cb-cyber/assets/slides/11.1.2-Spark.pdf
+    url: /dst/cb-cyber/assets/slides/11.1.2-Spark.pdf
 
 
 ## Worksheet
 ws01:
-    url0: /dst/cyber/assets/worksheets/ws11.1_questions.pdf
-    url: /dst/cyber/assets/worksheets/ws11.1_questions.pdf
+    url0: /dst/cb-cyber/assets/worksheets/ws11.1_questions.pdf
+    url: /dst/cb-cyber/assets/worksheets/ws11.1_questions.pdf
 
   
 ## Workshop
