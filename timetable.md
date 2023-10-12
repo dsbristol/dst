@@ -15,7 +15,7 @@ There are 3 summative assessments (Assessment 1-2 + Portfolio), plus a formative
   * [Assessment 0]({{ site.data.assessment0.url }}) *Set*
   * [Portfolio 0]({{ site.data.individualassessment0.url }}) *Set*
 * Week 2: Block [02 Regression and Statistical Testing](coursebook/02.md)
-  Week 3: Block [03 Latent Structures, PCA, and Clustering](coursebook/03.md)
+*  Week 3: Block [03 Latent Structures, PCA, and Clustering](coursebook/03.md)
   * [Assessment 0]({{ site.data.assessment0.url }}) *Due* (Wednesday noon)
   * [Portfolio 0]({{ site.data.individualassessment0.url }}) *Due* (Wednesday noon)
   * [Assessment 1]({{ site.data.assessment1.url }}) *Set*
