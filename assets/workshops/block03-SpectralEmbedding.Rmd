@@ -17,7 +17,9 @@ Remember to look at the code examples from the lectures for analogous data for o
 ```{r}
 if(!require("purrr")) install.packages("purrr") # allows the nice %>% notation; part of the "tidyverse"
 if(!require("dbscan")) install.packages("dbscan") # density based clustering
-library(purrr) 
+if(!require("readr")) install.packages("readr") # for read_csv which is improved over read.csv
+library(purrr)
+library("readr")
 ```
 
 ## 1. Data
@@ -26,16 +28,16 @@ We will continue with the KDD11 dataset from the first workshop. Recall that we 
 
 ```{r}
 if(!dir.exists(file.path("..","data"))) dir.create(file.path("..","data"))
-if(!file.exists(file.path("..","data","kddcup.data_10_percent.gz"))) download.file("http://kdd.org/cupfiles/KDDCupData/1999/kddcup.data_10_percent.zip", destfile=file.path("..","data","kddcup.data_10_percent.gz"))
+if(!file.exists(file.path("..","data","kddcup.data_10_percent.zip"))) download.file("http://kdd.org/cupfiles/KDDCupData/1999/kddcup.data_10_percent.zip", destfile=file.path("..","data","kddcup.data_10_percent.zip"))
 if(!file.exists(file.path("..","data","kddcup.names"))) download.file("http://kdd.org/cupfiles/KDDCupData/1999/kddcup.names",destfile=file.path("..","data","kddcup.names"))
 ```
 
 We'll read it in as before.
 
 ```{r}
-kddata<-read.csv(file.path("..","data","kddcup.data_10_percent.gz"))
+kddata<-read_csv(file.path("..","data","kddcup.data_10_percent.zip")) ## Ignore the warnings - there is a bug with the header
 kddnames=read.table(file.path("..","data","kddcup.names"),sep=":",skip=1,as.is=T)
-colnames(kddata)=c(kddnames[,1],"normal")
+colnames(kddata)=c(kddnames[,1],"normal") # here we fix the bug with the header
 ```
 
 ### 1.1 Data transformations
@@ -111,7 +113,7 @@ From this we can see that we have downsampled `neptune`, `normal`, and `smurf` c
 
 Plot the PCA:
 ```{r}
-i=1;j=2
+i=2;j=3
 plot(testdatatrans.svd$u[,i],
      testdatatrans.svd$u[,j],type="n",xlab=paste0("PC",i),ylab=paste0("PC",j),
      col="#33333311",pch=19,cex=0.3) ## Plot where the points are omitted

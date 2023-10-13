@@ -47,7 +47,7 @@ This could look like this:
 
 ```{r}
 if(!dir.exists(file.path("..","data"))) dir.create(file.path("..","data"))
-if(!file.exists(file.path("..","data","kddcup.data_10_percent.gz"))) download.file("http://kdd.org/cupfiles/KDDCupData/1999/kddcup.data_10_percent.zip", destfile=file.path("..","data","kddcup.data_10_percent.gz"))
+if(!file.exists(file.path("..","data","kddcup.data_10_percent.zip"))) download.file("http://kdd.org/cupfiles/KDDCupData/1999/kddcup.data_10_percent.zip", destfile=file.path("..","data","kddcup.data_10_percent.zip"))
 if(!file.exists(file.path("..","data","kddcup.names"))) download.file("http://kdd.org/cupfiles/KDDCupData/1999/kddcup.names",destfile=file.path("..","data","kddcup.names"))
 ```
 
@@ -59,10 +59,9 @@ about how to generate data.
 
 The data are read in as follows:
 ```{r}
-system("gunzip ..\\data\\kddcup.data_10_percent.gz")
-kddata<-read.csv(file.path("..","data","kddcup.data_10_percent"))
+kddata<-read_csv(file.path("..","data","kddcup.data_10_percent.zip")) ## Ignore the warnings - there is a bug with the header
 kddnames=read.table(file.path("..","data","kddcup.names"),sep=":",skip=1,as.is=T)
-colnames(kddata)=c(kddnames[,1],"normal")
+colnames(kddata)=c(kddnames[,1],"normal") # here we fix the bug with the header
 ```
 
 Lets take a look:
