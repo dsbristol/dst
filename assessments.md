@@ -7,12 +7,12 @@ layout: coursebook
 
 There are **two** types of assessments:
 
-* **Group Assessments** are are approx two-month long, allowing a deep-delve into a specific area of Data Science applied to Cyber Security. They make up a total of 60% of the course mark (each 20%).
+* **Group Assessments** are are approx two-month long, allowing a deep-delve into a specific area of Data Science applied to Cyber Security. They make up a total of 60% of the course mark (two, each worth 30%).
 * **Individual Portfolios** are whole-semester activities, individually undertaken to explore areas of data science covered by the lecture material in greater depth. Portfolios make up remaining 40% of the course.
 
 * Formative Assessments (that do not contribute to grade):
-  - [Assessment 0]({{ site.data.assessment0.url }}) (Semester 1)
-  - [Portfolio 0]({{ site.data.individualassessment0.url }}) (Semester 1)
+  - [Assessment 0]({{ site.data.assessment0.url }}) (Due Week 3)
+  - [Portfolio 0]({{ site.data.individualassessment0.url }}) (Due Week 3)
 * Summative Group Assessments: total 60% (each 30%)
   - [Assessment 1: Supervised Prediction]({{ site.data.assessment1.url }}) (First group assessment)
   - [Assessment 2: Data at Scale]({{ site.data.assessment2.url }}) (Second group assessment)
