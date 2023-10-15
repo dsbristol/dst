@@ -2,30 +2,30 @@
 
 s01:
     text: 5.1 Introduction to Classification
-    url: /dst/notready.html
+    url: /dst/assets/slides/05.1-Classification.pdf
 
 s02:
     text: 5.2 Ensemble learning
-    url: /dst/notready.html
+    url: /dst/assets/slides/05.2-EnsembleLearning.pdf
 
 ## Code
 c01:
     text: 5.1 Classification
-    url: /dst/notready.html
+    url: /dst/assets/code/05.1-Classification.R
 
 ## Worksheet
 ws01:
-    url: /dst/notready.html
+    url: /dst/assets/worksheets/ws05.1_questions.pdf
 ws02:
-    url: /dst/notready.html
+    url: /dst/assets/worksheets/ws05.2_questions.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/notready.html
+    url: /dst/assets/assessments/Portfolio05.pdf
 
 ## Workshop
 
 s03:
     text: 5.3 Workshop on Classification with base learners and ensembles
-    url: /dst/notready.html
+    url: /dst/assets/workshops/block05-Classification.Rmd
 
