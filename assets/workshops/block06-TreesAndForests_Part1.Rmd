@@ -1,22 +1,47 @@
 ---
-title: "Classification with Trees And Forests (Part 1)"
+title: "6.2.1 Classification with Trees And Forests (Part 1)"
 author: "Daniel Lawson"
 date: "Block 06"
 author: "Daniel Lawson"
 email: dan.lawson@bristol.ac.uk
 output: html_document
-version: 1.0.1
+version: 2.0.0
 fig_width: 10
 fig_height: 5
 
 ---
-# Overview
+# Workshop 6.2.1 Overview
 
-This adds trees and forests to our experimentations from last time in classification.
+This is Block 6 Workshop (which is 6.2) part 1. Part 2 is in Python.
 
-It is our last practical in R...
+This adds trees and forests to our experimentations from block 5 on classification.
 
-We implement a Random Forest in R, and save some data for comparison to python. This uses the same represetnation as we used in block05
+We implement a Random Forest in R, and save some data for comparison to python. This uses the same representation as we used in block05.
+
+# 0. Requirements
+
+```{r}
+if(!require("gbm")) install.packages("gbm")
+if(!require("knitr")) install.packages("knitr")
+if(!require("MASS")) install.packages("MASS")
+if(!require("class")) install.packages("class")
+if(!require("e1071")) install.packages("e1071")
+if(!require("pROC")) install.packages("pROC")
+if(!require("devtools")) install.packages("devtools")
+if(!require("tree")) install.packages("tree")
+if(!require("randomForest")) install.packages("randomForest")
+library("devtools") # for install_github
+if(!require("fastAdaboost")) devtools::install_github("souravc83/fastAdaboost")
+library("knitr") # 
+library("MASS") # For logistic regression
+library("class") # For knn
+library("e1071") # For SVM
+library("pROC") # For ROCs
+library("fastAdaboost") # For adaboost
+library("gbm")
+library("tree") # For decision trees
+library("randomForest") # For... random forests
+```
 
 ## The regular boiler plate stuff.
 ```{r setup, include=FALSE}
@@ -24,17 +49,24 @@ knitr::opts_chunk$set(echo = TRUE)
 library("knitr")
 ```
 
-## Data input
+# 1. Data and previous models
+
+## 1.1 Data input
 
 We're making a simple classification problem out of the netflow data: can we tell what is HTTP?
 
-## Make a test/train data split
+Load the saved data for test/train split:
 
 ```{r}
-source("https://raw.githubusercontent.com/dsbristol/dst/master/code/testtrainconndata.R")
+test=read.csv(file=file.path("..","data","conndataC_test.csv"),row.names=1)
+train=read.csv(file=file.path("..","data","conndataC_train.csv"),row.names=1)
 ```
 
-# block05 code:
+## 1.2 Block05 code
+
+Here we have duplicated the Block05 models for convenience.
+
+### 1.2.1 Learnmodel
 
 ```{r}
 require("pROC")
@@ -72,7 +104,7 @@ learnmodel=function(modelclass,formula,train,test,
 ```
 
 
-## Logistic regression
+### 1.2.2 Logistic regression
 ```{r}
 require("MASS")
 logisticregression=function(formula,data,...){
@@ -83,7 +115,7 @@ testlogistic <- logisticregression(http ~.,data=train)
 logisticmodel=learnmodel(logisticregression,http~.,train,test)
 ```
 
-## KNN
+### 1.2.2 KNN
 ```{r}
 library("class")
 knnclass=function(formula,data,k){
@@ -108,7 +140,7 @@ predict.knnclass=function(x,newdata,...){
 knnmodel=learnmodel(knnclass,http~.,train,test,k=5,predictfn=predict.knnclass)
 ```
 
-## LDA
+### 1.2.3 LDA
 ```{r}
 predictlda=function(x,newdata,...){
   ## The lda class hides the scores in the posterior
@@ -117,14 +149,14 @@ predictlda=function(x,newdata,...){
 ldamodel=learnmodel(lda,http~.,train,test,predictfn=predictlda)
 ```
 
-## Support Vector Machine
+### 1.2.4 Support Vector Machine
 ```{r}
 library(e1071)
 svmmodel=learnmodel(svm,http~.,train,test,kernel="linear")
 svmrmodel=learnmodel(svm,http~.,train,test,kernel="radial")
 ```
 
-## Linear Stacking
+### 1.2.5 Linear Stacking
 ```{r}
 lintrain=cbind(train,
                data.frame(logistic=logisticmodel$trainres$pred0,
@@ -137,7 +169,7 @@ lintest=cbind(test,
 linstackmodel=learnmodel(logisticregression,http~.,lintrain,lintest)
 ```
 
-## Boosting
+### 1.2.6 Boosting
 ```{r}
 library("fastAdaboost")
 predictada=function(x,newdata){
@@ -150,28 +182,32 @@ adamodel=learnmodel(adaboost,http~.,train,test,predictfn=predictada,nIter=10)
 #########################################
 #########################################
 #########################################
-# New content!
+# 2. Trees and Forests
 
-## Activity 1: Learn a tree model using the function "tree". 
+## 2.1 Tree model using the function "tree". 
 
-You will need ?tree and should examine whether it returns the expected structure, or whether you have to define a custom model learning function. Do you need a special predictfn?
+To figure this out from scratch, we would use `?tree` and examine whether it returns the expected structure, or whether we have to define a custom model learning function. Do we need a special `predictfn`?
+
 ```{r}
 require("tree")
 treemodel=learnmodel(tree,http~.,train,test,predictfn=predict)
 ```
 
-## Activity 2. Learn a Random Forest model using the function "randomForest". 
+## 2.2 Random Forest model using the function "randomForest". 
 
-You will need ?randomForest and should examine whether it returns the expected structure, or whether you have to define a custom model learning function. Do you need a special predictfn?
+We would need `?randomForest` and should examine whether it returns the expected structure, or whether we have to define a custom model learning function. Do we need a special predictfn?
+
 ```{r}
 require("randomForest")
 rfmodel=learnmodel(randomForest,http~.,train,test,predictfn=predict)
 ```
 
-## Activity 3. Learn a Gradient Boosting Machine using the function "gbm". 
+## 2.3 Gradient Boosting Machine using the function "gbm". 
 
-This fits a decision tree using boosting, though differently implemented from adaboost. You will need ?gbm and should examine whether it returns the expected structure, or whether you have to define a custom model learning function. Do you need a special predictfn?
-Fit 3 models, for a tree depth of 1 ( the default), 2 and 3.
+This fits a decision tree using boosting, though differently implemented from `adaboost`. We need `?gbm` to examine whether it returns the expected structure, or whether we have to define a custom model learning function. Do we need a special `predictfn`?
+
+We fit 3 models, for a tree depth of 1 ( the default), 2 and 3.
+
 ```{r}
 require(gbm)
 gbmpredict=function(gbmmodel,newdata){
@@ -182,7 +218,8 @@ gbmmodel2=learnmodel(gbm,http~.,train,test,predictfn=gbmpredict,n.trees=1000, in
 gbmmodel3=learnmodel(gbm,http~.,train,test,predictfn=gbmpredict,n.trees=1000, interaction.depth=3)
 ```
 
-## Activity 4: Stacking everything
+## 2.4 Stacking everything
+
 ```{r}
 stacktrain=cbind(train,
                data.frame(logistic=logisticmodel$trainres$pred0,
@@ -214,11 +251,20 @@ stackmodel=learnmodel(randomForest,http~.,stacktrain,stacktest)
 ```
 
 
-# Interpretation
+# 3. Interpretation
 
-## Activity 5. ROC curves.
+## 3.1 Feature importances
+
+The feature importances from the stacked model can be extracted in order by running:
+
+```{r}
+stackmodel$model$importance[order(stackmodel$model$importance,decreasing = TRUE),]
+```
+
+## 3.2 ROC curves.
 
 The code below plots the new boosting and stacking ROC curves. How do they perform? Why do you think that the performance is ordered as we see?
+
 ```{r}
 require("pROC")
 
@@ -243,16 +289,24 @@ for(xmax in c(1,0.05,0.005)){
     
     abline(a=0,b=1)
     if(xmax==1){
-        legend("bottomright",c("Logistic","LDA","SVM (linear)","SVM (radial)","K-NN","Stacked linear methods","Adaboost","Tree","Random Forest","GBM1","GBM2","GBM3","Stacked"),
+        legend("bottomright",c("Logistic","LDA","SVM (linear)",
+                               "SVM (radial)","K-NN","Stacked linear methods",
+                               "Adaboost","Tree","Random Forest",
+                               "GBM1","GBM2","GBM3",
+                               "Stacked"),
                text.col=c(2,3,4,4,5,6,7,8,9,1,2,3,2),
                col     =c(2,3,4,4,5,6,7,8,9,1,2,3,2),
                lty     =c(1,1,1,2,1,2,2,2,2,3,3,3,1),
-               lwd     =c(1,1,1,1,1,1,1,2,2,2,2,2,3),bty="n",cex=0.5)
+               lwd     =c(1,1,1,1,1,1,1,2,2,2,2,2,3),bty="n",cex=0.75)
     }
 }
 ```
 
-## Save the data in a format we can easily read into python. We will be interested in comparing ROC for the Random Forest.
+#### See Q6.1 in Block 6 Portfolio
+
+about interpreting these results.
+
+## 3.2 Save the data in a format we can easily read into python. We will be interested in comparing ROC for the Random Forest.
 ```{r}
 write.csv(train,file="conndataC_train.csv")
 write.csv(test,file="conndataC_test.csv")

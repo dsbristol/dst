@@ -93,8 +93,8 @@ test0=test[,c("duration","resp_ip_bytes","http")]
 
 Save this for use later (we use it in Python in Block 06):
 ```{r}
-write.csv(test,file="conndataC_test.csv")
-write.csv(train,file="conndataC_train.csv")
+write.csv(test,file=file.path("..","data","conndataC_test.csv"))
+write.csv(train,file=file.path("..","data","conndataC_train.csv"))
 ```
 
 # 2. Model construction
