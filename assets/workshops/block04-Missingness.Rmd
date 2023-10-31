@@ -115,7 +115,7 @@ Lets build regression-based imputation models for each missing variable:
 missingcols=colnames(colon)[colSums(is.na(colon))>0] # columns with no missingness
 train=sample(1:dim(colon)[1])[1:700] # training data
 test=(1:dim(colon)[1])[!(1:dim(colon)[1])%in%train] # 229 reserved for training...
-sapply(missingcols,function(x)length(table(colon[ttest,x])))
+sapply(missingcols,function(x)length(table(colon[test,x])))
 ## correlation scores
 allscores=c() #
 allclasses=c() # correlation classes
@@ -168,7 +168,7 @@ about imputation.
 
 ## 3.2 Imputation model before and after
 
-We now make models predicting mortality 
+We now make models predicting mortality:
 ```{r}
 modelunimputed=glm(mort_5yr~.,data=colon[train,],family = binomial)
 modelimputed=glm(mort_5yr~.,data=colonimp[train,],family = binomial)
@@ -187,7 +187,7 @@ Finally we can evaluate the predictive performance. We can do this via correlati
 tres=cbind(obs=as.numeric(colon[test,"mort_5yr"])-1,
            predunimputed=predunimputed,
            predimputed=predimputed)
-cor(trest)
+cor(tres)
 ```
 
 Or via "receiver operator curves" which we examine properly in the next two blocks:
