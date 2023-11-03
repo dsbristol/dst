@@ -1,34 +1,27 @@
 ## Lectures
 
-s0101:
-    text: 8.1.1 Analysing Algorithms Part 1 (Complexity notation)
-    url: /dst/notready.html
-s0102:
-    text: 8.1.2 Analysing Algorithms Part 2 (Examining Algorithms)
-    url: /dst/notready.html
-s0103:
-    text: 8.1.3 Analysing Algorithms Part 3 (Turing Machines)
-    url: /dst/notready.html
-
-s0201:
-    text: 8.2.1 Algorithms for Data Science (Part 1 - Data Structures)
-    url: /dst/notready.html
-s0202:
-    text: 8.2.2 Algorithms for Data Science (Part 2 - Big Data Algorithms)
-    url: /dst/notready.html
+s01:
+    text: A Brief primer in Bayesian methods
+    url: /dst/assets/slides/08.1-Bayes.pdf
+s02:
+    text: Topic Models and Latent Dirichlet Allocation
+    url: /dst/assets/slides/08.2-TopicModels.pdf
 
 ## Worksheet
 ws01:
-    url: /dst/notready.html
+    url: /dst/assets/worksheets/ws08.1_questions.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/notready.html
+    url: /dst/assets/assessments/Portfolio08.pdf
 
 ## Workshop
 
-s03:
-    text: 8.3 Workshop on the Empirical evaluation of computational complexity
-    url: /dst/notready.html
+s0301:
+    text: 8.3.1 Workshop on Topic Modelling (Part 1, Prereqs)
+    url: /dst/assets/workshops/block08-TopicModels_part1.ipynb
 
+s0302:
+    text: 8.3.2 Workshop on Topic Modelling (Part 2, Main content)
+    url: /dst/assets/workshops/block08-TopicModels_part2.ipynb
 
