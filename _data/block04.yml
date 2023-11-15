@@ -34,5 +34,7 @@ portfolio:
 ## Workshop
 
 s03:
-    text: 4.3 Workshop on Missing Data
     url: /dst/assets/workshops/block04-Missingness.Rmd
+
+s03-h:
+    url: /dst/assets/workshops/block04-Missingness.html

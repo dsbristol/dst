@@ -64,7 +64,9 @@ colnames(temperature)=c("Year","Month","MA","MACI","AA","AACI","A5","A5CI","A10"
 temperature$Time=temperature$Year+(temperature$Month-1)/12
 plot(temperature$Time,temperature$MA,xlab="Date",ylab="Monthly Anomaly")
 ```
+
 Although there is considerable heterogeneity in the confidence in the monthly estimates, due to reduced data back in time and structural variation in the signal, we will not deal with that in this workshop. Here are the confidence interval sizes:
+
 ```{r}
 plot(temperature$Time,temperature$MACI,xlab="Date",ylab="Monthly Anomaly Confidence",ylim=c(0,0.55))
 ```
@@ -96,33 +98,39 @@ We now examine the complete regression of price against all other covariates.
 dlm=lm(price~.,data=d2)
 summary(dlm)
 ```
+
 To interpret this, it is essential to understand how categories are treated. 
 
 * R implicitly **one-hot encodes** categorical variables, i.e. constructs a column for each category, containing value 1 if the observation took that category and 0 otherwise. 
 * However, these are *ordered* factors (check using `class(d2$clarity)`), which get special treatment (see https://library.virginia.edu/data/articles/understanding-ordered-factors-in-a-linear-model), using a *linear*, *quadratic*, *cubic*, etc model on the *order*. There are always *n-1* powers included for *n* categories.
 
 Here is the order for the *cut* variable:
+
 ```{r}
 table(d2$cut)
 ```
 
 #### See **Question B2W1** in Block 2 Portfolio
+
 about the interpretation of these results.
 
 ### 2.2 Temperatures
 
 We first check whether there is a significant change over time using a standard regression:
+
 ```{r}
 templm=lm(MA~Time,data=temperature)
 summary(templm)
 ```
+
 Of course the answer is yes. However, the data were clearly non-linear. Lets now fit a polynomial to the data:
 
 ```{r}
-temperature
+head(temperature)
 temppoly=lm(MA~poly(Time,5),data=temperature)
 summary(temppoly)
 ```
+
 Perhaps unsurprisingly, all terms are significant, though the symmetric 4-th degree term has lower significance.
 
 ```{r}
@@ -133,6 +141,7 @@ lines(temperature$Time,templmpred,col="red",lwd=2)
 lines(temperature$Time,temppolypred,col="blue",lwd=2)
 legend("topleft",legend=c("Data","Predicted (linear)","Predicted (polynomial)"),lty=c(NA,1,1),pch=c(19,NA,NA),col=c("grey","red","blue"),text.col=c("grey","red","blue"))
 ```
+
 #### See **Question B2W2** in Block 2 Portfolio
 
 about the interpretation of these results.
@@ -150,6 +159,7 @@ library(caret)
 We will perform the following cross-validation tests on a very small subset of the diamonds dataset. You are encouraged to repeat these analyses on the full dataset. Before you do, think about what you predict will change when we have 50k samples instead of 2k?
 
 First construct a test/train split:
+
 ```{r}
 set.seed(2)
 ## Downsample the data for computational convenience
@@ -192,6 +202,7 @@ print(comparison)
 ```
 
 We can now go on to perform step-wise regression to minimise AIC (setting trace=FALSE to suppress the details of the steps):
+
 ```{r}
 modelcvstep <- train(price~.,
                      d2train,
@@ -202,6 +213,7 @@ summary(modelcvstep)
 ```
 
 Running step-wise regression for all quadratic terms is a **lot** slower. Here we restrict interactions to only quantitative variables which reduces the search space enough to make the inference tolerable:
+
 ```{r}
 ## Definition of a model we will refer to as **intstep**:
 modelcvintstep <- train(price~color + clarity + (depth +table+x+y+z)^2,
@@ -213,6 +225,7 @@ summary(modelcvintstep)
 ```
 
 We can now compare all of our predictions:
+
 ```{r}
 comparisonall= c(comparison,
   teststep=R2(pred = predict(modelcvstep,d2test),obs = d2test$price),
@@ -224,6 +237,7 @@ print(comparisonall)
 ```
 
 #### See **Question B2W3** in Block 2 Portfolio
+
 about the interpretation of these results.
 
 ### 3.2 Temperatures Cross Validation
@@ -240,6 +254,7 @@ temptest=temperature2[-temps,]
 ```
 
 Now we can train models exactly as above:
+
 ```{r}
 ## Learn a model on the training data, and use it to predict the test data
 tempmodelcv <- train(MA ~ Time, data = temptrain, method = "lm",trControl=trainControl(method = "cv",number=5))
@@ -247,6 +262,7 @@ tempmodelcvint <- train(MA ~ poly(Time,5), data = temptrain, method = "lm",trCon
 ```
 
 And compute out-of-sample $R^2$:
+
 ```{r}
 tempcompare=c(testlin=R2(pred = predict(tempmodelcv,temptest),obs = temptest$MA),
              trainlin=R2(pred = predict(tempmodelcv,temptrain),obs = temptrain$MA),
@@ -257,6 +273,7 @@ tempcompare
 ```
 
 And of course an advantage of a 1d problem is that we can visualise it. This plot is for the test data:
+
 ```{r}
 temptestlmpred <- predict(tempmodelcv,temptest)
 temptestpolypred <- predict(tempmodelcvint,temptest)
@@ -265,6 +282,7 @@ lines(temptest$Time,temptestlmpred,col="red",lwd=2)
 lines(temptest$Time,temptestpolypred,col="blue",lwd=2)
 legend("topleft",legend=c("Data","Predicted (linear)","Predicted (polynomial)"),lty=c(NA,1,1),pch=c(".",NA,NA),col=c("black","red","blue"),text.col=c("black","red","blue"))
 ```
+
 #### See **Question B2W4** in Block 2 Portfolio
 
 about the interpretation of these results.

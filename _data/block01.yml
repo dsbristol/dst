@@ -17,6 +17,9 @@ c0103-EDA:
 s0103-EDA:
     url: /dst/assets/workshops/block01-EDA.Rmd
 
+s0103-EDA-h:
+    url: /dst/assets/workshops/block01-EDA.html
+
 ## Worksheet
 ws02:
     url: /dst/assets/worksheets/ws01.2_questions.pdf

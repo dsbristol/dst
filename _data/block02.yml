@@ -16,6 +16,9 @@ c02-Testing:
 s03-ModelSelection:
     url: /dst/assets/workshops/block02-ModelSelection.Rmd
 
+s03-ModelSelection-h:
+    url: /dst/assets/workshops/block02-ModelSelection.html
+
 ## Worksheet
 ws01:
     url: /dst/assets/worksheets/ws02.1_questions.pdf

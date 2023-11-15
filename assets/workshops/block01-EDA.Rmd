@@ -1,10 +1,12 @@
 ---
 title: "More EDA"
-date: "Block 01"
 author: "Daniel Lawson"
+date: "Block 01"
+output:
+  html_document: default
+  pdf_document: default
 email: dan.lawson@bristol.ac.uk
-output: html_document
-version: 2.0.1
+version: 2.0.2
 fig_width: 10
 fig_height: 5
 ---
@@ -17,6 +19,9 @@ Its good practice to get the requirements right at the top. The following soluti
 
 ```{r}
 if(!require("gplots")) install.packages("gplots")
+if(!require("readr")) install.packages("readr")
+library("gplots")
+library("readr")
 ```
 # 1.0 DATA
 Here we're going to go a little further and explore a new dataset, the [KDD99](http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html) dataset. Read about the competition [task specification](http://kdd.ics.uci.edu/databases/kddcup99/task.html).
@@ -59,9 +64,11 @@ about how to generate data.
 
 The data are read in as follows:
 ```{r}
-kddata<-read_csv(file.path("..","data","kddcup.data_10_percent.zip")) ## Ignore the warnings - there is a bug with the header
+kddata<-as.data.frame(read_csv(file.path("..","data","kddcup.data_10_percent.zip"),col_names=FALSE)) ## Ignore the warnings - there is a bug with the header
 kddnames=read.table(file.path("..","data","kddcup.names"),sep=":",skip=1,as.is=T)
 colnames(kddata)=c(kddnames[,1],"normal") # here we fix the bug with the header
+goodcat=names(which(table(kddata[,"normal"])>1))
+kddata=kddata[kddata[,"normal"]%in%goodcat,]
 ```
 
 Lets take a look:
@@ -123,7 +130,9 @@ head(sort(apply(log(kddmean+1),2,var),decreasing=TRUE),7)
 Now we want to standardize the features and repeat the *heatmap*.
 ```{r}
 kddfreq=apply(kddmean,2,function(x)x/(sum(x)+1)) ## Divide each column ()
-heatmap.2(kddfreq[,!is.nan(kddfreq[1,])],margins =c(9,15),trace="none",cexCol = 0.5,main="Heatmap 2")
+kddfreq[!is.finite(kddfreq)]=0
+kddfreq[is.nan(kddfreq)]=0
+heatmap.2(kddfreq,margins =c(9,15),trace="none",cexCol = 0.5,main="Heatmap 2")
 ```
 Q: What is this standardization? What is the "+1" doing in the frequency calculation? (We cover this later in the course)
 

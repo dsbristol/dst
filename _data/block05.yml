@@ -29,3 +29,7 @@ s03:
     text: 5.3 Workshop on Classification with base learners and ensembles
     url: /dst/assets/workshops/block05-Classification.Rmd
 
+s03-h:
+    text: 5.3 Workshop on Classification with base learners and ensembles
+    url: /dst/assets/workshops/block05-Classification.html
+

@@ -4,11 +4,13 @@ date: "Block 04"
 author: "Daniel Lawson"
 email: dan.lawson@bristol.ac.uk
 output: html_document
-version: 2.0.1
+version: 2.0.2
 fig_width: 10
 fig_height: 5
 ---
 # 0. Requirements
+
+This workshop will be updated in future years.
 
 ```{r}
 if(!require("finalfit")) install.packages("finalfit")
@@ -24,18 +26,22 @@ Contrast the analysis here with that provided with the package at [https://cran.
 ## 1.1 Data input
 
 The data comes from trhe finalfit package and is available after the "library" call:
+
 ```{r}
 summary(colon_s)
 ```
+
 There is a lot of EDA work to do here. Be sure to check `?colon`. We'd like to predict survival, here "mort_5yr".
 
 ## 1.2 QC
 
 Most fields are duplicated by a factor; lets get rid of this, including getting rid of the second "mort" variable we would like to predict, and do a basic missingness check:
+
 ```{r}
 colon = as.data.frame(colon_s)[,-1] # remove the "id" column
 colon=colon[,-grep("factor",colnames(colon))]
 colon=colon[,!colnames(colon)%in%"mort_5yr.num"] # keep mort_5yr
+colon=colon[,c(1:12,14:16)]
 table(is.na(colon))
 ```
 
@@ -44,9 +50,11 @@ Missingness is at <1% in this data. Lets check how to manage it:
 ```{r}
 hist(rowSums(is.na(colon)),breaks=seq(-0.5,6.5),xlab="number of missing values",ylab="count")
 ```
+
 ## 1.3 Predicting missingness
 
 It isn't clear from this structure whether missingness is correlated. Is it predictable? We will test this by using a glm for whether any data were missing in a row, and augmenting the columns of the data with a new column "anymissing".
+
 ```{r}
 allpresent=colnames(colon)[colSums(is.na(colon))==0] # columns with no missingness
 allpresent=allpresent[allpresent!="anymissing"] # in case you run this twice!
@@ -57,11 +65,13 @@ colonmissingmodel=glm(paste("anymissing~",paste(allpresent,collapse="+"),collaps
 colonmissingpred=predict(colonmissingmodel,newdata=colon)
 cor(colonmissingpred,colon$anymissing) # predictability of missingness
 ```
+
 We find a correlation between missingness and the complete data of 0.18 which implies that missingness is not strongly predictable from this (alone). Which variables are associated?
 
 ```{r}
 summary(colonmissingmodel)
 ```
+
 The `hospital` and `node4` variables are associated, but little else.
 
 We can therefore assume a missing (mostly) at random design to test predictability of the inferred values.
@@ -77,12 +87,13 @@ about QC concerns we could look into further.
 We will start by making an SVD to explore the data. This will be a complete case analysis for simplicity.
 
 ```{r}
-tcolon=na.omit(colon)[,2:15]
+tcolon=na.omit(colon)[,c("sex","age","obstruct","perfor","adhere","nodes","status","differ","extent","surg","node4","loccomp","time.years")]
 tlabels=as.numeric(na.omit(colon)[,"mort_5yr"])
 tsvd=svd(scale(tcolon))
 plot(tsvd$u[,1:2],pch=19,col=tlabels,xlab="PC1",ylab="PC2") 
 legend("topleft",col=1:2,text.col=1:2,pch=19,legend=c("Survived","Died"))
 ```
+
 This looks pretty interesting. It implies that there is a strong ability to tell between the two classes, but there is structure in the data that is not strongly informative about that.
 
 ```{r}
@@ -90,7 +101,9 @@ This looks pretty interesting. It implies that there is a strong ability to tell
 plot(tsvd$v[,c(1,2)],type="n",xlab="PC1",ylab="PC2") 
 text(tsvd$v[,c(1,2)],labels = colnames(tcolon),cex=0.5)
 ```
+
 A few of these are essentially at the same location. These are:
+
 ```{r}
 tdist=as.matrix(dist(tsvd$v[,1:2]))
 diag(tdist)=max(tdist)
@@ -99,6 +112,7 @@ for(x in 1:dim(tdist)[1]){
   if(any(tdist[x,]<thresh)) print(paste(c(colnames(tcolon)[x],colnames(tcolon)[tdist[x,]<thresh]),collapse=","))
 }
 ```
+
 This is interesting and a sign of duplication, but not a sign that we've done something bad in the choice of features to retain.
 
 #### See Q2 in Block 4 Portfolio
@@ -115,7 +129,8 @@ Lets build regression-based imputation models for each missing variable:
 missingcols=colnames(colon)[colSums(is.na(colon))>0] # columns with no missingness
 train=sample(1:dim(colon)[1])[1:700] # training data
 test=(1:dim(colon)[1])[!(1:dim(colon)[1])%in%train] # 229 reserved for training...
-sapply(missingcols,function(x)length(table(colon[test,x])))
+#sapply(missingcols,function(x)length(table(colon[ttest,x])))
+
 ## correlation scores
 allscores=c() #
 allclasses=c() # correlation classes
@@ -153,7 +168,9 @@ for(v in missingcols){
   }
 }
 ```
+
 We see we get plenty of warnings, but several variables are relatively well predicted.
+
 ```{r}
 c("cols with missingness"=sum(colSums(apply(colon,2,is.na))>0),
   "after imputation"=sum(colSums(apply(colonimp,2,is.na))>0))
@@ -169,6 +186,7 @@ about imputation.
 ## 3.2 Imputation model before and after
 
 We now make models predicting mortality:
+
 ```{r}
 modelunimputed=glm(mort_5yr~.,data=colon[train,],family = binomial)
 modelimputed=glm(mort_5yr~.,data=colonimp[train,],family = binomial)
@@ -177,20 +195,24 @@ predimputed=predict(modelimputed,newdata=colonimp[test,],type="response")
 ```
 
 This is how to examine the model structure:
+
 ```{r}
 summary(modelunimputed)
 ```
+
 Note that no p-values are significant, and 3 coefficients are not defined due to singularities.
 
 Finally we can evaluate the predictive performance. We can do this via correlation:
+
 ```{r}
-tres=cbind(obs=as.numeric(colon[test,"mort_5yr"])-1,
+tres=na.omit(cbind(obs=as.numeric(colon[test,"mort_5yr"])-1,
            predunimputed=predunimputed,
-           predimputed=predimputed)
+           predimputed=predimputed))
 cor(tres)
 ```
 
 Or via "receiver operator curves" which we examine properly in the next two blocks:
+
 ```{r}
 require("pROC")
 unimputedroc=roc(obs~predunimputed,data=as.data.frame(tres))
@@ -200,6 +222,7 @@ plot(1-unimputedroc$specificities,unimputedroc$sensitivities,type="l",
          xlab="False Positive Rate",ylab="True Positive Rate",xlim=c(0,0.05),col=1)
 lines(1-imputedroc$specificities,imputedroc$sensitivities,col=2)
 ```
+
 In both measures, the performance is very good but imputation made the prediction worse.
 
 #### See Q4 in Block 4 Portfolio

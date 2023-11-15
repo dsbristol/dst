@@ -31,3 +31,6 @@ portfolio:
 
 s03-SpectralEmbedding:
     url: /dst/assets/workshops/block03-SpectralEmbedding.Rmd
+
+s03-SpectralEmbedding-h:
+    url: /dst/assets/workshops/block03-SpectralEmbedding.html

@@ -1,13 +1,16 @@
 ---
 title: "Spectral Methods"
-date: "Block 03"
 author: "Daniel Lawson"
+date: "Block 03"
+output:
+  html_document:
+    df_print: paged
 email: dan.lawson@bristol.ac.uk
-output: html_notebook
-version: 2.0.1
+version: 2.0.2
 fig_width: 10
 fig_height: 5
 ---
+
 This workshop explores spectral clustering on cyber data using DBSCAN.
 
 Remember to look at the code examples from the lectures for analogous data for other methods.
@@ -18,7 +21,7 @@ Remember to look at the code examples from the lectures for analogous data for o
 if(!require("purrr")) install.packages("purrr") # allows the nice %>% notation; part of the "tidyverse"
 if(!require("dbscan")) install.packages("dbscan") # density based clustering
 if(!require("readr")) install.packages("readr") # for read_csv which is improved over read.csv
-library(purrr)
+library("purrr")
 library("readr")
 ```
 
@@ -35,9 +38,11 @@ if(!file.exists(file.path("..","data","kddcup.names"))) download.file("http://kd
 We'll read it in as before.
 
 ```{r}
-kddata<-read_csv(file.path("..","data","kddcup.data_10_percent.zip")) ## Ignore the warnings - there is a bug with the header
+kddata<-as.data.frame(read_csv(file.path("..","data","kddcup.data_10_percent.zip"),col_names=FALSE)) ## Ignore the warnings - there is a bug with the header
 kddnames=read.table(file.path("..","data","kddcup.names"),sep=":",skip=1,as.is=T)
 colnames(kddata)=c(kddnames[,1],"normal") # here we fix the bug with the header
+goodcat=names(which(table(kddata[,"normal"])>1))
+kddata=kddata[kddata[,"normal"]%in%goodcat,]
 ```
 
 ### 1.1 Data transformations
@@ -80,6 +85,7 @@ plot(testdatatrans.svd$d,xlab="Eigenvalue index",ylab="Eigenvalue",log="")
 about exploring the different transformations that are possible and how they impact inference.
 
 With this transformation choice it looks like we want the first 3 PCs, which we will record in a variable:
+
 ```{r}
 npcs=3
 ```
@@ -123,10 +129,12 @@ for(index in 1:length(normalsamples)){ ## Question: why would we plot the points
          col=index+1,pch=c(19,1,2)[ceiling((1:30)/10)],cex=0.3)
 }
 ```
+
 This looks reassuring that there is structure to find for classification. The "line" structures are potentially interesting, and contrast to the "blob" structures in the larger clusters.
 
 
 #### See Q3 in Block 3 Portfolio
+
 about the interpretation of these results.
 
 ## 3.1 Clustering with DBscan
@@ -143,27 +151,32 @@ range(testmin)
 ```
 
 Now we'll plot all of the minimum values. This gives the distance to the closest other point, for every point.
+
 ```{r}
-plot(sort(testmin[testmin>1e-8]),log="y")
+plot(sort(testmin[testmin>1e-8]),log="y",type="l")
 threshholds= c(0.01,0.001,0.0001,0.00001,0.000001)
 abline(h=c(0.01,0.001,0.0001,0.00001,0.000001))
 abline(h=0.0001,col="red") # we chose this number.
 ## abline(h=0.001) # would give bigger clusters
 ## abline(h=0.00001) # would give smaller clusters
 ```
+
 From this analysis, we can see that nearly all points are within 1e-04 of another point.
 
 Extension: Experiment with other thresholds and see how the clustering behaves.
 
 #### See Q4 in Block 3 Portfolio
+
 about running DBSCAN.
 
 #### 3.1.1 Downsampling
 
 Unfortunately, dbscan runs out of memory when applied to the full dataset. Here we have 
+
 ```{r}
 dim(testdatatrans.svd$u)[1]
 ``` 
+
 so a small amount of downsampling should solve the problem. Make a list of indices that can be used to downsample the main dataset, keeping all examples of small classes and up to 60000 of the larger classes. You should get 188752 entries. Then use this clustering to run dbscan.
 ```{r}
 set.seed(1)
@@ -203,7 +216,9 @@ Now we will display this with a heatmap:
          col=c("#66666666",rainbow(41))[dbscanres$cluster+1],pch=19,cex=0.5)
 ##dev.off()
 ```
+
 Examining these plots, it is clear that there are some important distinctions between the inferred clusters. We can make a table of the labels and clustering:
+
 ```{r}
 mytable=data.frame(cluster=dbscanres$cluster,label=kddata[myindices,"normal"])
 mytab=table(mytable)
@@ -220,6 +235,7 @@ heatmap(t(myfreq2),scale="none",main="Frequency of cluster given label",cexRow =
 ### 3.1.3 Interpretation as a classifier
 
 How well does the clustering describes each label?
+
 ```{r}
 bestmatch=cbind(bestfreq=apply(myfreq,1,max),count=apply(mytab,1,sum))
 print(bestmatch)
@@ -240,8 +256,8 @@ Overall:
 * for example, all those tiny clusters are unlikely to be "real".
 
 #### See Q5 in Block 3 Portfolio
-about interpreting the results DBSCAN.
 
+about interpreting the results DBSCAN.
 
 
 Extensions: 

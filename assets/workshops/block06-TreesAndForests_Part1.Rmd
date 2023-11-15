@@ -2,10 +2,9 @@
 title: "6.2.1 Classification with Trees And Forests (Part 1)"
 author: "Daniel Lawson"
 date: "Block 06"
-author: "Daniel Lawson"
 email: dan.lawson@bristol.ac.uk
 output: html_document
-version: 2.0.0
+version: 2.0.1
 fig_width: 10
 fig_height: 5
 
@@ -116,6 +115,7 @@ logisticmodel=learnmodel(logisticregression,http~.,train,test)
 ```
 
 ### 1.2.2 KNN
+
 ```{r}
 library("class")
 knnclass=function(formula,data,k){
@@ -170,6 +170,7 @@ linstackmodel=learnmodel(logisticregression,http~.,lintrain,lintest)
 ```
 
 ### 1.2.6 Boosting
+
 ```{r}
 library("fastAdaboost")
 predictada=function(x,newdata){
@@ -182,6 +183,7 @@ adamodel=learnmodel(adaboost,http~.,train,test,predictfn=predictada,nIter=10)
 #########################################
 #########################################
 #########################################
+
 # 2. Trees and Forests
 
 ## 2.1 Tree model using the function "tree". 
@@ -307,6 +309,7 @@ for(xmax in c(1,0.05,0.005)){
 about interpreting these results.
 
 ## 3.2 Save the data in a format we can easily read into python. We will be interested in comparing ROC for the Random Forest.
+
 ```{r}
 write.csv(train,file="conndataC_train.csv")
 write.csv(test,file="conndataC_test.csv")
