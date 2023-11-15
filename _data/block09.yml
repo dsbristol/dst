@@ -1,38 +1,20 @@
 ## Lectures
 
-s0101:
-    text: 8.1.1 Analysing Algorithms Part 1 (Complexity notation)
-    url: /dst/notready.html
-s0102:
-    text: 8.1.2 Analysing Algorithms Part 2 (Examining Algorithms)
-    url: /dst/notready.html
 s01:
-    text: 8.1.3 Analysing Algorithms Part 3 (Turing Machines)
-    url: /dst/notready.html
-
-s0201:
-    text: 8.2.1 Algorithms for Data Science (Part 1 - Data Structures)
-    url: /dst/notready.html
-s0202:
-    text: 8.2.2 Algorithms for Data Science (Part 2 - Big Data Algorithms)
-    url: /dst/notready.html
-
-
+    url: /dst/assets/slides/09.1-AnalysingAlgorithms.pdf
 s02:
-    text: 9.2 Practicalities of Neural Nets
-    url: /dst/notready.html
+    url: /dst/assets/slides/09.2-DataScienceAlgorithms.pdf
 
 ## Worksheet
 ws01:
-    url: /dst/notready.html
+    url: /dst/assets/worksheets/ws09.1_questions.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/notready.html
+    url: /dst/assets/assessments/Portfolio09.pdf
 
 ## Workshop
 
 s03:
-    text: 8.3 Workshop on the Empirical evaluation of computational complexity
-    url: /dst/notready.html
+    url: /dst/assets/workshops/block09-TimeComplexity.ipynb
 
