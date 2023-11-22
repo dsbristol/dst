@@ -1,12 +1,12 @@
 
 
 ## Lectures
-s0101:
-    text: 10.1.1 Introduction to Parallelism (Part 1, Parallel computers) 
+s01:
+    text: 10.1 Introduction to Parallelism 
     url: /dst/notready.html
 
-s0102:
-    text: 10.1.2 Introduction to Parallelism (Part 2, Vectorisation, Mapping and Reducing) 
+s02:
+    text: 10.2 Vectorisation, Mapping and Reducing
     url: /dst/notready.html
 
 ## Worksheet
@@ -19,14 +19,6 @@ portfolio:
 
 ## Workshop
 
-s02:
-    text: 10.2 Coding Parallel Algorithms
-    url: /dst/notready.html
-
-s0201:
-    text: 10.2.1 Parallel Example 1
-    url: /dst/notready.html
-
-s0202:
-    text: 10.2.2 Parallel Example 2
+s03:
+    text: 10.3 Coding Parallel Algorithms
     url: /dst/notready.html
