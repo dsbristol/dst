@@ -19,7 +19,7 @@ Content is arranged by blocks (single week of teaching content). You will not mi
 * Block [08 Topic Models and Bayesian Methods](coursebook/08.md)
 * Block [09 Algorithms for Data Science](coursebook/09.md)
 * Block [10 Parallel Algorithms](coursebook/10.md)
-* Block [11 Ethics and Privacy](cb/coursebook/11.md)
+* Block [11 Ethics and Privacy](coursebook/11.md)
 
 ## Reference information
 
@@ -30,4 +30,4 @@ Content is arranged by blocks (single week of teaching content). You will not mi
 * [Appendix 3: GitHub](coursebook/appendix3-github.md)
 * [Appendix 4: How to Read a Paper](coursebook/appendix4-howtoreadapaper.md)
 * [Programme Catalogue Course Handbook](https://www.bris.ac.uk/unit-programme-catalogue/UnitDetails.jsa?ayrCode=20%2F23&unitCode=MATHM0029)
-
+* Block [12 Parallel Infrastructure and Spark](coursebook/12.md) is unassessed but provided for reference.
