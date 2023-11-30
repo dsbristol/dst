@@ -3,27 +3,22 @@
 ## Lectures
 s01:
     text: 10.1 Introduction to Parallelism 
-    url0: /dst/assets/slides/10.1-ParallelAlgorithms.pdf
     url: /dst/assets/slides/10.1-ParallelAlgorithms.pdf
 
 s02:
     text: 10.2 Vectorisation, Mapping and Reducing
-    url0: /dst/assets/slides/10.2-Vectorisation.pdf
     url: /dst/assets/slides/10.2-Vectorisation.pdf
 
 ## Worksheet
 ws01:
-    url0: /dst/assets/worksheets/ws10.1_questions.pdf
     url: /dst/assets/worksheets/ws10.1_questions.pdf
 
 ## Portfolio
 portfolio:
-    url0: /dst/assets/assessments/Portfolio10.pdf
     url: /dst/assets/assessments/Portfolio10.pdf
 
 ## Workshop
 
 s03:
     text: 10.3 Coding Parallel Algorithms
-    url0: /dst/assets/workshops/block10-CodingParallelAlgorithms.ipynb
     url: /dst/assets/workshops/block10-CodingParallelAlgorithms.ipynb

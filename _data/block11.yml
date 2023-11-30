@@ -1,23 +1,19 @@
 ## Lectures
-s0101:
-    text: 11.1.1 Parallel Data with MapReduce and Spark (Part 1, Introduction)
-    url: /dst/notready.html
+s01:
+    url: /dst/assets/slides/11.1-EthicsAndPrivacy.pdf
 
-s0102:
-    text: 11.1.2 Parallel Data with MapReduce and Spark (Part 2, Spark)
-    url: /dst/notready.html
+s02:
+    url: /dst/assets/slides/11.2-StatisticalDisclosure.pdf
+
+s03:
+    url: /dst/assets/slides/11.3-Fairness.pdf
 
 
 ## Worksheet
 ws01:
-    url: /dst/notready.html
+    url: /dst/assets/worksheets/ws11.1_questions.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/notready.html
+    url: /dst/assets/assessments/Portfolio11.pdf
   
-## Workshop
-
-s02:
-    text: 11.2 Pyspark and Hadoop
-    url: /dst/notready.html
