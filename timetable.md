@@ -24,13 +24,12 @@ There are 3 summative assessments (Assessment 1-2 + Portfolio), plus a formative
 * Week 5: Block [05 Supervised Learning and Ensembles](coursebook/05.md)
 * Week 6: Block [06 Decision Trees and Random Forests](coursebook/06.md)
 * Week 7: Block [07 Perceptrons and Neural Networks](coursebook/07.md)
-  * [Assessment 1]({{ site.data.assessment1.url }}) *Due* (Wednesday noon - 8th November)
+  * [Assessment 1]({{ site.data.assessment1.url }}) *Due* (Wednesday noon)
   * [Assessment 2]({{ site.data.assessment2.url }}) *Set*
 * Week 8: Block [08 Topic Models and Bayesian Methods](coursebook/08.md)
 * Week 9: Block [09 Algorithms for Data Science](coursebook/09.md)
 * Week 10: Block [10 Parallel Algorithms](coursebook/10.md)
 * Week 11: Block [11 Ethics and Privacy](coursebook/11.md)
-* Week 12: Revision Week - Portfolio focus
-  * [Assessment 2]({{ site.data.assessment2.url }}) *Due* (Wednesday noon - 13th December)
-* During January Examination Period:
-  * [Portfolio]({{ site.data.individualassessment1.url }}) *Due* (Wednesday noon - 17th January)
+  * [Assessment 2]({{ site.data.assessment2.url }}) *Due* (Wednesday noon)
+* Week 12: Assessment preparation week
+  * [Portfolio]({{ site.data.individualassessment1.url }}) *Due* (**Thursday** noon)

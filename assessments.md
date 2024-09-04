@@ -7,7 +7,7 @@ layout: coursebook
 
 There are **two** types of assessments:
 
-* **Group Assessments** are are approx two-month long, allowing a deep-delve into a specific area of Data Science applied to Cyber Security. They make up a total of 60% of the course mark (two, each worth 30%).
+* **Group Assessments** are each around a month long, allowing a deep-delve into a specific area of Data Science. They make up a total of 60% of the course mark (two, each worth 30%).
 * **Individual Portfolios** are whole-semester activities, individually undertaken to explore areas of data science covered by the lecture material in greater depth. Portfolios make up remaining 40% of the course.
 
 * Formative Assessments (that do not contribute to grade):
@@ -19,32 +19,33 @@ There are **two** types of assessments:
 * Individual Portfolios: total 40% 
   - [Individual Portfolio: Statistical Machine Learning]({{ site.data.individualassessment1.url }})
 
-The Assessments are released in the appropriate Block of the [timetable](timetable.md) but are also linked here (links are only active when the Block is released):
+The Assessments are together in the Individual Portfolio, but are also linked separately for reference from the appropriate Block of the [timetable](timetable.md):
 
-* [Portfolio 01]({{ site.data.block01.portfolio.url }})
-* [Portfolio 02]( {{ site.data.block02.portfolio.url }} )
-* [Portfolio 03]( {{ site.data.block03.portfolio.url }} )
-* [Portfolio 04]( {{ site.data.block04.portfolio.url }} )
-* [Portfolio 05]( {{ site.data.block05.portfolio.url }} )
-* [Portfolio 06]( {{ site.data.block06.portfolio.url }} )
-* [Portfolio 07]( {{ site.data.block07.portfolio.url }} )
-* [Portfolio 08]( {{ site.data.block08.portfolio.url }} )
-* [Portfolio 09]( {{ site.data.block09.portfolio.url }} )
-* [Portfolio 10]( {{ site.data.block10.portfolio.url }} )
-* [Portfolio 11]( {{ site.data.block11.portfolio.url }} )
+* [Portfolio Block 02]( {{ site.data.block02.portfolio.url }} )
+* [Portfolio Block 03]( {{ site.data.block03.portfolio.url }} )
+* [Portfolio Block 04]( {{ site.data.block04.portfolio.url }} )
+* [Portfolio Block 05]( {{ site.data.block05.portfolio.url }} )
+* [Portfolio Block 06]( {{ site.data.block06.portfolio.url }} )
+* [Portfolio Block 07]( {{ site.data.block07.portfolio.url }} )
+* [Portfolio Block 08]( {{ site.data.block08.portfolio.url }} )
+* [Portfolio Block 09]( {{ site.data.block09.portfolio.url }} )
+* [Portfolio Block 10]( {{ site.data.block10.portfolio.url }} )
+* [Portfolio Block 11]( {{ site.data.block11.portfolio.url }} )
+
 ## Guidance on Individual Portfolios
 
-The Portfolio is assessed on each block from 2-11. Block 1 is marked similarly but is formative, i.e. does not contribute to your mark. The deadline is the start of TB2. In each block you will do two activities: 
+The Portfolio is assessed for blocks 2-11. Block 1 is marked similarly but is formative, i.e. does not contribute to your mark. The deadline is in assessment preparation week of TB1. In each block contains two activities: 
 
-1. Worksheets: Multiple choice questions submitted via Noteable (log in via Blackboard). These should be straightforward, either direct from your notes or with very simple experiments you can conduct as extensions of the Workshop. These are worth 20% of the Portfolio mark.
-2. Reflection: Long-form reflective questions that should require a deeper understanding of the course material and may require you to undertake further reading or experimentation. These are worth 80% of the Portfolio mark.
+1. Multiple choice questions submitted via Noteable (log in via Blackboard). These should be straightforward, either direct from your notes or with simple experiments you can conduct as extensions of the Workshop. These are worth 20% of the Portfolio mark.
+2. Long-form reflective questions that should require a deeper understanding of the course material and may require you to undertake further reading or experimentation. These are worth 80% of the Portfolio mark.
 
 You may take the multiple-choice component at any time and it is recommended that you do this when you work through the Workshop content. The long-form content is submitted at the end of the course, and you are recommended to make a first draft/note form attempt when you first see the content, and reflect back on it in a finessing stage during the examination preparation time (in lieu of an exam).
 
 ### Length and format of long-form portfolio
 
-Your Portfolio should give a **one-page** answer to the question of each Block. Therefore the whole Portfolio is only 10 pages long. However:
-* The goal is not to make you undertake a length-finessing exercise. If the content you provide appears as if it would fit on one page after such an exercise, you can submit is anyway. **There is a strict limit of 15 pages** for the portfolio content, with answers that are clearly too long being be penalised.
+Your Portfolio should give a **one-page** answer to one question of your choice from 5 Blocks (2-11). Therefore the whole Portfolio is only 5 pages long. However:
+
+* The goal is not to make you undertake a length-finessing exercise. If the content you provide appears as if it would fit on one page after such an exercise, you can submit is anyway. **There is a strict limit of 8 pages** for the portfolio content, with answers that are clearly too long being be penalised.
 * You can however submit **Supporting Evidence** as an appendix to the portfolio. It will not be directly assessed but may be used as evidence to support your claims, i.e. any statements you make with supporting evidence will be more favourably interpreted, but if your statements are carefully given and correct the evidence is not essential. This is not limited. Appropriate content is RMarkdown files knitted to pdf, Jupyter Notebooks, etc.
 
 ## Guidance on Group Assessments
@@ -61,7 +62,8 @@ Undertaking a group project online is a difficult process that requires care and
 * [Appendix 5: Bluecrystal](coursebook/appendix5-bluecrystal.md), which is our High Performance Computing Infrastructure.
 * The [Equity Formula](/dst/assets/assessments/equityshare.nb.html) for redistributing marks.
 
-The individual assessment instructions has significant guidance. These extra thoughts are less directly relevant but give context.
+The individual assessment instructions has significant guidance. These extra thoughts give context.
+
 ### Comment on Markdown reflections:
 
 The PDF versions of the example reflections are created using [Pandoc](https://pandoc.org/) and it is trivial:
