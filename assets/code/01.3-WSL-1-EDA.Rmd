@@ -29,27 +29,18 @@ The **data** for this worksheet is hosted remotely on Github, and loaded automat
 
 The first thing we do is read in the sample netflow data. We are going to run a **remote script** that loads **remote data**. This is useful for replication and for collaboration.
 
+**Before we run it**, lets look at what the script does:
+
 ```{r}
-source("https://raw.githubusercontent.com/dsbristol/dst/master/code/loadconndata.R")
+con <- file("https://raw.githubusercontent.com/dsbristol/dst/master/code/loadconndata.R", open = "r")
+readLines(con)
+close(con)
 ```
 
-The code that this executes is duplicated below. You can look at this in your browser, and if you choose, download it and the data.
-
-Make sure you take a look and understand how the columns get named.
+Make sure you take a look and understand how the columns get named, what data pruning is done, and what the resulting object is called. Now we can run it:
 
 ```{r}
-## Get the data from the repo
-conndata=read.table("https://github.com/dsbristol/dst/raw/master/data/conn_sample.log",as.is=T)
-## Assign column names
-colnames(conndata)=c('ts','uid','id.orig_h','id.orig_p',
-    'id.resp_h','id.resp_p','proto','service','duration',
-    'orig_bytes','resp_bytes','conn_state','local_orig',
-    'missed_bytes','history','orig_pkts','orig_ip_bytes',
-    'resp_pkts','resp_ip_bytes','tunnel_parents')
-
-## Make a version of the data that uses only the top 20 most frequently used ports
-topports=names(head(sort(table(conndata[,"id.resp_p"]),decreasing=T),20))
-conndata2=conndata[conndata[,"id.resp_p"]%in%topports,]
+source("https://raw.githubusercontent.com/dsbristol/dst/master/code/loadconndata.R")
 ```
 
 ## Random Variables

@@ -44,6 +44,12 @@ hist(mtcars$mpg,breaks=4,xlab="MPG",main="")
 hist(mtcars$mpg,breaks=10,xlab="MPG",main="")
 dev.off()
 
+png("../media/01.2_EDA_density.png",height=500,width=800)
+par(mfrow=c(1,2))
+plot(density(as.numeric(mtcars$mpg)),xlab="MPG",main="density, bw=1")
+plot(density(as.numeric(mtcars$mpg),bw = 0.5),xlab="MPG",main="density, bw=0.5")
+dev.off()
+
 png("../media/01.2_EDA_scatter.png",height=500,width=800)
 plot(mtcars[,"hp"],mtcars[,"drat"],xlab="Horsepower",ylab="Rear axle ratio",main="Cars scatterplot")
 dev.off()
