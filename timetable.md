@@ -21,8 +21,8 @@ There are 3 summative assessments (Assessment 1-2 + Portfolio), plus a formative
   * [Assessment 1]({{ site.data.assessment1.url }}) *Set*
   * [Portfolio]({{ site.data.individualassessment1.url }}) *Set*
 * Week 4: Block [04 Non-parametrics and Missing Data](coursebook/04.md)
-* Week 5: Block [05 Supervised Learning and Ensembles](coursebook/05.md)
-* Week 6: Block [06 Decision Trees and Random Forests](coursebook/06.md)
+* Week 5: **Lecture contents from** Block [05 Supervised Learning and Ensembles](coursebook/05.md) and [06 Decision Trees and Random Forests](coursebook/06.md)
+* Week 6: Consolidation Week. **No lectures**. You should work through the **Workshop contents from** Block [05 Supervised Learning and Ensembles](coursebook/05.md) and [06 Decision Trees and Random Forests](coursebook/06.md), and catch up on Assessments.
 * Week 7: Block [07 Perceptrons and Neural Networks](coursebook/07.md)
   * [Assessment 1]({{ site.data.assessment1.url }}) *Due* (Wednesday noon)
   * [Assessment 2]({{ site.data.assessment2.url }}) *Set*

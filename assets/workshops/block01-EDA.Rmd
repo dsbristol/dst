@@ -6,7 +6,7 @@ output:
   html_document: default
   pdf_document: default
 email: dan.lawson@bristol.ac.uk
-version: 2.0.2
+version: 2.0.3
 fig_width: 10
 fig_height: 5
 ---
@@ -56,7 +56,18 @@ if(!file.exists(file.path("..","data","kddcup.data_10_percent.zip"))) download.f
 if(!file.exists(file.path("..","data","kddcup.names"))) download.file("http://kdd.org/cupfiles/KDDCupData/1999/kddcup.names",destfile=file.path("..","data","kddcup.names"))
 ```
 
-#### See Question B1W1 in Block 1 Portfolio
+Aside: An even better implementation would define, or find, a function like `safedircreate`, along the lines of:
+
+```{r}
+safedircreate<-function(...)
+  if(!dir.exists(file.path(...))) dir.create(file.path(...))
+```
+
+This could be used as part of a `safedownloadfile` function, etc so that we only ever specify the location once. The above function is used as `safedircreate("..","data")` in this context. 
+
+Code checking question: is this guaranteed to always work? What would make this completely robust? Does R provide that tool already?
+
+#### See Question Q1 in Block 1 Portfolio
 
 about how to generate data.
 
@@ -141,7 +152,7 @@ The corresponding variance in the features for this heatmap is:
 head(sort(apply(kddfreq,2,var),decreasing=TRUE),7)
 ```
 
-#### See Question B1W2 in Block 1 Portfolio
+#### See Question Q2 in Block 1 Portfolio
 
 about what these results mean.
 
@@ -179,7 +190,7 @@ heatmap.2(log(kddsd/(kddmean+0.01)+1),margins =c(9,15),trace="none",main="Heatma
 * What if we use a linear instead of a log scale?
 * Is high variability good, or bad, for inference?
 
-#### See Question B1W3 in Block 1 Portfolio
+#### See Question Q3 in Block 1 Portfolio
 
 about what these results mean.
 

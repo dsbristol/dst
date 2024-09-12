@@ -4,7 +4,7 @@ date: "Block 02"
 author: "Daniel Lawson"
 email: dan.lawson@bristol.ac.uk
 output: html_document
-version: 2.0.2
+version: 2.0.3
 fig_width: 10
 fig_height: 5
 
@@ -44,6 +44,7 @@ catcols=2:4
 d2=d2[-which((d2$x==0)|(d2$y==0)|(d2$z==0)|(d2$y>15)|(d2$z>15)),]
 plot(d2[,numericcols],pch=19,col="#00000033",cex=0.7)
 ```
+
 The Diamonds dataset is feature rich and may be expected to have independence between observations.
 
 ### 1.2 Berkeley Earth Temperature Record
@@ -90,6 +91,7 @@ We start with a regression using the continuous variables.
 dlm2=lm(price~carat + depth + table +x+y+z,data=d2)
 summary(dlm2)
 ```
+
 R reports the regression estimates and the p-value for each parameter marginally, as well as the F-statistic which quantifies whether the combined covariates have predicted power at all.
 
 We now examine the complete regression of price against all other covariates.
@@ -110,7 +112,7 @@ Here is the order for the *cut* variable:
 table(d2$cut)
 ```
 
-#### See **Question B2W1** in Block 2 Portfolio
+#### See **Question Q1** in Block 2 Portfolio
 
 about the interpretation of these results.
 
@@ -142,7 +144,7 @@ lines(temperature$Time,temppolypred,col="blue",lwd=2)
 legend("topleft",legend=c("Data","Predicted (linear)","Predicted (polynomial)"),lty=c(NA,1,1),pch=c(19,NA,NA),col=c("grey","red","blue"),text.col=c("grey","red","blue"))
 ```
 
-#### See **Question B2W2** in Block 2 Portfolio
+#### See **Question Q2** in Block 2 Portfolio
 
 about the interpretation of these results.
 
@@ -236,7 +238,7 @@ comparisonall= c(comparison,
 print(comparisonall)
 ```
 
-#### See **Question B2W3** in Block 2 Portfolio
+#### See **Question Q3** in Block 2 Portfolio
 
 about the interpretation of these results.
 
@@ -283,6 +285,6 @@ lines(temptest$Time,temptestpolypred,col="blue",lwd=2)
 legend("topleft",legend=c("Data","Predicted (linear)","Predicted (polynomial)"),lty=c(NA,1,1),pch=c(".",NA,NA),col=c("black","red","blue"),text.col=c("black","red","blue"))
 ```
 
-#### See **Question B2W4** in Block 2 Portfolio
+#### See **Question Q4** in Block 2 Portfolio
 
 about the interpretation of these results.

@@ -6,7 +6,7 @@ output:
   html_document:
     df_print: paged
 email: dan.lawson@bristol.ac.uk
-version: 2.0.2
+version: 2.0.3
 fig_width: 10
 fig_height: 5
 ---
@@ -49,7 +49,7 @@ kddata=kddata[kddata[,"normal"]%in%goodcat,]
 
 Now we make the data suitable for spectral embedding. There are several motivations here:
 
-a) You can take an SVD of anything. However, any reasonable interpretation of SVD assumes **additive noise**. When the data are inherently multiplicative, we need to take a logarithm for this assumption hold. Here the data are heavy tailed, an indication of some sort of multiplicative noise.
+a) You can take an SVD of any matrix. However, any reasonable interpretation of SVD assumes **additive noise**. When the data are inherently multiplicative, we need to take a logarithm for this assumption hold. Here the data are heavy tailed, an indication of some sort of multiplicative noise.
 b) Much of these data are categorical. Whilst we could use categorical data for SVD, it would need to be one-hot encoded and scaled appropriately. You should do that for assignments but its overkill here.
 c) We did EDA on the data and found several columns to contain hard-to-interpret structure. These do too, but we'll be able to do the work of exploring them.
 
@@ -115,6 +115,7 @@ normalsamples=normalsamples[order(normalsizes,decreasing=TRUE)]
 normalsizes=normalsizes[order(normalsizes,decreasing=TRUE)]
 normalsizes
 ```
+
 From this we can see that we have downsampled `neptune`, `normal`, and `smurf` classes. We have very few cases of several attacks.
 
 Plot the PCA:
