@@ -25,7 +25,7 @@ Contrast the analysis here with that provided with the package at [https://cran.
 
 ## 1.1 Data input
 
-The data comes from trhe finalfit package and is available after the "library" call:
+The data comes from the finalfit package and is available after the "library" call:
 
 ```{r}
 summary(colon_s)
