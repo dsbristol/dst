@@ -1,6 +1,6 @@
 ---
 title: "Model selection and regression"
-date: "Block 02"
+date: "Block 02.3"
 author: "Daniel Lawson"
 email: dan.lawson@bristol.ac.uk
 output: html_document
@@ -23,6 +23,8 @@ if(!require("ggplot2")) install.packages("ggplot2")
 if(!require("caret")) install.packages("caret")
 ```
 
+Q: How important are version numbers for requirements? How would you investigate solutions to force R to use a particular version of each package?
+
 ## 1. Data
 
 ### 1.1 Diamonds Dataset
@@ -33,6 +35,7 @@ The Diamonds Dataset is a classic dataset for over 50k diamonds, describing thei
 library("ggplot2") # Ironically we're using this for the data, and not for the plotting!
 head(diamonds)
 ```
+
 The ordinal features are "cut", "color" and "clarity", with "x" "y" and "z" describing physical dimensions and "depth" and "table" being further shape characteristics relating those physical dimensions (expressed as percentages).
 
 There are some data issues which we do not deal with fully, but can partially address by removing any data with impossible spatial measurements:
@@ -46,6 +49,8 @@ plot(d2[,numericcols],pch=19,col="#00000033",cex=0.7)
 ```
 
 The Diamonds dataset is feature rich and may be expected to have independence between observations.
+
+Q: How do we come by this information? How would you know what `data massaging` to do on another dataset?
 
 ### 1.2 Berkeley Earth Temperature Record
 
@@ -94,6 +99,8 @@ summary(dlm2)
 
 R reports the regression estimates and the p-value for each parameter marginally, as well as the F-statistic which quantifies whether the combined covariates have predicted power at all.
 
+Q: What can we conclude from such an analysis?
+
 We now examine the complete regression of price against all other covariates.
 
 ```{r}
@@ -112,6 +119,8 @@ Here is the order for the *cut* variable:
 table(d2$cut)
 ```
 
+Q: How would we force `cut` to be treated as an ordered factor? What problems might this create?
+
 #### See **Question Q1** in Block 2 Portfolio
 
 about the interpretation of these results.
@@ -125,7 +134,9 @@ templm=lm(MA~Time,data=temperature)
 summary(templm)
 ```
 
-Of course the answer is yes. However, the data were clearly non-linear. Lets now fit a polynomial to the data:
+Q: Is the association statistically significant? Is it practically significant?
+
+The data were clearly non-linear. Lets now fit a polynomial to the data:
 
 ```{r}
 head(temperature)
@@ -133,7 +144,8 @@ temppoly=lm(MA~poly(Time,5),data=temperature)
 summary(temppoly)
 ```
 
-Perhaps unsurprisingly, all terms are significant, though the symmetric 4-th degree term has lower significance.
+Q: The symmetric 4-th degree term has lower significance. Does this tell us anything of value?
+
 
 ```{r}
 templmpred <- predict(templm,temperature)
@@ -183,6 +195,8 @@ To do this efficiently, it uses K-fold CV to train on K-1 folds and validate on 
 
 Validation data is only needed if there is some hyper parameter to be fit, but it also can be of use in regression for model (i.e. variable) selection.
 
+Q: How do we find out all of this about the implementation in the `caret` package? Are there other packages for Cross Validation? When might they be appropriate?
+
 Here is how we can train a linear and a quadratic model this way:
 
 ```{r}
@@ -202,6 +216,9 @@ comparison=c(testlin=R2(pred = predict(modelcv,d2test),obs = d2test$price),
       )
 print(comparison)
 ```
+
+Q: What is going on here with the results?
+Q: What is going on with the column headers? How might we make it prettier without bloating the code?
 
 We can now go on to perform step-wise regression to minimise AIC (setting trace=FALSE to suppress the details of the steps):
 

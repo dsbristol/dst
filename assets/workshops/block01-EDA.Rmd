@@ -1,7 +1,7 @@
 ---
 title: "More EDA"
 author: "Daniel Lawson"
-date: "Block 01"
+date: "Block 01.3.2"
 output:
   html_document: default
   pdf_document: default
@@ -27,6 +27,8 @@ library("readr")
 Here we're going to go a little further and explore a new dataset, the [KDD99](http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html) dataset. Read about the competition [task specification](http://kdd.ics.uci.edu/databases/kddcup99/task.html).
 
 We use the [10%](http://kdd.org/cupfiles/KDDCupData/1999/kddcup.data_10_percent.zip) and [column names](http://kdd.org/cupfiles/KDDCupData/1999/kddcup.names) files, which you can download directly. We use the opportunity of exploring **external data** to make some suggestions for your group assessment project structure.
+
+Q: What information would be useful here? What would you like to see in an exemplar web resource?
 
 ### Notes on the data
 
@@ -65,6 +67,8 @@ safedircreate<-function(...)
 
 This could be used as part of a `safedownloadfile` function, etc so that we only ever specify the location once. The above function is used as `safedircreate("..","data")` in this context. 
 
+Q: When should you implement this? Can you do it so that it is reusable for your assessments?
+
 Code checking question: is this guaranteed to always work? What would make this completely robust? Does R provide that tool already?
 
 #### See Question Q1 in Block 1 Portfolio
@@ -82,6 +86,8 @@ goodcat=names(which(table(kddata[,"normal"])>1))
 kddata=kddata[kddata[,"normal"]%in%goodcat,]
 ```
 
+Q: How important are these problems? What should we do about them? If we wanted to stop this warning, or all warnings, how would we do it? And when should we?
+
 Lets take a look:
 ```{r}
 head(kddata)
@@ -90,6 +96,9 @@ And get a summary of the data:
 ```{r}
 summary(kddata)
 ```
+
+Q: What can you "understand" about the data from this? What is worrying about it?
+
 We need to pay attention to variables that:
 
 * are not numeric
@@ -99,6 +108,8 @@ We need to pay attention to variables that:
 ## Activity 1: EDA for the "normal" class label
 
 The $Y$ value is a multiple-category label called "normal" in the data. This is the attack type, with value "normal" being "not an attack" and everything else being an attack.
+
+Q: How did I know this? How would you find it out from the data source?
 
 * We will make a barplot of the "normal" column, using an appropriate scaling. 
 * Use the inline help (?par). 
@@ -120,6 +131,8 @@ kddlist=lapply(labs,function(x){
 
 The Tidyverse data objects have nice ways to examine these sorts of conditional statements.
 
+Q: What does `lapply` do here? What sort of object is kddlist? Is this what we want?
+
 ## 1.3 Exploratory Data Analysis (1D)
 
 ## Activity 2: Heatmap of the mean for each variable within each category
@@ -130,6 +143,8 @@ library("gplots")
 heatmap.2(log(kddmean+1),margins =c(9,15),trace="none",cexCol = 0.5,main="Heatmap 1")
 mycols=c("dst_bytes","src_bytes","duration","dst_host_svd_count","dst_host_count","srv_count","count")
 ```
+
+Q: What sort of objects are `kddmean` and `kddlist`? Why?
 Q: Why has `trace="none"` been passed into heatmap.2? How do we find out what it does?
 Q: What is the "+1" doing in the log?
 
@@ -138,6 +153,8 @@ We can obtain the top 7 features by their variance across the classes in this pl
 head(sort(apply(log(kddmean+1),2,var),decreasing=TRUE),7)
 ```
 
+Q: What does high variance for a feature mean? How might it be important for downstream work?
+
 Now we want to standardize the features and repeat the *heatmap*.
 ```{r}
 kddfreq=apply(kddmean,2,function(x)x/(sum(x)+1)) ## Divide each column ()
@@ -145,6 +162,7 @@ kddfreq[!is.finite(kddfreq)]=0
 kddfreq[is.nan(kddfreq)]=0
 heatmap.2(kddfreq,margins =c(9,15),trace="none",cexCol = 0.5,main="Heatmap 2")
 ```
+
 Q: What is this standardization? What is the "+1" doing in the frequency calculation? (We cover this later in the course)
 
 The corresponding variance in the features for this heatmap is:
@@ -167,7 +185,8 @@ classlist=lapply(mycategorical,function(mycat){
 })
 for(i in 1:3) heatmap.2(log(classlist[[i]]+1),margins =c(9,15),trace="none",main=mycategorical[i])
 ```
-Some things to reflect on:
+
+Q: Some things to reflect on:
 
 * What about scale here? Explore different choices of scaling function.
 * Describe some key features that you see in the data.
@@ -179,12 +198,15 @@ Some things to reflect on:
 * We want to learn about the *variability* in the labels with the function "sd", given the mean. 
 * For that we must *represent* variability in an appropriate format.
 * It is again convenient to construct the matrices that we want to plot.
+
 ```{r}
 kddsd=t(sapply(kddlist,function(x){
   apply(x[,c(1,5:41)],2,sd)
 }))
 heatmap.2(log(kddsd/(kddmean+0.01)+1),margins =c(9,15),trace="none",main="Heatmap 3")
 ```
+
+Q: Some reflection:
 * Again, what interpretations can you make about the data?
 * What would happen if we do not scale the s.d. to the individual mean entry? 
 * What if we use a linear instead of a log scale?
@@ -196,6 +218,7 @@ about what these results mean.
 
 ## Activity 5: Final thoughts and reflection
 
+Q: Some final thoughts:
 * The dataset contains attacks that are not listed here. 
 * Consider what the above Exploratory Data analysis might mean for the hopes of detecting different properties of attack.
 * How you might go about making a model that will perform well out-of-sample, *comparing* "normal" to other classes of "attack"?
