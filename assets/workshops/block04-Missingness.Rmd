@@ -39,7 +39,8 @@ This analysis is adapted from [Getting Started with Multiple Imputation in R](ht
 That paper includes this explanation about the **structure** of a "multiple imputation" object:
 
 ```{r pressure, echo=FALSE, fig.cap="Multiple Imputation", out.width = '50%'}
-knitr::include_graphics("04.3-mice_explanation.png")
+knitr::include_graphics("https://github.com/dsbristol/dst/blob/master/assets/workshops/04.3-mice_explanation.png?raw=true")
+## NB I have to use the remote version of an image to make it runnable for you!
 ```
 
 The keywords are:
