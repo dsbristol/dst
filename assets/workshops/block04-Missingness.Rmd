@@ -11,11 +11,16 @@ fig_height: 5
 
 ## 0. Prerequisites
 
-```{r}
+Here we define the libraries we need.
+
+```{r libraries, include=FALSE}
 if(!require("mice")) install.packages("mice")
 if(!require("dplyr")) install.packages("dplyr")
 if(!require("foreign")) install.packages("foreign")
 if(!require("car")) install.packages("car")
+```
+
+```{r}
 library("mice")
 library("dplyr")
 library("mice")
@@ -28,9 +33,11 @@ library("car")
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## 1. Summary
+## 1. Summary of this workshop
 
 Multiple imputation is towards the "gold standard" end of imputation options. The basic idea is that we can use a good probablistic model to predict missing values conditional on observed values, which creates an ensemble of datasets which can each be treated as if it were complete.
+
+In this workshop we explore a multiple imputation problem for a modest sized, but real and complex, dataset. The goal is to understand how to implement this in practice, as well as to question what problems might arise.
 
 ### 1.1 References 
 
@@ -38,12 +45,13 @@ This analysis is adapted from [Getting Started with Multiple Imputation in R](ht
 
 That paper includes this explanation about the **structure** of a "multiple imputation" object:
 
-```{r pressure, echo=FALSE, fig.cap="Multiple Imputation", out.width = '50%'}
+```{r pressure, echo=FALSE, fig.cap="Multiple Imputation explained", out.width = '50%'}
 knitr::include_graphics("https://github.com/dsbristol/dst/blob/master/assets/workshops/04.3-mice_explanation.png?raw=true")
 ## NB I have to use the remote version of an image to make it runnable for you!
 ```
 
 The keywords are:
+
 * multivariate imputation by chained equations (MICE, `mice()`) produces a 
   * multiply imputed dataset (mids)
 * Your standard analysis pipeline is then replicated `with()` each dataset to produce a
