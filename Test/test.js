@@ -8,7 +8,8 @@ const paddleWidth = 75;
 const brickRowCount = 5;
 const brickColumnCount = 15;
 const brickPadding = 0;
-const brickOffsetTop = 30;
+const brickOffsetTop0 = 30;
+let brickOffsetTop = brickOffsetTop0;
 const brickOffsetLeft = 0;
 const defaultColor="#ffffffff";
 
@@ -20,7 +21,8 @@ const defaultColor="#ffffffff";
 // brickWidth = (480 - 60 - (brickPadding* (brickColumnCount-1)) ) / brickColumnCount
 let brickWidth =(480 - brickOffsetLeft*2 - (brickPadding* (brickColumnCount-1)) ) / brickColumnCount
 let brickHeight = 30;
-
+let doomtick=50;
+let doomtimer=doomtick;
 // Load paddle image
 let paddleImg = new Image();
 paddleImg.src = "assets/paddle.png"; // Use your image path
@@ -105,10 +107,12 @@ function circleRectCollision(cx, cy, radius,
 function collisionDetection() {
   changedx=false;
   changedy=false;
+  brickstoolow=false;
   for (let c = 0; c < brickColumnCount; c++) {
     for (let r = 0; r < brickRowCount; r++) {
       const b = bricks[c][r];
       if (b.status === 1) {
+        // Check for collision
         collisiionType=circleRectCollision(x, y, ballRadius, b.x, b.y, 
                 brickWidth, brickHeight)
         if (collisiionType>0){
@@ -118,11 +122,17 @@ function collisionDetection() {
             changedx=true;
           }
           b.status = 0;
+          // update score
           score++;
           totalscore++;
           if (score === brickRowCount * brickColumnCount) {
               gamestate = "win";
           }
+        }
+        // check if brick has gone too low
+        if(b.y+brickHeight>canvas.height){
+            b.status=0;
+            brickstoolow=true;
         }
       }
     }
@@ -132,6 +142,9 @@ function collisionDetection() {
   }
   if(changedy){
     dy = -dy;
+  }
+  if(brickstoolow){
+    loseLife();
   }
 }
 
@@ -186,6 +199,22 @@ function drawPaddle() {
   }
 }
 
+function loseLife() {
+  lives--;
+  if (!lives) {
+     gamestate = "gameover";
+  }else {
+            x = canvas.width / 2;
+            y = canvas.height - 30;
+            dx = dx0;
+            dy = dy0 - level;
+            doomtimer=doomtick;
+            paddleX = (canvas.width - paddleWidth) / 2;
+            justdied=true;
+            gamestate = "paused";
+  }
+} 
+
 // Collision detection for walls and paddle
 function paddleandwallDetection() {
   if (y + dy < ballRadius) { // Top wall
@@ -196,18 +225,7 @@ function paddleandwallDetection() {
         dx = 8 * ((x-(paddleX+paddleWidth/2))/paddleWidth);
       dy = -dy;
     } else {// Missed paddle
-        lives--;
-        if (!lives) {
-          gamestate = "gameover";
-        }else {
-            x = canvas.width / 2;
-            y = canvas.height - 30;
-            dx = dx0;
-            dy = dy0 - level;
-            paddleX = (canvas.width - paddleWidth) / 2;
-            justdied=true;
-            gamestate = "paused";
-        }
+      loseLife()
       return;
     }
   }
@@ -235,6 +253,11 @@ function mainLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   if (gamestate === "playing") {
     setupBg("assets/background",("0"+level).slice(-2));
+    doomtimer--;
+    if(doomtimer<=0){
+        brickOffsetTop+=1;
+        doomtimer=doomtick;
+    }
     draw();
   } else{
     setupBg("assets/background","00");
@@ -283,7 +306,11 @@ function startGame(newlevel) {
   if(newlevel==1){
       lives = 3;
       totalscore=0;
+    }else{
+      doomtick=doomtick*0.9;
     } 
+  brickOffsetTop = brickOffsetTop0;
+  doomtimer=doomtick;
   score = 0;
   gamestate = "playing";
 }
