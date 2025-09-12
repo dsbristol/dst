@@ -207,6 +207,7 @@ heatmap.2(log(kddsd/(kddmean+0.01)+1),margins =c(9,15),trace="none",main="Heatma
 ```
 
 Q: Some reflection:
+
 * Again, what interpretations can you make about the data?
 * What would happen if we do not scale the s.d. to the individual mean entry? 
 * What if we use a linear instead of a log scale?
@@ -219,6 +220,7 @@ about what these results mean.
 ## Activity 5: Final thoughts and reflection
 
 Q: Some final thoughts:
+
 * The dataset contains attacks that are not listed here. 
 * Consider what the above Exploratory Data analysis might mean for the hopes of detecting different properties of attack.
 * How you might go about making a model that will perform well out-of-sample, *comparing* "normal" to other classes of "attack"?

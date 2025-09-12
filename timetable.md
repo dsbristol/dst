@@ -32,4 +32,4 @@ There are 3 summative assessments (Assessment 1-2 + Portfolio), plus a formative
 * Week 11: Block [11 Ethics and Privacy](coursebook/11.md)
   * [Assessment 2]({{ site.data.assessment2.url }}) *Due* (Wednesday noon)
 * Week 12: Assessment preparation week
-  * [Portfolio]({{ site.data.individualassessment1.url }}) *Due* (**Thursday** noon)
+  * [Portfolio]({{ site.data.individualassessment1.url }}) *Due* (**Tuesday 4pm**)

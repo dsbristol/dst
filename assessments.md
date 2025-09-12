@@ -13,11 +13,13 @@ There are **two** types of assessments:
 * Formative Assessments (that do not contribute to grade):
   - [Assessment 0]({{ site.data.assessment0.url }}) (Due Week 3)
   - [Portfolio 0]({{ site.data.individualassessment0.url }}) (Due Week 3)
+    - Including the short Questions for [Block 01]( {{ site.data.block01.portfolio.url }} ).
 * Summative Group Assessments: total 60% (each 30%)
   - [Assessment 1: Supervised Prediction]({{ site.data.assessment1.url }}) (First group assessment)
   - [Assessment 2: Data at Scale]({{ site.data.assessment2.url }}) (Second group assessment)
 * Individual Portfolios: total 40% 
-  - [Individual Portfolio: Statistical Machine Learning]({{ site.data.individualassessment1.url }})
+  - (80%) [Individual Portfolio: Statistical Machine Learning]({{ site.data.individualassessment1.url }})
+  - (20%) The short Questions for Block 02-11 (see below).
 
 The Assessments are together in the Individual Portfolio, but are also linked separately for reference from the appropriate Block of the [timetable](timetable.md):
 
@@ -36,8 +38,8 @@ The Assessments are together in the Individual Portfolio, but are also linked se
 
 The Portfolio is assessed for blocks 2-11. Block 1 is marked similarly but is formative, i.e. does not contribute to your mark. The deadline is in assessment preparation week of TB1. In each block contains two activities: 
 
-1. Multiple choice questions submitted via Noteable (log in via Blackboard). These should be straightforward, either direct from your notes or with simple experiments you can conduct as extensions of the Workshop. These are worth 20% of the Portfolio mark.
-2. Long-form reflective questions that should require a deeper understanding of the course material and may require you to undertake further reading or experimentation. These are worth 80% of the Portfolio mark.
+1. (20%) Multiple choice questions submitted via Noteable (log in via Blackboard). These should be straightforward, either direct from your notes or with simple experiments you can conduct as extensions of the Workshop.
+2. (80%) Long-form reflective questions that should require a deeper understanding of the course material and may require you to undertake further reading or experimentation.
 
 You may take the multiple-choice component at any time and it is recommended that you do this when you work through the Workshop content. The long-form content is submitted at the end of the course, and you are recommended to make a first draft/note form attempt when you first see the content, and reflect back on it in a finessing stage during the examination preparation time (in lieu of an exam).
 
@@ -47,6 +49,18 @@ Your Portfolio should give a **one-page** answer to one question of your choice 
 
 * The goal is not to make you undertake a length-finessing exercise. If the content you provide appears as if it would fit on one page after such an exercise, you can submit is anyway. **There is a strict limit of 8 pages** for the portfolio content, with answers that are clearly too long being be penalised.
 * You can however submit **Supporting Evidence** as an appendix to the portfolio. It will not be directly assessed but may be used as evidence to support your claims, i.e. any statements you make with supporting evidence will be more favourably interpreted, but if your statements are carefully given and correct the evidence is not essential. This is not limited. Appropriate content is RMarkdown files knitted to pdf, Jupyter Notebooks, etc.
+
+### Workshop Questions submitted by Noteable
+
+* Submitted via Noteable via [Blackboard](https://www.ole.bris.ac.uk/ultra/courses/_255714_1/cl/outline):
+	* Go to the Data Science Toolbox blackboard page
+	* Select Noteable
+	* Select **R with stan** as your "personal notebook server" and press "Start"
+	* Go to "Assignments"
+	* Select **BlockXX** and press "Fetch"
+	* Click **BlockXX>** which opens up a drop down containing the only assignment, **BlockXX**. Select this.
+	* The assignment opens in Jupyter. Complete the worksheet. When you are done, **save** and return to the Assignments tab. Press **validate**, and when it is successful, press **submit**.
+* You **can** work in groups on these questions, as long as you discuss why you believe your choices. The goal is to learn. You will not receive the answers.
 
 ## Guidance on Group Assessments
 
