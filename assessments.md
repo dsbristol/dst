@@ -13,7 +13,7 @@ There are **two** types of assessments:
 * Formative Assessments (that do not contribute to grade):
   - [Assessment 0]({{ site.data.assessment0.url }}) (Due Week 3)
   - [Portfolio 0]({{ site.data.individualassessment0.url }}) (Due Week 3)
-    - Including the short Questions for [Block 01]( {{ site.data.block01.portfolio.url }} ).
+    - Including the short Questions for [Block 01](coursebook/01.md).
 * Summative Group Assessments: total 60% (each 30%)
   - [Assessment 1: Supervised Prediction]({{ site.data.assessment1.url }}) (First group assessment)
   - [Assessment 2: Data at Scale]({{ site.data.assessment2.url }}) (Second group assessment)
