@@ -9,6 +9,19 @@ fig_width: 10
 fig_height: 5
 ---
 
+# Missingness
+
+Missingness is a fact of life in data analysis. It can arise for many reasons, including:
+
+* People not answering questions in surveys
+* Data corruption
+* Data not being recorded
+* Data not being available (e.g. due to privacy or commercial sensitivity)
+
+The critical question for us is to establish how large the problem is, and whether it is likely to bias our results. How we deal with it depends on the nature of the missingness and the size of the dataset.
+
+In this example we focus on multiple imputation, which is a principled way to deal with missingness, but only appropriate for small-to-medium sized datasets. The worksheet gets far enough to show you how to implement an analysis in the presence of missing data, but does not go into depth about how to evaluate the results. This is left as an exercise for [Portfolio 4](https://dsbristol.github.io/dst/assets/assessments/Portfolio04.pdf).
+
 ## 0. Prerequisites
 
 Here we define the libraries we need.

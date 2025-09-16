@@ -11,7 +11,11 @@ fig_width: 10
 fig_height: 5
 ---
 
-This workshop explores spectral clustering on cyber data using DBSCAN.
+# Spectral methods and DBSCAN clustering
+
+This workshop explores spectral clustering on cyber data using DBSCAN. Because of the peculiarities of this data as visualised in [Lecture 3.1](https://dsbristol.github.io/dst/assets/slides/03.1-LatentStructuresPCA.pdf) using Spectral decomposition and clustered in [Lecture 3.2](https://dsbristol.github.io/dst/assets/slides/03.2-Clustering.pdf), it generates strange structure that can only be handled with carefully chosen methods. 
+
+Whilst not all data are as extreme as this example, the methods discussed here are robust and apply in many other contexts.
 
 Remember to look at the code examples from the lectures for analogous data for other methods.
 

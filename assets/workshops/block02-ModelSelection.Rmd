@@ -12,7 +12,9 @@ fig_height: 5
 
 # 02.3 Regression and Cross-Validation Workshop
 
-Here we will consider two datasets that exhibit different structural features and therefore different implications for Cross-Validation.
+In this workshop we will explore the use of Cross-Validation to assess model fit and perform model selection, in the context of simple regression models. Importantly, the data we use will have different structural features, which will affect the implications of Cross-Validation. Even when we move to more complex machine learning models, the principles will be the same.
+
+We will consider two datasets that exhibit different structural features and therefore different implications for Cross-Validation. One is a "standard" dataset with many features and independent observations, the other is a time series with strong dependence between observations.
 
 ## 0. Requirements
 

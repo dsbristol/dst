@@ -4,18 +4,20 @@ author: "Daniel Lawson"
 date: "Block 06"
 email: dan.lawson@bristol.ac.uk
 output: html_document
-version: 2.0.1
+version: 2.1.0
 fig_width: 10
 fig_height: 5
 
 ---
-# Workshop 6.2.1 Overview
+# Workshop 6.3.1 Overview
 
-This is Block 6 Workshop (which is 6.2) part 1. Part 2 is in Python.
+This is Block 6 Workshop (which is 6.3) part 1. Part 2 is in Python.
 
 This adds trees and forests to our experimentations from block 5 on classification.
 
 We implement a Random Forest in R, and save some data for comparison to python. This uses the same representation as we used in block05.
+
+The code is minimally updated from Block 5 and all interpretation is done within the Python content.
 
 # 0. Requirements
 

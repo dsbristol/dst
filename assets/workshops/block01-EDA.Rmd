@@ -10,6 +10,9 @@ version: 2.0.3
 fig_width: 10
 fig_height: 5
 ---
+# Exploratory Data Analysis (EDA)
+
+EDA is a critical part of every data science project. It is the process of understanding the data, and its limitations, before you start to model it. We'll focus on simple counts and summaries, and then start "grokking" relationships in the data through cross-tabulation which we'll structure for visualisation.
 
 You should have already run the introductory [01.3-WSL-1-EDA.Rmd](https://dsbristol.github.io/dst/assets/code/01.3-WSL-1-EDA.Rmd) worksheet and become familiar with working with an RStudio RMarkdown document.
 
@@ -23,6 +26,7 @@ if(!require("readr")) install.packages("readr")
 library("gplots")
 library("readr")
 ```
+
 # 1.0 DATA
 Here we're going to go a little further and explore a new dataset, the [KDD99](http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html) dataset. Read about the competition [task specification](http://kdd.ics.uci.edu/databases/kddcup99/task.html).
 
@@ -225,3 +229,4 @@ Q: Some final thoughts:
 * Consider what the above Exploratory Data analysis might mean for the hopes of detecting different properties of attack.
 * How you might go about making a model that will perform well out-of-sample, *comparing* "normal" to other classes of "attack"?
 * You might choose to explore this further in Assessment 0.
+
