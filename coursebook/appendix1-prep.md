@@ -16,6 +16,15 @@ layout: coursebook
 **Before the Block 5 Workshop** you must get the following software working on your computer:
 
 * Jupyter Notebook
+
+**Useful options for group projects**:
+* [Google Colab](https://colab.research.google.com) is a free online Jupyter notebook environment that requires no setup and runs entirely in the cloud. It even has free access to GPUs.
+  * No sensitive information can be used on Colab.
+  * Collaboration is very straightforward in this environment.
+* [Noteable](https://noteable.io) (accessed via [Blackboard](https://www.ole.bris.ac.uk/ultra/courses/_265312_1/outline)) is a University of Bristol subscribed service that provides Jupyter notebooks with access to University of Bristol HPC resources. It is free to use for University of Bristol students.
+  * No sensitive information can be used on Noteable.
+  * Noteable will time out long jobs.
+
 ## Reference material:
 
 * Install [R Studio](https://rstudio.com/products/rstudio/download/) and [R](https://www.r-project.org/)
