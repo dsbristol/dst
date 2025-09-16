@@ -2,7 +2,7 @@
 
 s01:
     text: 6.1 Decisions Trees
-    url: /dst/assets/slides/06.1-RandomForests.pdf
+    url: /dst/assets/slides/06.1-Trees.pdf
 
 s02:
     text: 6.2 Random Forests
@@ -11,7 +11,7 @@ s02:
 ## Code
 c01:
     text: 6.1 Decisions, Trees, Forests
-    url: /dst/assets/code/06.1-RandomForestSlideContent.ipynb
+    url: https://github.com/dsbristol/dst/blob/master/assets/code/06.1-RandomForestSlideContent.ipynb
 
 ## Worksheet
 ws01:
@@ -33,6 +33,6 @@ s0201-h:
 
 s0202:
     text: 6.3.2 Workshop on Random Forests (Python content)
-    url: /dst/assets/workshops/block06-TreesAndForests_Part2.ipynb
+    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block06-TreesAndForests_Part2.ipynb
 
 

@@ -21,4 +21,4 @@ portfolio:
 
 s03:
     text: 10.3 Coding Parallel Algorithms
-    url: /dst/assets/workshops/block10-CodingParallelAlgorithms.ipynb
+    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block10-CodingParallelAlgorithms.ipynb

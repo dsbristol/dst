@@ -19,7 +19,7 @@ portfolio:
 
 s03:
     text: 7.3 Workshop on Tensorflow and Keras
-    url: /dst/assets/workshops/block07-NeuralNetworks.ipynb
+    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block07-NeuralNetworks.ipynb
 
 s0302:
     text: Neural Network script

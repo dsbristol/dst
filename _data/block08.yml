@@ -19,9 +19,9 @@ portfolio:
 
 s0301:
     text: 8.3.1 Workshop on Topic Modelling (Part 1, Prereqs)
-    url: /dst/assets/workshops/block08-TopicModels_part1.ipynb
+    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block08-TopicModels_part1.ipynb
 
 s0302:
     text: 8.3.2 Workshop on Topic Modelling (Part 2, Main content)
-    url: /dst/assets/workshops/block08-TopicModels_part2.ipynb
+    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block08-TopicModels_part2.ipynb
 
