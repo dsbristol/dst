@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Two-Armed Bandit</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      margin: 10px;
+      cursor: pointer;
+    }
+    #results {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Two-Armed Bandit</h1>
+  <p>You have <span id="trials-left">20</span> draws left.</p>
+  <button onclick="pullArm(0)">Pull Arm A</button>
+  <button onclick="pullArm(1)">Pull Arm B</button>
+  
+  <div id="results"></div>
+  <div id="final"></div>
+
+  <script>
+    // Fixed probabilities
+    const goodProb = 0.7; 
+    const badProb = 0.3;
+
+    // Randomly assign which arm is good (0 or 1)
+    const goodArm = Math.random() < 0.5 ? 0 : 1;
+
+    let totalTrials = 20;
+    let trialsLeft = totalTrials;
+    let totalReward = 0;
+
+    function pullArm(arm) {
+      if (trialsLeft <= 0) return;
+
+      // Determine probability for chosen arm
+      let prob = (arm === goodArm) ? goodProb : badProb;
+
+      // Generate reward
+      let reward = Math.random() < prob ? 1 : 0;
+      totalReward += reward;
+      trialsLeft--;
+
+      // Update UI
+      document.getElementById("trials-left").textContent = trialsLeft;
+      document.getElementById("results").innerHTML += 
+        `Pulled Arm ${arm === 0 ? 'A' : 'B'} → ${reward}<br>`;
+
+      // End of game
+      if (trialsLeft === 0) {
+        document.getElementById("final").innerHTML = 
+          `<h2>Game Over</h2>
+           <p>Total reward: ${totalReward} out of ${totalTrials}</p>
+           <p>The good arm was <strong>${goodArm === 0 ? 'A' : 'B'}</strong>.</p>`;
+
+      }
+    }
+  </script>
+</body>
+</html>
