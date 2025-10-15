@@ -124,6 +124,12 @@ A basic description of the data is that we will investigate the following indepe
 * **Views on China**’s economic rise: Dichotomous variable, 0 Good/No Effect 1 Bad
 * The **number of Chinese Mergers and Acquisitions** activity (taken from the MA file): 2000-2012, Continuous variable that ranges from 0 to 60
 
+Optionally: also download the Rdata intermediate file (otherwise this is quite slow):
+
+```{r}
+## Dowload the ANE survey data
+if(!file.exists(file.path("..","data","imp2.RData"))) download.file("https://github.com/dsbristol/dst/blob/master/data/imp2.RData", destfile=file.path("..","data","imp2.RData"))
+```
 
 ### 2.2 Pre-process data
 
