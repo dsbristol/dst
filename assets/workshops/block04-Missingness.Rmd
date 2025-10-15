@@ -1,14 +1,3 @@
----
-title: "04.3 Managing Missingness"
-date: "Block 04"
-author: "Daniel Lawson"
-email: dan.lawson@bristol.ac.uk
-output: html_document
-version: 2.2.0
-fig_width: 10
-fig_height: 5
----
-
 # Missingness
 
 Missingness is a fact of life in data analysis. It can arise for many reasons, including:
@@ -21,6 +10,40 @@ Missingness is a fact of life in data analysis. It can arise for many reasons, i
 The critical question for us is to establish how large the problem is, and whether it is likely to bias our results. How we deal with it depends on the nature of the missingness and the size of the dataset.
 
 In this example we focus on multiple imputation, which is a principled way to deal with missingness, but only appropriate for small-to-medium sized datasets. The worksheet gets far enough to show you how to implement an analysis in the presence of missing data, but does not go into depth about how to evaluate the results. This is left as an exercise for [Portfolio 4](https://dsbristol.github.io/dst/assets/assessments/Portfolio04.pdf).
+
+## Background on Missing Data
+
+Following [Andrew Gelman](https://sites.stat.columbia.edu/gelman/arm/missing.pdf)'s notes:
+
+### Types of Missingness
+
+The standard summary of the types of missingness that can occur in data, and how they impact analysis, are:
+
+1. **Missingness completely at random** (MCAR). Missingness is independent of everything. For example, if each survey respondent decides whether to answer the “earnings” question by rolling a die and refusing to answer if a “6” shows up. Discarding cases with missing data in MCAR **does not bias** your inferences.
+
+2. **Missingness at random** (MAR). The probability a variable is missing depends only on available information. Thus, if sex, race, education, and age are recorded for all the people in the survey, then “earnings” is missing at random if the probability of nonresponse to this question depends only on these fully recorded variables. In MAR data "nonresponse bias" can thus be avoided by modelling the missingness using the observed predictors.
+
+**Not Missing at Random** breaks down into:
+
+3. Missingness that **depends on unobserved predictors**. In the example above, if age affects earnings and was not recorded then data are not missing at random. It could in principle be modelled, if we were able to learn a suitable model to predict age but this either requires strong assumptions or further data.
+
+4. Missingness that **depends on the missing value itself**. This is known as censorin. Examples might include people with high earnings being less likely to report them (for tax, embarrassment, etc reasons), or survival study (e.g. for HIV treatments) we cannot know about people who will go on to die of HIV in the future. Again, models or robust statistics are needed to make progress.
+
+### Methods 
+
+1. **Complete-case analysis** involves discarding records that contain missingness. It is accurate (but increases variance of estimators) for MCAR data, but can be biased for MAR data. For example `cov(na.omit(X))` in R computes the covariance matrix using only complete cases, as does `cov(X,use="complete.obs")`.
+
+2. **Available-case analysis** involves using all available **required** data for each analysis. Because we don't discard rows that contain missingness in variables we don't need, this increases samples and therefore reduces variance compared to complete-case analysis. However, it means that we have different data going into each calculation. As it can be biased for MAR data, and different biases for each calculation, its not usually recommended. For example `cov(X,use="everything")` in R computes the covariance matrix using every pair of complete data.
+
+3. **Imputation** involves filling in missing values.
+
+3a. Simple imputation involves replacing missing data with a default value such as the mean.
+
+3b. Regression imputation involves predicting missing values using a regression model based on other variables; this can be thought of as a conditional mean.
+
+3c. Multiple imputation involves predicting missing values multiple times to create several different imputed datasets, and combining the results. Values are sampled from their conditional probability distribution (which can in principle be correlated). This is generally preferred as it accounts for the uncertainty in the imputed values, but is the most costly.
+
+In this workshop we consider multiple imputation using the `mice` package in R, on a non-trivial dataset.
 
 ## 0. Prerequisites
 
@@ -83,20 +106,23 @@ The hypothesis is that working in manufacturing is linked to being impacted by m
 This section downloads the data and puts it into the "../data" directory, in a cross-platform way.
 
 ```{r}
+## Dowload the ANE survey data
 if(!file.exists(file.path("..","data","anesimputation.dta"))) download.file("http://static.lib.virginia.edu/statlab/materials/data/anesimputation.dta", destfile=file.path("..","data","anesimputation.dta"))
 
+## Dowload the occupation data
 if(!file.exists(file.path("..","data","anesocc.csv"))) download.file("http://static.lib.virginia.edu/statlab/materials/data/anesocc.csv", destfile=file.path("..","data","anesocc.csv"))
 
+## Download the mergers and acquisitions data
 if(!file.exists(file.path("..","data","ma.dta"))) download.file("http://static.lib.virginia.edu/statlab/materials/data/ma.dta", destfile=file.path("..","data","ma.dta"))
 
 ```
 A basic description of the data is that we will investigate the following independent variables:
 
-* Occupation (taken from ANES supplementary files): Dichotomous variables, 1 if the respondent works in manufacturing 0 if not
-* Party ID: Continuous index that ranges from 0 (Strong Democrat) to 6 (Strong Republican)
-* Nationalism: Continuous index that ranges from 0 (Not at all Important) to 4 (Extremely Important)
-* Views on China’s economic rise: Dichotomous variable, 0 Good/No Effect 1 Bad
-* The number of Chinese M&A activity: 2000-2012, Continuous variable that ranges from 0 to 60
+* **Occupation** (taken from ANES supplementary files): Dichotomous variables, 1 if the respondent works in manufacturing 0 if not
+* **Party ID**: Continuous index that ranges from 0 (Strong Democrat) to 6 (Strong Republican)
+* **Nationalism**: Continuous index that ranges from 0 (Not at all Important) to 4 (Extremely Important)
+* **Views on China**’s economic rise: Dichotomous variable, 0 Good/No Effect 1 Bad
+* The **number of Chinese Mergers and Acquisitions** activity (taken from the MA file): 2000-2012, Continuous variable that ranges from 0 to 60
 
 
 ### 2.2 Pre-process data
@@ -179,7 +205,7 @@ par(mar=c(10,4,4,1))
 barplot(sort(p_missing[p_missing > 0], decreasing = TRUE),horiz = FALSE,las=2,cex.names = 0.85)
 ```
 
-We can see that some features are extremely missing. Additionally, some are high-dimensional factors, which behave badly for imputation. So we remove them. We will also need to convert the state into a factor.
+We can see that some features are extremely missing. Additionally, some are high-dimensional factors, which behave badly for imputation (why?). So we remove them. We will also need to convert the state into a factor.
 
 ```{r}
 # Select out variables that could cause problems in the imputation process
@@ -191,6 +217,8 @@ anesimp <- anesimp %>%
 
 anesimp$sample_state <- as.factor(anesimp$sample_state)
 ```
+
+### 2.3 Choice of numeric or Factor representation
 
 This worksheet switches some columns between numeric and factors for different purposes.
 
@@ -222,9 +250,7 @@ We can now fit using `lm`.
 
 ```{r}
 # Define the variables of interest (including the variable to be predicted)
-
-myvariables=c("ft_hclinton","manuf","pid_x","patriot_amident","china_econ","LogMANO")
-
+myvariables=c("ft_hclinton","manuf","pid_x","patriot_amident","china_econ","MANo","LogMANO")
 # Estimate an OLS regression
 ## This is how they do it:
 ## fitols <- lm(ft_hclinton ~ manuf + pid_x + patriot_amident + china_econ + LogMANO, data=anesimpor)
@@ -399,8 +425,10 @@ anesimp_long_mids<-as.mids(anesimp_long)
 We can now access the complete dataset. We'll examine one of the sample datasets for the variables of interest, to check what it looks like: 
 
 ```{r}
+myvariables_imp2=c("ft_hclinton","manuf","pid_x","patriot_amident","china_econ","MANo")
 anescomp_long_sample <- mice::complete(imp2, 1)
-head(anescomp_long_sample[,myvariables])
+myvariables_imp2 %in% colnames(anescomp_long_sample)
+head(anescomp_long_sample[,myvariables_imp2])
 ```
 
 Q: How do you interpret this? Is the `LogMANO` variable as expected?
