@@ -431,7 +431,7 @@ anesimp_long_mids<-as.mids(anesimp_long)
 We can now access the complete dataset. We'll examine one of the sample datasets for the variables of interest, to check what it looks like: 
 
 ```{r}
-myvariables_imp2=c("ft_hclinton","manuf","pid_x","patriot_amident","china_econ","MANo")
+myvariables_imp2=c("ft_hclinton","manuf","pid_x","patriot_amident","china_econ","MANo","LogMANO")
 anescomp_long_sample <- mice::complete(imp2, 1)
 myvariables_imp2 %in% colnames(anescomp_long_sample)
 head(anescomp_long_sample[,myvariables_imp2])
