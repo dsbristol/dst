@@ -2,10 +2,10 @@
 
 s01:
     text: 7.1 Neural Nets and the Perceptron
-    url: /dst/assets/slides/07.1-PerceptronsNeuralNets.pdf
+    url: /dst/assets/slides/07.1-Neural Networks Lecture 1.pdf
 s02:
-    text: 7.2 Practicalities of Neural Nets
-    url: /dst/assets/slides/07.2-PracticalitiesOfNeuralNets.pdf
+    text: 7.2 CNNs and Transformers
+    url: /dst/assets/slides/07.2-Neural Networks Lecture 2.pdf
 
 ## Worksheet
 ws01:
@@ -18,8 +18,8 @@ portfolio:
 ## Workshop
 
 s03:
-    text: 7.3 Workshop on Tensorflow and Keras
-    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block07-NeuralNetworks.ipynb
+    text: 7.3 Workshop on Pytorch for Computer Vision
+    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block07-DSToolboxWeek7NNLab.ipynb
 
 s0302:
     text: Neural Network script
