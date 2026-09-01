@@ -1,20 +1,20 @@
 ## Lectures
 
 s01:
-    url: /dst/assets/cb-2025/slides/09.1-AnalysingAlgorithms.pdf
+    url: /dst/cb-2025/assets/slides/09.1-AnalysingAlgorithms.pdf
 s02:
-    url: /dst/assets/cb-2025/slides/09.2-DataScienceAlgorithms.pdf
+    url: /dst/cb-2025/assets/slides/09.2-DataScienceAlgorithms.pdf
 
 ## Worksheet
 ws01:
-    url: /dst/assets/cb-2025/worksheets/ws09.1_questions.pdf
+    url: /dst/cb-2025/assets/worksheets/ws09.1_questions.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/assets/cb-2025/assessments/Portfolio09.pdf
+    url: /dst/cb-2025/assets/assessments/Portfolio09.pdf
 
 ## Workshop
 
 s03:
-    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block09-TimeComplexity.ipynb
+    url: https://github.com/dsbristol/dst/blob/master/cb-2025/assets/workshops/block09-TimeComplexity.ipynb
 

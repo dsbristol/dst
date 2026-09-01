@@ -2,39 +2,39 @@
 
 s01:
     text: 4.1 Nonparametrics and kernels
-    url: /dst/assets/cb-2025/slides/04.1-Nonparametrics.pdf
+    url: /dst/cb-2025/assets/slides/04.1-Nonparametrics.pdf
 
 s02:
     text: 4.2 Outliers and Missing data
-    url: /dst/assets/cb-2025/slides/04.2-OutliersMissingData.pdf
+    url: /dst/cb-2025/assets/slides/04.2-OutliersMissingData.pdf
 
 ## Code
 c01:
     text: 4.1 Nonparametrics Code
-    url: /dst/assets/cb-2025/code/04.1-Nonparametrics.R
+    url: /dst/cb-2025/assets/code/04.1-Nonparametrics.R
 
 c02:
     text: 4.2 Missing Data Code
-    url: /dst/assets/cb-2025/code/04.2-MissingData.R
+    url: /dst/cb-2025/assets/code/04.2-MissingData.R
 
 ## Worksheet
 
 ws01:
     text: 4.1 Non-parametrics
-    url: /dst/assets/cb-2025/worksheets/ws04.1_questions.pdf
+    url: /dst/cb-2025/assets/worksheets/ws04.1_questions.pdf
 
 ws02:
     text: 4.2 Outliers and Missing Data
-    url: /dst/assets/cb-2025/worksheets/ws04.2_questions.pdf
+    url: /dst/cb-2025/assets/worksheets/ws04.2_questions.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/assets/cb-2025/assessments/Portfolio04.pdf
+    url: /dst/cb-2025/assets/assessments/Portfolio04.pdf
 
 ## Workshop
 
 s03:
-    url: /dst/assets/cb-2025/workshops/block04-Missingness.Rmd
+    url: /dst/cb-2025/assets/workshops/block04-Missingness.Rmd
 
 s03-h:
-    url: /dst/assets/cb-2025/workshops/block04-Missingness.html
+    url: /dst/cb-2025/assets/workshops/block04-Missingness.html

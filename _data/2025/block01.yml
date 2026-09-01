@@ -1,29 +1,29 @@
 
 ## Slides
 s0101-Intro:
-    url: /dst/assets/cb-2025/slides/01.1-Intro.pdf
+    url: /dst/cb-2025/assets/slides/01.1-Intro.pdf
 
 s0102-EDA:
-    url: /dst/assets/cb-2025/slides/01.2-EDA.pdf
+    url: /dst/cb-2025/assets/slides/01.2-EDA.pdf
 
 ## Code
 c0101-EDA:
-    url: /dst/assets/cb-2025/code/01.1-EDA.R
+    url: /dst/cb-2025/assets/code/01.1-EDA.R
 
 c0103-EDA:
-    url: /dst/assets/cb-2025/code/01.3-WSL-1-EDA.Rmd
+    url: /dst/cb-2025/assets/code/01.3-WSL-1-EDA.Rmd
 
 ## Workshop
 s0103-EDA:
-    url: /dst/assets/cb-2025/workshops/block01-EDA.Rmd
+    url: /dst/cb-2025/assets/workshops/block01-EDA.Rmd
 
 s0103-EDA-h:
-    url: /dst/assets/cb-2025/workshops/block01-EDA.html
+    url: /dst/cb-2025/assets/workshops/block01-EDA.html
 
 ## Worksheet
 ws02:
-    url: /dst/assets/cb-2025/worksheets/ws01.2_questions.pdf
+    url: /dst/cb-2025/assets/worksheets/ws01.2_questions.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/assets/cb-2025/assessments/PortfolioFormative.pdf
+    url: /dst/cb-2025/assets/assessments/PortfolioFormative.pdf

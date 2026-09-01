@@ -2,34 +2,34 @@
 
 s01:
     text: 5.1 Introduction to Classification
-    url: /dst/assets/cb-2025/slides/05.1-Classification.pdf
+    url: /dst/cb-2025/assets/slides/05.1-Classification.pdf
 
 s02:
     text: 5.2 Ensemble learning
-    url: /dst/assets/cb-2025/slides/05.2-EnsembleLearning.pdf
+    url: /dst/cb-2025/assets/slides/05.2-EnsembleLearning.pdf
 
 ## Code
 c01:
     text: 5.1 Classification
-    url: /dst/assets/cb-2025/code/05.1-Classification.R
+    url: /dst/cb-2025/assets/code/05.1-Classification.R
 
 ## Worksheet
 ws01:
-    url: /dst/assets/cb-2025/worksheets/ws05.1_questions.pdf
+    url: /dst/cb-2025/assets/worksheets/ws05.1_questions.pdf
 ws02:
-    url: /dst/assets/cb-2025/worksheets/ws05.2_questions.pdf
+    url: /dst/cb-2025/assets/worksheets/ws05.2_questions.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/assets/cb-2025/assessments/Portfolio05.pdf
+    url: /dst/cb-2025/assets/assessments/Portfolio05.pdf
 
 ## Workshop
 
 s03:
     text: 5.3 Workshop on Classification with base learners and ensembles
-    url: /dst/assets/cb-2025/workshops/block05-Classification.Rmd
+    url: /dst/cb-2025/assets/workshops/block05-Classification.Rmd
 
 s03-h:
     text: 5.3 Workshop on Classification with base learners and ensembles
-    url: /dst/assets/cb-2025/workshops/block05-Classification.html
+    url: /dst/cb-2025/assets/workshops/block05-Classification.html
 

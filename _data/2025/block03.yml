@@ -1,36 +1,36 @@
 ## Slides
 
 s01-PCA:
-    url: /dst/assets/cb-2025/slides/03.1-LatentStructuresPCA.pdf
+    url: /dst/cb-2025/assets/slides/03.1-LatentStructuresPCA.pdf
 
 s02-Clustering:
-    url: /dst/assets/cb-2025/slides/03.2-Clustering.pdf
+    url: /dst/cb-2025/assets/slides/03.2-Clustering.pdf
 
 ## Code
 c01:
-    url: /dst/assets/cb-2025/code/03.1-LatentSpaces.R
+    url: /dst/cb-2025/assets/code/03.1-LatentSpaces.R
 
 c02:
-    url: /dst/assets/cb-2025/code/03.2-Clustering.R
+    url: /dst/cb-2025/assets/code/03.2-Clustering.R
 
 ## Worksheet
 
 ws01:
     text: 3.1 Latent Spaces and PCA Worksheet
-    url: /dst/assets/cb-2025/worksheets/ws03.1_questions.pdf
+    url: /dst/cb-2025/assets/worksheets/ws03.1_questions.pdf
 
 ws02:
     text: 3.2 Clustering Worksheet
-    url: /dst/assets/cb-2025/worksheets/ws03.2_questions.pdf
+    url: /dst/cb-2025/assets/worksheets/ws03.2_questions.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/assets/cb-2025/assessments/Portfolio03.pdf
+    url: /dst/cb-2025/assets/assessments/Portfolio03.pdf
     
 ## Workshop
 
 s03-SpectralEmbedding:
-    url: /dst/assets/cb-2025/workshops/block03-SpectralEmbedding.Rmd
+    url: /dst/cb-2025/assets/workshops/block03-SpectralEmbedding.Rmd
 
 s03-SpectralEmbedding-h:
-    url: /dst/assets/cb-2025/workshops/block03-SpectralEmbedding.html
+    url: /dst/cb-2025/assets/workshops/block03-SpectralEmbedding.html
