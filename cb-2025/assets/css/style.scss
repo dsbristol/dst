@@ -1,0 +1,16 @@
+---
+---
+
+// https://github.com/pages-themes/slate/blob/master/_sass/jekyll-theme-slate.scss
+.mystyle {
+    min-width:200px;
+    padding: 5px 10px 5px 10px;
+    color: #EEEEEE;
+    background:rgba(0.9,0.9,0.9,.8);
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(0.8,0.8,0.8,.5);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+@import "{{ site.theme }}";
