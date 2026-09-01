@@ -2,18 +2,18 @@
 
 s01:
     text: A Brief primer in Bayesian methods
-    url: /dst/assets/2025/slides/08.1-Bayes.pdf
+    url: /dst/assets/cb-2025/slides/08.1-Bayes.pdf
 s02:
     text: Topic Models and Latent Dirichlet Allocation
-    url: /dst/assets/2025/slides/08.2-TopicModels.pdf
+    url: /dst/assets/cb-2025/slides/08.2-TopicModels.pdf
 
 ## Worksheet
 ws01:
-    url: /dst/assets/2025/worksheets/ws08.1_questions.pdf
+    url: /dst/assets/cb-2025/worksheets/ws08.1_questions.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/assets/2025/assessments/Portfolio08.pdf
+    url: /dst/assets/cb-2025/assessments/Portfolio08.pdf
 
 ## Workshop
 

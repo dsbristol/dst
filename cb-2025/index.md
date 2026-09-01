@@ -1,7 +1,9 @@
 ---
-title: Data Science Toolbox
+title: Data Science Toolbox (Version 2023-2025)
 ---
 Welcome to:
+
+IMPORTANT NOTE: This is an archived course. See [the currently live version](../) for an up-to-date Data Science Toolbox.
 
 ## [The Data Science Toolbox Coursebook](coursebook.html).
 
@@ -15,5 +17,3 @@ Welcome to:
 It is designed to teach **All of Data Science** to Mathematics, Statistics or Computer Science students who have a little background in coding. It does this through thorough exploration of methods applied to **Complex Real-World Datasets**.
 
 The page contains the public-facing material for the [Data Science Toolbox Level M course](https://www.bristol.ac.uk/unit-programme-catalogue/UnitDetails.jsa?ayrCode=25%2F26&unitCode=MATHM0029)
-
-People interested in Cyber Security might want to check out the [2022-23 course](cb-cyber) which was designed for a Statistics take on Cyber Security.

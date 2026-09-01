@@ -2,18 +2,18 @@
 
 s01:
     text: 7.1 Neural Nets and the Perceptron
-    url: /dst/assets/2025/slides/07.1-Neural Networks Lecture 1.pdf
+    url: /dst/assets/cb-2025/slides/07.1-Neural Networks Lecture 1.pdf
 s02:
     text: 7.2 CNNs and Transformers
-    url: /dst/assets/2025/slides/07.2-Neural Networks Lecture 2.pdf
+    url: /dst/assets/cb-2025/slides/07.2-Neural Networks Lecture 2.pdf
 
 ## Worksheet
 ws01:
-    url: /dst/assets/2025/worksheets/ws07.1_questions.pdf
+    url: /dst/assets/cb-2025/worksheets/ws07.1_questions.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/assets/2025/assessments/Portfolio07.pdf
+    url: /dst/assets/cb-2025/assessments/Portfolio07.pdf
 
 ## Workshop
 
@@ -23,4 +23,4 @@ s03:
 
 s0302:
     text: Neural Network script
-    url: /dst/assets/2025/workshops/block07-NeuralNetworksScript.py
+    url: /dst/assets/cb-2025/workshops/block07-NeuralNetworksScript.py
