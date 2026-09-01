@@ -1,6 +1,6 @@
 ---
 title: Assessments
-layout: coursebook
+layout: coursebook-2025
 ---
 
 # Assessment Overview

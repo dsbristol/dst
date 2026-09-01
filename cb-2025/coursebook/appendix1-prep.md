@@ -1,6 +1,6 @@
 ---
 title: Appendix 1 - Preparation
-layout: coursebook
+layout: coursebook-2025
 ---
 
 # Appendix 1: Critical preparation

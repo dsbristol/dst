@@ -1,6 +1,6 @@
 ---
 title: Appendix 2 - Replicability of code in R and Python
-layout: coursebook
+layout: coursebook-2025
 ---
 
 # Replicability

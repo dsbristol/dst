@@ -1,6 +1,6 @@
 ---
 title: Appendix 5 - Bluecrystal
-layout: coursebook
+layout: coursebook-2025
 ---
 
 # Bluecrystal HPC

@@ -1,6 +1,6 @@
 ---
 title: Coursebook
-layout: coursebook
+layout: coursebook-2025
 ---
 # Coursebook for Data Science Toolbox
 

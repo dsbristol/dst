@@ -1,6 +1,6 @@
 ---
 title: Appendix 3 - Github
-layout: coursebook
+layout: coursebook-2025
 ---
 
 # Git, GitHub, GitHub Desktop
