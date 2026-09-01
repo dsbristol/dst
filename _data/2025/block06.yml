@@ -1,0 +1,38 @@
+## Slides
+
+s01:
+    text: 6.1 Decisions Trees
+    url: /dst/assets/2025/slides/06.1-Trees.pdf
+
+s02:
+    text: 6.2 Random Forests
+    url: /dst/assets/2025/slides/06.2-RandomForests.pdf
+
+## Code
+c01:
+    text: 6.1 Decisions, Trees, Forests
+    url: https://github.com/dsbristol/dst/blob/master/assets/code/06.1-RandomForestSlideContent.ipynb
+
+## Worksheet
+ws01:
+    url: /dst/assets/2025/worksheets/ws06.1_questions.pdf
+
+## Portfolio
+portfolio:
+    url: /dst/assets/2025/assessments/Portfolio06.pdf
+
+## Workshop
+
+s0201:
+    text: 6.3.1 Workshop on Random Forests (R content)
+    url: /dst/assets/2025/workshops/block06-TreesAndForests_Part1.Rmd
+
+s0201-h:
+    text: 6.3.1 Workshop on Random Forests (R content)
+    url: /dst/assets/2025/workshops/block06-TreesAndForests_Part1.html
+
+s0202:
+    text: 6.3.2 Workshop on Random Forests (Python content)
+    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block06-TreesAndForests_Part2.ipynb
+
+

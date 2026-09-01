@@ -1,0 +1,35 @@
+---
+title: Timetable
+layout: coursebook
+---
+
+# Timetable
+
+Content is arranged by blocks (single week of teaching content).
+
+There are 3 summative assessments (Assessment 1-2 + Portfolio), plus a formative (non-assessed) assessment and portfolio.
+### Semester 1
+
+* [00 About](coursebook/00.md)
+* Week 1: Block [01 Introduction](coursebook/01.md)
+  * [Assessment 0]({{ site.data.2025.assessment0.url }}) *Set*
+  * [Portfolio 0]({{ site.data.2025.individualassessment0.url }}) *Set*
+* Week 2: Block [02 Regression and Statistical Testing](coursebook/02.md)
+*  Week 3: Block [03 Latent Structures, PCA, and Clustering](coursebook/03.md)
+  * [Assessment 0]({{ site.data.2025.assessment0.url }}) *Due* (Wednesday noon)
+  * [Portfolio 0]({{ site.data.2025.individualassessment0.url }}) *Due* (Wednesday noon)
+  * [Assessment 1]({{ site.data.2025.assessment1.url }}) *Set*
+  * [Portfolio]({{ site.data.2025.individualassessment1.url }}) *Set*
+* Week 4: Block [04 Non-parametrics and Missing Data](coursebook/04.md)
+* Week 5: **Lecture contents from** Block [05 Supervised Learning and Ensembles](coursebook/05.md) and [06 Decision Trees and Random Forests](coursebook/06.md)
+* Week 6: Consolidation Week. **No lectures**. You should work through the **Workshop contents from** Block [05 Supervised Learning and Ensembles](coursebook/05.md) and [06 Decision Trees and Random Forests](coursebook/06.md), and catch up on Assessments.
+* Week 7: Block [07 Perceptrons and Neural Networks](coursebook/07.md)
+  * [Assessment 1]({{ site.data.2025.assessment1.url }}) *Due* (Wednesday noon)
+  * [Assessment 2]({{ site.data.2025.assessment2.url }}) *Set*
+* Week 8: Block [08 Topic Models and Bayesian Methods](coursebook/08.md)
+* Week 9: Block [09 Algorithms for Data Science](coursebook/09.md)
+* Week 10: Block [10 Parallel Algorithms](coursebook/10.md)
+* Week 11: Block [11 Ethics and Privacy](coursebook/11.md)
+  * [Assessment 2]({{ site.data.2025.assessment2.url }}) *Due* (Wednesday noon)
+* Week 12: Assessment preparation week
+  * [Portfolio]({{ site.data.2025.individualassessment1.url }}) *Due* (**Tuesday 4pm**)

@@ -1,0 +1,30 @@
+
+## Slides
+s0101-Regression:
+    url: /dst/assets/2025/slides/02.1-ModernRegression.pdf
+s0201-Testing:
+    url: /dst/assets/2025/slides/02.2-StatisticalTesting.pdf
+
+## Code
+c01-Regression:
+    url: /dst/assets/2025/code/02.1-Regression.R
+
+c02-Testing:
+    url: /dst/assets/2025/code/02.2-Testing.R
+
+## Workshop
+s03-ModelSelection:
+    url: /dst/assets/2025/workshops/block02-ModelSelection.Rmd
+
+s03-ModelSelection-h:
+    url: /dst/assets/2025/workshops/block02-ModelSelection.html
+
+## Worksheet
+ws01:
+    url: /dst/assets/2025/worksheets/ws02.1_questions.pdf
+ws02:
+    url: /dst/assets/2025/worksheets/ws02.2_questions.pdf
+
+## Portfolio
+portfolio:
+    url: /dst/assets/2025/assessments/Portfolio02.pdf
