@@ -16,12 +16,11 @@ We will spend the first half of each session with an introduction to the method,
 * Block [03 Loss Minimisation for Decisions, Boosting, Forests](coursebook/03.md)
 * Block [04 Unsupervised learning: Latent Structures](coursebook/04.md)
 * Block [05 Unsupervised learning: Outliers and Missingness](coursebook/05.md)
-* Block [06 Non-parametrics](coursebook/05.md)
-* Block [07 Perceptrons and Neural Networks](coursebook/07.md)
-* Block [08 Topic Models and Bayesian Methods](coursebook/08.md)
-* Block [09 Algorithms for Data Science](coursebook/09.md)
-* Block [10 Parallel Algorithms](coursebook/10.md)
-* Block [11 Ethics and Privacy](coursebook/11.md)
+* Block [06 Perceptrons and Neural Networks](coursebook/06.md)
+* Block [07 Topic Models and Bayesian Methods](coursebook/07.md)
+* Block [08 Algorithms for Data Science](coursebook/08.md)
+* Block [09 Parallel Algorithms](coursebook/09.md)
+* Block [10 Ethics and Privacy](coursebook/10.md)
 
 ## Reference information
 
