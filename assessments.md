@@ -7,21 +7,21 @@ layout: coursebook
 
 There are **two** types of assessments:
 
-* **Group Assessments** are each around a month long, allowing a deep-delve into a specific area of Data Science. They make up a total of 60% of the course mark (two, each worth 30%).
+* **Sprint Group Assessments** are each around a month long, allowing a deep-delve into a specific area of Data Science. They make up a total of 60% of the course mark (two, each worth 30%).
 * **Individual Portfolios** are whole-semester activities, individually undertaken to explore areas of data science covered by the lecture material in greater depth. Portfolios make up remaining 40% of the course.
 
 * Formative Assessments (that do not contribute to grade):
-  - [Assessment 0]({{ site.data.assessment0.url }}) (Due Week 3)
+  - [Sprint Assessment 0]({{ site.data.assessment0.url }}) (Due Week 3)
   - [Portfolio 0]({{ site.data.individualassessment0.url }}) (Due Week 3)
     - Including the short Questions for [Block 01](coursebook/01.md).
 * Summative Group Assessments: total 60% (each 30%)
-  - [Assessment 1: Supervised Prediction]({{ site.data.assessment1.url }}) (First group assessment)
-  - [Assessment 2: Data at Scale]({{ site.data.assessment2.url }}) (Second group assessment)
+  - [Sprint Assessment 1: Supervised Prediction]({{ site.data.assessment1.url }}) (First group assessment)
+  - [Sprint Assessment 2: Data at Scale]({{ site.data.assessment2.url }}) (Second group assessment)
 * Individual Portfolios: total 40% 
   - (80%) [Individual Portfolio: Statistical Machine Learning]({{ site.data.individualassessment1.url }})
   - (20%) The short Questions for Block 02-11 (see below).
 
-The Assessments are together in the Individual Portfolio, but are also linked separately for reference from the appropriate Block of the [timetable](timetable.md):
+The portfolio instructions are together in the Individual Portfolio, but are also linked separately for reference from the appropriate Block of the [timetable](timetable.md):
 
 * [Portfolio Block 02]( {{ site.data.block02.portfolio.url }} )
 * [Portfolio Block 03]( {{ site.data.block03.portfolio.url }} )
@@ -69,7 +69,7 @@ There is a complete [Example Assessment](https://github.com/dsbristol/dst_exampl
 Undertaking a group project online is a difficult process that requires care and planning. Help for planning your project is given in [Block 1](coursebook/01.md), and includes:
 
 * **1.3.3 Workshop Lecture on Assessments**, listed completely in [Block 01](coursebook/01.md).
-* The [Example Group Assessment](https://github.com/dsbristol/dst_example_project), which you should go over carefully.
+* The [Example Sprint Group Assessment](https://github.com/dsbristol/dst_example_project), which you should go over carefully.
 * [Appendix 1: Preparation List](coursebook/appendix1-prep.md).
 * [Appendix 2: Replicability](appendix2-replicability.md), which explains how to make your project run reliably on others' computers.
 * [Appendix 3: GitHub](appendix3-github.md), which explains how to use GitHub.

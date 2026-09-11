@@ -2,26 +2,26 @@
 
 s01:
     text: A Brief primer in Bayesian methods
-    url: /dst/assets/slides/08.1-Bayes.pdf
+    url: /dst/notready.html
 s02:
     text: Topic Models and Latent Dirichlet Allocation
-    url: /dst/assets/slides/08.2-TopicModels.pdf
+    url: /dst/notready.html
 
 ## Worksheet
 ws01:
-    url: /dst/assets/worksheets/ws08.1_questions.pdf
+    url: /dst/notready.html
 
 ## Portfolio
 portfolio:
-    url: /dst/assets/assessments/Portfolio08.pdf
+    url: /dst/notready.html
 
 ## Workshop
 
 s0301:
     text: 8.3.1 Workshop on Topic Modelling (Part 1, Prereqs)
-    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block08-TopicModels_part1.ipynb
+    url: /dst/notready.html
 
 s0302:
     text: 8.3.2 Workshop on Topic Modelling (Part 2, Main content)
-    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block08-TopicModels_part2.ipynb
+    url: /dst/notready.html
 

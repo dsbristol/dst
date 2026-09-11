@@ -3,9 +3,14 @@
 s0101-Intro:
     url: /dst/assets/slides/01.1-Intro.pdf
 
-s0102-EDA:
-    url: /dst/assets/slides/01.2-EDA.pdf
+s0102-Classification:
+    url: /dst/assets/slides/01.2-Classification.pdf
 
+s010201-PortfolioClassification:
+    url: /dst/assets/slides/01.2.1-ClassificationPortfolioNotes.pdf
+
+s010202-PortfolioNotesSecondTopic:
+    url: /dst/assets/slides/01.2.2-PortfolioNotesSecondTopic.pdf
 ## Code
 c0101-EDA:
     url: /dst/assets/code/01.1-EDA.R

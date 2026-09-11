@@ -3,22 +3,22 @@
 ## Lectures
 s01:
     text: 10.1 Introduction to Parallelism 
-    url: /dst/assets/slides/10.1-ParallelAlgorithms.pdf
+    url: /dst/notready.html
 
 s02:
     text: 10.2 Vectorisation, Mapping and Reducing
-    url: /dst/assets/slides/10.2-Vectorisation.pdf
+    url: /dst/notready.html
 
 ## Worksheet
 ws01:
-    url: /dst/assets/worksheets/ws10.1_questions.pdf
+    url: /dst/notready.html
 
 ## Portfolio
 portfolio:
-    url: /dst/assets/assessments/Portfolio10.pdf
+    url: /dst/notready.html
 
 ## Workshop
 
 s03:
     text: 10.3 Coding Parallel Algorithms
-    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block10-CodingParallelAlgorithms.ipynb
+    url: /dst/notready.html

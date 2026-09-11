@@ -8,13 +8,15 @@ layout: coursebook
 
 Content is arranged by blocks (single week of teaching content). You will not miss any material moving through this sequentially as the reference information is cited throughout.
 
+We will spend the first half of each session with an introduction to the method, and the second half with you presenting and discussing portfolio work in small groups.
+
 * [00 About](coursebook/00.md)
-* Block [01 Introduction and Exploratory Data Analysis](coursebook/01.md)
-* Block [02 Regression, Testing, and Model Selection](coursebook/02.md)
-* Block [03 Latent Structure, PCA and Clustering](coursebook/03.md)
-* Block [04 Non-parametrics and Missing Data](coursebook/04.md)
-* Block [05 Supervised Learning and Ensembles](coursebook/05.md)
-* Block [06 Decision Trees and Random Forests](coursebook/06.md)
+* Block [01 Introduction to Data Science](coursebook/01.md)
+* Block [02 Modern Regression and Cross Validation](coursebook/02.md)
+* Block [03 Loss Minimisation for Decisions, Boosting, Forests](coursebook/03.md)
+* Block [04 Unsupervised learning: Latent Structures](coursebook/04.md)
+* Block [05 Unsupervised learning: Outliers and Missingness](coursebook/05.md)
+* Block [06 Non-parametrics](coursebook/05.md)
 * Block [07 Perceptrons and Neural Networks](coursebook/07.md)
 * Block [08 Topic Models and Bayesian Methods](coursebook/08.md)
 * Block [09 Algorithms for Data Science](coursebook/09.md)
