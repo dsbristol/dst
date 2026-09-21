@@ -13,8 +13,8 @@ s020201-CV:
 c01-Regression:
     url: /dst/assets/code/02.1-Regression.R
 
-c02-Testing:
-    url: /dst/assets/code/02.2-Testing.R
+c02-Classification:
+    url: /dst/assets/code/02.2-Classification.R
 
 ## Workshop
 s03-ModelSelection:

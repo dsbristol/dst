@@ -1,36 +1,48 @@
 ## Slides
 
-s01-PCA:
-    url: /dst/notready.html
+s01-Trees:
+    url: /dst/assets/slides/03.1-Trees.pdf
 
-s02-Clustering:
-    url: /dst/notready.html
+s02-Forests:
+    url: /dst/assets/slides/03.2-Forests.pdf
+
+s0101-Trees:
+    url: /dst/assets/slides/03.1.1-PortfolioTrees.pdf
+
+s0102-RegressionTrees:
+    url: /dst/assets/slides/03.1.2-RegressionTrees.pdf
+
+s0201-Boosting:
+    url: /dst/assets/slides/03.2.1-MoreBoosting.pdf
 
 ## Code
-c01:
-    url: /dst/notready.html
+c01-Classification:
+    url: /dst/assets/code/03.1-Classification.R
 
-c02:
-    url: /dst/notready.html
+c02-Forests:
+    url: /dst/assets/code/03.2-RandomForestSlideContent.ipynb
 
 ## Worksheet
 
 ws01:
     text: 3.1 Latent Spaces and PCA Worksheet
-    url: /dst/notready.html
+    url: /dst/assets/worksheets/ws03.1_questions.pdf
 
 ws02:
     text: 3.2 Clustering Worksheet
-    url: /dst/notready.html
+    url: /dst/assets/worksheets/ws03.2_questions.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/notready.html
+    url: /dst/assets/assessments/Portfolio03.pdf
     
 ## Workshop
 
-s03-SpectralEmbedding:
-    url: /dst/notready.html
+s03-Classification:
+    url: /dst/assets/workshops/block03-Classification.Rmd
 
-s03-SpectralEmbedding-h:
-    url: /dst/notready.html
+s03-Classification-h:
+    url: /dst/assets/workshops/block03-Classification.html
+
+s0302-Classification-py:
+    url: /dst/assets/workshops/block03-Classification_Part2.ipynb

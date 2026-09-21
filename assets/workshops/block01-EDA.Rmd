@@ -6,7 +6,7 @@ output:
   html_document: default
   pdf_document: default
 email: dan.lawson@bristol.ac.uk
-version: 2.0.3
+version: 4.0.0
 fig_width: 10
 fig_height: 5
 ---
