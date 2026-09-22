@@ -1,0 +1,524 @@
+---
+title: "Classification with base learners and ensembles"
+date: "Block 03.3"
+author: "Daniel Lawson"
+email: dan.lawson@bristol.ac.uk
+output: html_document
+version: 4.0.0
+fig_width: 10
+fig_height: 5
+---
+
+# 0. Requirements
+
+```{r}
+if(!require("knitr")) install.packages("knitr")
+if(!require("MASS")) install.packages("MASS")
+if(!require("class")) install.packages("class")
+if(!require("e1071")) install.packages("e1071")
+if(!require("pROC")) install.packages("pROC")
+if(!require("remotes")) install.packages("remotes")
+if(!require("fastAdaboost")) devtools::install_github("souravc83/fastAdaboost")
+if(!require("tree")) install.packages("tree")
+if(!require("randomForest")) install.packages("randomForest")
+if(!require("gbm")) install.packages("gbm")
+library("knitr") # 
+library("MASS") # For logistic regression
+library("class") # For knn
+library("e1071") # For SVM
+library("pROC") # For ROCs
+library("fastAdaboost") # For adaboost
+library("tree") # For decision trees
+library("randomForest") # For... random forests
+library("gbm")
+```
+
+## The regular boiler plate stuff.
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# 1. Overview and data
+This workshop examines classification performance. This consists of a few stages:
+
+1. Making a dataset
+2. Creating an interface so that every classifier runs the same way, and returns its results the same way
+3. Creating an interface so that performance is automatically calculated in a standardized way
+4. Implementing stacking and boosting
+
+
+## 1.1 Data input
+We're making a simple classification problem out of the netflow data: can we tell what is HTTP?
+
+We will use the Bro log data from [Secrepo](http://www.secrepo.com/Datasets%20Description/HTML_Bro_log_1/conn.html) which has been used to generate several slides.
+
+We will make a data frame consisting of only "good" features, omit missing data, and code the "service" feature as binary by whether it is http or not, which we use as our response variable to be predicted.
+
+NB: This is implemented [on GitHub](https://raw.githubusercontent.com/dsbristol/dst/master/code/loadconndata.R) but we are doing it manually here, for clarity and exposition.
+
+```{r}
+## This R script reads data:
+## The Bro log data from [Secrepo](http://www.secrepo.com/Datasets%20Description/HTML_Bro_log_1/conn.html):
+## assigns headers to it and makes a useful subset for data exploration.
+
+## Get the data from the repo
+conndata=read.table("https://github.com/dsbristol/dst/raw/master/data/conn_sample.log",as.is=T)
+## Assign column names
+colnames(conndata)=c('ts','uid','id.orig_h','id.orig_p',
+    'id.resp_h','id.resp_p','proto','service','duration',
+    'orig_bytes','resp_bytes','conn_state','local_orig',
+    'missed_bytes','history','orig_pkts','orig_ip_bytes',
+    'resp_pkts','resp_ip_bytes','tunnel_parents')
+
+## Make a version of the data that uses only the top 20 most frequently used ports
+topports=names(head(sort(table(conndata[,"id.resp_p"]),decreasing=T),20))
+conndata2=conndata[conndata[,"id.resp_p"]%in%topports,]
+conndataC=conndata[,c("service","duration","orig_bytes",
+                      "resp_bytes","orig_ip_bytes","resp_ip_bytes")]
+conndataC=conndataC[!apply(conndataC,1,function(x)any(x=="-")),]
+for(i in c(2:6)) conndataC[,i]=log(1+as.numeric(conndataC[,i]))
+for(i in c(1)) conndataC[,i]=as.factor(conndataC[,i])
+conndataC[,"http"]=as.numeric(conndataC[,"service"]!="http")
+conndataC=conndataC[,-1]
+```
+
+## 1.2 Make a test/train data split
+
+We will make two versions of the data. The first uses the 5 features we've just picked out. The second is a cut-down version with only two features for understanding and visualisation.
+```{r}
+set.seed(1)
+set1=sample(1:dim(conndataC)[1],floor(dim(conndataC)[1]/2))
+train=conndataC[set1,]
+test=conndataC[-set1,]
+
+train0=train[,c("duration","resp_ip_bytes","http")]
+test0=test[,c("duration","resp_ip_bytes","http")]
+```
+
+Save this for use later (we use it in Python):
+```{r}
+write.csv(test,file=file.path("..","data","conndataC_test.csv"))
+write.csv(train,file=file.path("..","data","conndataC_train.csv"))
+```
+
+# 2. Model construction
+
+## 2.1 Implement Logistic Regression
+
+Logistic regression is a type of generalised linear model. Look up `?glm` to see how to implement it.
+
+We're giving it it's own function so that we don't have to use a special interface to access it.
+```{r}
+logisticregression=function(formula,data,...){
+  glm(formula,family=binomial(link='logit'),data=data,...)
+}
+testlogistic <- logisticregression(http ~.,data=train)
+plot(testlogistic)
+```
+
+## 2.2 Construct a general purpose test/train function
+
+We will want to do the same thing with many different classifiers, so we'll create a standardized interface to keep the coding down. This will automatically run an ROC curve computation.
+
+We are able to specify:
+* a `modelclass` (that works like `logisticregression` above), 
+* a `formula` to tell it which is the response (`y~.` is the simplest form for a response called `y`)
+* a `train` dataset
+* a `test` dataset
+* a `predictfn` which is a function that takes a `model` and returns a **continuous** response. We will need this later to force some other classes to return the right structure of the data.
+* `...`: additional parameters to the model
+
+```{r}
+learnmodel=function(modelclass,formula,train,test, 
+                    predictfn=function(x,newdata)predict(x,newdata,type="response"),
+                    ...){ 
+  ## Start by sorting out the formula target
+  if(class(formula)=="character") formula=formula(formula)
+  y=as.character(formula[2])
+  
+  ## Now run the learning 
+  model=modelclass(formula,data=train,...)
+  
+  ## Predict on training data
+  trainpred0=predictfn(model,newdata=train)
+  trainpred=ifelse(trainpred0 > 0.5,1,0)
+  
+  ## Predict on testing data
+  testpred0=predictfn(model,newdata=test)
+  testpred=ifelse(testpred0 > 0.5,1,0)
+  
+  ## Organise the data for return
+  trainres=data.frame(truth=train[,y],pred=trainpred,pred0=trainpred0)
+  testres=data.frame(truth=test[,y],pred=testpred,pred0=testpred0)
+  
+  ## Compute ROC
+  testroc=roc(truth~pred0,data=as.data.frame(testres))
+  list(model=model,
+       trainres=trainres,
+       testres=testres,
+       train=train,
+       test=test,
+       roc=testroc)
+}
+```
+
+
+Now we'll run each of the classifiers in turn.
+
+### 2.2.1 Logistic regression
+```{r}
+logisticmodel=learnmodel(logisticregression,http~.,train,test)
+plot(logisticmodel$roc)
+```
+We can see that we do well for the first 50% of true positives, but then lose power.
+
+## 2.2.2 KNN with the learnmodel interface
+
+Knn is really annoying to standardize because there is no "model learning" step, so the interface differs. We've standardized it below.
+
+Read the code and add the correct call to `learnmodel(knnclass,...)` below.
+
+### KNN
+```{r}
+knnclass=function(formula,data,k){
+  ## knn does not provide the usual interface, so we define it from scratch here
+  ## We need to know what the x and y parts of y~x are, and to store all the data and k
+  if(class(formula)=="character") formula=formula(formula)
+  y=as.character(formula[2])
+  x=labels(terms(formula, data=data))
+  ret=list(formula=formula,train=data,k=k,x=x,y=y)
+  class(ret)="knnclass"
+  ret
+}
+predict.knnclass=function(x,newdata,...){
+  ## knn can now be run on the new data. It returns the results as a factor with attributes "pr" where the probability of that classification is made. So we have to transform this into a probability.
+  predtmp=knn(x$train[,x$x], newdata[,x$x], x$train[,x$y], k = x$k, prob=TRUE)
+  pred0=attr(predtmp,"pr")
+  pred=as.numeric(predtmp)-1
+  pred0[pred==0] = 1-pred0[pred==0]
+  pred0
+}
+## use the new functions
+knnmodel=learnmodel(knnclass,http~.,train,test,k=5,predictfn=predict.knnclass)
+plot(knnmodel$roc)
+```
+
+What do you think about performance?
+
+## 2.2.3 Lda using the learnmodel interface
+
+Again, LDA is close but requires a tweak to the prediction function
+### LDA
+```{r}
+predictlda=function(x,newdata,...){
+  ## The lda class hides the scores in the posterior
+  predict(x,newdata,type="response")$posterior[,1]
+}
+ldamodel=learnmodel(lda,http~.,train,test,predictfn=predictlda)
+plot(ldamodel$roc)
+```
+
+## 2.2.4 SVM with a **linear** basis function
+
+SVM has a relatively straitforward interface, with only a "kernel" to be specified.
+
+### Support Vector Machine
+```{r}
+svmmodel=learnmodel(svm,http~.,train,test,kernel="linear")
+plot(svmmodel$roc)
+```
+
+## 2.2.5 SVM with a **radial** basis function
+
+### SVM radial kernel
+```{r}
+svmrmodel=learnmodel(svm,http~.,train,test,kernel="radial")
+plot(svmrmodel$roc)
+```
+
+This just lets us see the details of the fit, in particular the number of support vectors
+```{r}
+print(svmmodel$model)
+print(svmrmodel$model)
+```
+How does SVM compare at model-learning and prediction time to K-NN?
+
+#### See Q5.1 in Block 3 Questions
+
+about interpreting these models.
+
+# 3 Model comparison
+
+## 3.1 ROC curve comparison
+
+Interpret the ROC curve. Which methods are working well? Why?
+
+We plot the ROC curves together for comparison.
+```{r}
+par(mfrow=c(1,2))
+for(xmax in c(1,0.05)){
+    plot(1-logisticmodel$roc$specificities,logisticmodel$roc$sensitivities,type="l",
+         xlab="False Positive Rate",ylab="True Positive Rate",xlim=c(0,xmax),col=2)
+    lines(1-ldamodel$roc$specificities,ldamodel$roc$sensitivities,col=3)
+    lines(1-svmmodel$roc$specificities,svmmodel$roc$sensitivities,col=4)
+    lines(1-svmrmodel$roc$specificities,svmrmodel$roc$sensitivities,col=4,lty=2)
+    lines(1-knnmodel$roc$specificities,knnmodel$roc$sensitivities,col=5,lty=2)
+    abline(a=0,b=1)
+    if(xmax==1){
+        legend("bottomright",c("Logistic","LDA","SVM (linear)","SVM (radial)","K-NN"),
+               text.col=c(2,3,4,4,5),col=c(2,3,4,4,5),lty=c(1,1,1,2,1),bty="n")
+    }
+}
+```
+The linear methods are all fundamentally restrained because there is no linear separation in the data. However, they do very well at low FPR.
+
+#### See Q5.2 in Block 3 Questions
+
+about interpreting model performance.
+
+## 3.2 Input space comparison
+
+We're going to make a 2D plot of the input space and color it by class prediction.
+
+Running the classification is now easy since we've made the interface.
+
+### 3.2.1 Simple Prediction of all models using the train0 and test0 data.
+
+```{r}
+################
+## Simple plots for illustration
+## Using 2 predictors only
+
+logistic2dmodel <- learnmodel(logisticregression,http ~.,train=train0,test=test0)
+knn2dmodel <- learnmodel(knnclass,http ~.,train=train0,test=test0,k=5,predictfn=predict.knnclass)
+lda2dmodel <- learnmodel(lda,http ~.,train=train0,test=test0,predictfn=predictlda)
+svm2dmodel <- learnmodel(svm,http ~.,train=train0,test=test0,kernel="linear")
+svmr2dmodel <- learnmodel(svm,http ~.,train=train0,test=test0,kernel="radial")
+```
+
+### 3.2.2 Exploring the input space
+
+Here we make a grid to see what each classifier is doing around the space. 
+```{r}
+make.grid = function(x, n = 75) {
+  ## Make a grid with n X n values over the range of x[,1] and x[,2]
+  grange = apply(x, 2, range)
+  x1 = seq(from = grange[1,1], to = grange[2,1], length = n)
+  x2 = seq(from = grange[1,2], to = grange[2,2], length = n)
+  ret=expand.grid(X1 = x1, X2 = x2)
+  colnames(ret)=colnames(x)
+  ret
+}
+traingrid = make.grid(train0[,1:2])
+
+svm2dgrid = predict(svm2dmodel$model, traingrid)>0
+svmr2dgrid = predict(svmr2dmodel$model, traingrid)>0
+knn2dgrid=predict(knn2dmodel$model,traingrid)>0
+logistic2dgrid=predict(logistic2dmodel$model,traingrid)>0
+
+par(mfrow=c(2,2))
+plot(traingrid, col = c("orange","cyan")[1+as.numeric(logistic2dgrid)], pch = 20, cex = .5,main="Logistic") 
+points(train0[,1:2], col = c("red","blue")[train0[,3] + 1], pch = 19,cex=1)
+
+plot(traingrid, col = c("orange","cyan")[1+as.numeric(knn2dgrid)], pch = 20, cex = .5,main="K-NN (K=5)") 
+points(train0[,1:2], col = c("red","blue")[train0[,3] + 1], pch = 19,cex=1)
+
+plot(traingrid, col = c("orange","cyan")[1+as.numeric(svm2dgrid)], pch = 20, cex = .5,main="Linear SVM")
+points(train0[,1:2], col = c("red","blue")[train0[,3] + 1], pch = 19,cex=1)
+points(train0[svm2dmodel$model$index,1:2], pch = 5, cex = 1)
+
+plot(traingrid, col = c("orange","cyan")[1+as.numeric(svmr2dgrid)], pch = 20, cex = .5,main="Radial SVM")
+points(train0[,1:2], col = c("red","blue")[train0[,3] + 1], pch = 19,cex=1)
+points(train0[svm2dmodel$model$index,1:2], pch = 5, cex = 1)
+```
+
+#### See Q5.3 in Block 3 Questions
+
+about interpreting the input space.
+
+# 4 Meta-learning
+
+## 4.1 Stacking
+
+Here we try stacking the data.
+
+To do that, we make a dataset that contains the train data, stacked with the output from the 3 linear classifiers. Pass this into learnmodel using logisticregression.
+
+(We'll interpret this after running boosting)
+```{r}
+lintrain=cbind(train,
+               data.frame(logistic=logisticmodel$trainres$pred0,
+                    lda=ldamodel$trainres$pred0,
+                    svm=svmmodel$trainres$pred0))
+lintest=cbind(test,
+               data.frame(logistic=logisticmodel$testres$pred0,
+                    lda=ldamodel$testres$pred0,
+                    svm=svmmodel$testres$pred0))
+linstackmodel=learnmodel(logisticregression,http~.,lintrain,lintest)
+plot(linstackmodel$roc)
+```
+
+## 4.2 Boosting
+
+Boosting uses a default learner and this implementation does not allow custom learners.
+
+```{r}
+predictada=function(x,newdata){
+  predict(x,newdata=newdata,type='response')$prob[,2]
+}
+adamodel=learnmodel(adaboost,http~.,train,test,predictfn=predictada,nIter=10)
+```
+
+## 4.3 Tree model using the function "tree". 
+
+To figure this out from scratch, we would use `?tree` and examine whether it returns the expected structure, or whether we have to define a custom model learning function. Do we need a special `predictfn`?
+
+```{r}
+require("tree")
+treemodel=learnmodel(tree,http~.,train,test,predictfn=predict)
+```
+
+## 4.5 Gradient Boosting Machine using the function "gbm". 
+
+This fits a decision tree using boosting, though differently implemented from `adaboost`. We need `?gbm` to examine whether it returns the expected structure, or whether we have to define a custom model learning function. Do we need a special `predictfn`?
+
+We fit 3 models, for a tree depth of 1 ( the default), 2 and 3.
+
+```{r}
+require(gbm)
+gbmpredict=function(gbmmodel,newdata){
+  predict(gbmmodel,newdata,n.trees=gbmmodel$n.trees)
+}
+gbmmodel1=learnmodel(gbm,http~.,train,test,predictfn=gbmpredict,n.trees=1000, interaction.depth=1)
+gbmmodel2=learnmodel(gbm,http~.,train,test,predictfn=gbmpredict,n.trees=1000, interaction.depth=2)
+gbmmodel3=learnmodel(gbm,http~.,train,test,predictfn=gbmpredict,n.trees=1000, interaction.depth=3)
+```
+
+
+## 4.4 Random Forest model using the function "randomForest". 
+
+We would need `?randomForest` and should examine whether it returns the expected structure, or whether we have to define a custom model learning function. Do we need a special predictfn?
+
+```{r}
+require("randomForest")
+rfmodel=learnmodel(randomForest,http~.,train,test,predictfn=predict)
+```
+
+## 4.5 Stacking everything
+
+```{r}
+stacktrain=cbind(train,
+               data.frame(logistic=logisticmodel$trainres$pred0,
+                    lda=ldamodel$trainres$pred0,
+                    svm=svmmodel$trainres$pred0,
+                    svmr=svmrmodel$trainres$pred0,
+                    knn=knnmodel$trainres$pred0,
+                    ada=adamodel$trainres$pred0,
+                    tree=treemodel$trainres$pred0,
+                    rf=rfmodel$trainres$pred0,
+                    gbm1=gbmmodel1$trainres$pred0,
+                    gbm2=gbmmodel2$trainres$pred0,
+                    gbm3=gbmmodel3$trainres$pred0
+                    ))
+stacktest=cbind(test,
+               data.frame(logistic=logisticmodel$testres$pred0,
+                    lda=ldamodel$testres$pred0,
+                    svm=svmmodel$testres$pred0,
+                    svmr=svmrmodel$testres$pred0,
+                    knn=knnmodel$testres$pred0,
+                    ada=adamodel$testres$pred0,
+                    tree=treemodel$testres$pred0,
+                    rf=rfmodel$testres$pred0,
+                    gbm1=gbmmodel1$testres$pred0,
+                    gbm2=gbmmodel2$testres$pred0,
+                    gbm3=gbmmodel3$testres$pred0
+                    ))
+stackmodel=learnmodel(randomForest,http~.,stacktrain,stacktest)
+```
+
+
+## 5.1 Interpret stacking and boosting
+
+The code below plots a) linear models, b) KNN, c) adaboost.  How do they perform? Why do you think that the performance is ordered as we see?
+
+```{r}
+par(mfrow=c(1,2))
+for(xmax in c(1,0.05)){
+    plot(1-logisticmodel$roc$specificities,logisticmodel$roc$sensitivities,type="l",
+         xlab="False Positive Rate",ylab="True Positive Rate",xlim=c(0,xmax),col=2)
+    lines(1-ldamodel$roc$specificities,ldamodel$roc$sensitivities,col=3)
+    lines(1-svmmodel$roc$specificities,svmmodel$roc$sensitivities,col=4)
+    lines(1-svmrmodel$roc$specificities,svmrmodel$roc$sensitivities,col=4,lty=2)
+    lines(1-knnmodel$roc$specificities,knnmodel$roc$sensitivities,col=5,lty=2)
+    lines(1-linstackmodel$roc$specificities,linstackmodel$roc$sensitivities,col=6,lty=2)
+    lines(1-adamodel$roc$specificities,adamodel$roc$sensitivities,col=7,lty=2)
+    abline(a=0,b=1)
+    if(xmax==1){
+        legend("bottomright",c("Logistic","LDA","SVM (linear)","SVM (radial)","K-NN","Stacked linear methods","Adaboost"),
+               text.col=c(2,3,4,4,5,6,7),col=c(2,3,4,4,5,6,7),lty=c(1,1,1,2,1,2,2),bty="n")
+    }
+}
+```
+
+## 5.2 Feature importances
+
+The feature importances from the stacked model can be extracted in order by running:
+
+```{r}
+stackmodel$model$importance[order(stackmodel$model$importance,decreasing = TRUE),]
+```
+
+## 5.3 ROC curves for everything.
+
+The code below plots the new boosting and stacking ROC curves. How do they perform? Why do you think that the performance is ordered as we see?
+
+```{r}
+require("pROC")
+
+par(mfrow=c(1,3))
+for(xmax in c(1,0.05,0.005)){
+    plot(1-logisticmodel$roc$specificities,logisticmodel$roc$sensitivities,type="l",
+         xlab="False Positive Rate",ylab="True Positive Rate",xlim=c(0,xmax),col=2)
+    lines(1-ldamodel$roc$specificities,ldamodel$roc$sensitivities,col=3)
+    lines(1-svmmodel$roc$specificities,svmmodel$roc$sensitivities,col=4)
+    lines(1-svmrmodel$roc$specificities,svmrmodel$roc$sensitivities,col=4,lty=2)
+    lines(1-knnmodel$roc$specificities,knnmodel$roc$sensitivities,col=5,lty=2)
+    lines(1-linstackmodel$roc$specificities,linstackmodel$roc$sensitivities,col=6,lty=2)
+    lines(1-adamodel$roc$specificities,adamodel$roc$sensitivities,col=7,lty=2)
+    lines(1-treemodel$roc$specificities,treemodel$roc$sensitivities,col=8,lty=2,lwd=2)
+    lines(1-rfmodel$roc$specificities,rfmodel$roc$sensitivities,col=9,lty=2,lwd=2)
+    
+    lines(1-gbmmodel1$roc$specificities,gbmmodel1$roc$sensitivities,col=1,lty=3,lwd=2)
+    lines(1-gbmmodel2$roc$specificities,gbmmodel2$roc$sensitivities,col=2,lty=3,lwd=2)
+    lines(1-gbmmodel3$roc$specificities,gbmmodel3$roc$sensitivities,col=3,lty=3,lwd=2)
+    
+    lines(1-stackmodel$roc$specificities,stackmodel$roc$sensitivities,col=2,lty=1,lwd=3)
+    
+    abline(a=0,b=1)
+    if(xmax==1){
+        legend("bottomright",c("Logistic","LDA","SVM (linear)",
+                               "SVM (radial)","K-NN","Stacked linear methods",
+                               "Adaboost","Tree","Random Forest",
+                               "GBM1","GBM2","GBM3",
+                               "Stacked"),
+               text.col=c(2,3,4,4,5,6,7,8,9,1,2,3,2),
+               col     =c(2,3,4,4,5,6,7,8,9,1,2,3,2),
+               lty     =c(1,1,1,2,1,2,2,2,2,3,3,3,1),
+               lwd     =c(1,1,1,1,1,1,1,2,2,2,2,2,3),bty="n",cex=0.75)
+    }
+}
+```
+
+## 5.4 Save the data in a format we can easily read into python. We will be interested in comparing ROC for the Random Forest.
+
+```{r}
+write.csv(train,file="conndataC_train.csv")
+write.csv(test,file="conndataC_test.csv")
+write.csv(data.frame(fpr=1-rfmodel$roc$specificities,tpr=rfmodel$roc$sensitivities),file="conndataC_RFroc.csv")
+```
+
+#### See Q5.4 in Block 3 Questions
+
+about interpreting the meta-learning approaches.
+
