@@ -8,14 +8,14 @@ layout: coursebook
 
 Content is arranged by blocks (single week of teaching content). You will not miss any material moving through this sequentially as the reference information is cited throughout.
 
-We will spend the first half of each session with an introduction to the method, and the second half with you presenting and discussing portfolio work in small groups.
+We will spend the first half of each session with an introduction to the method, and the second half with students presenting and discussing portfolio work in small groups.
 
 * [00 About](coursebook/00.md)
 * Block [01 Introduction to Data Science](coursebook/01.md)
 * Block [02 Modern Regression and Cross Validation](coursebook/02.md)
 * Block [03 Loss Minimisation for Decisions, Boosting, Forests](coursebook/03.md)
-* Block [04 Unsupervised learning: Latent Structures](coursebook/04.md)
-* Block [05 Unsupervised learning: Outliers and Missingness](coursebook/05.md)
+* Block [04 Unsupervised learning - Latent Structures](coursebook/04.md)
+* Block [05 Unsupervised learning - Anomalies, p-values and Missingness](coursebook/05.md)
 * Block [06 Perceptrons and Neural Networks](coursebook/06.md)
 * Block [07 Topic Models and Bayesian Methods](coursebook/07.md)
 * Block [08 Algorithms for Data Science](coursebook/08.md)

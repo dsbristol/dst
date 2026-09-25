@@ -1,0 +1,474 @@
+# Missingness
+
+Missingness is a fact of life in data analysis. It can arise for many reasons, including:
+
+* People not answering questions in surveys
+* Data corruption
+* Data not being recorded
+* Data not being available (e.g. due to privacy or commercial sensitivity)
+
+The critical question for us is to establish how large the problem is, and whether it is likely to bias our results. How we deal with it depends on the nature of the missingness and the size of the dataset.
+
+In this example we focus on multiple imputation, which is a principled way to deal with missingness, but only appropriate for small-to-medium sized datasets. The worksheet gets far enough to show you how to implement an analysis in the presence of missing data, but does not go into depth about how to evaluate the results. This is left as an exercise for [Portfolio 5](https://dsbristol.github.io/dst/assets/assessments/Portfolio05.pdf).
+
+## Background on Missing Data
+
+Following [Andrew Gelman](https://sites.stat.columbia.edu/gelman/arm/missing.pdf)'s notes:
+
+### Types of Missingness
+
+The standard summary of the types of missingness that can occur in data, and how they impact analysis, are:
+
+1. **Missingness completely at random** (MCAR). Missingness is independent of everything. For example, if each survey respondent decides whether to answer the “earnings” question by rolling a die and refusing to answer if a “6” shows up. Discarding cases with missing data in MCAR **does not bias** your inferences.
+
+2. **Missingness at random** (MAR). The probability a variable is missing depends only on available information. Thus, if sex, race, education, and age are recorded for all the people in the survey, then “earnings” is missing at random if the probability of nonresponse to this question depends only on these fully recorded variables. In MAR data "nonresponse bias" can thus be avoided by modelling the missingness using the observed predictors.
+
+**Not Missing at Random** breaks down into:
+
+3. Missingness that **depends on unobserved predictors**. In the example above, if age affects earnings and was not recorded then data are not missing at random. It could in principle be modelled, if we were able to learn a suitable model to predict age but this either requires strong assumptions or further data.
+
+4. Missingness that **depends on the missing value itself**. This is known as censorin. Examples might include people with high earnings being less likely to report them (for tax, embarrassment, etc reasons), or survival study (e.g. for HIV treatments) we cannot know about people who will go on to die of HIV in the future. Again, models or robust statistics are needed to make progress.
+
+### Methods 
+
+1. **Complete-case analysis** involves discarding records that contain missingness. It is accurate (but increases variance of estimators) for MCAR data, but can be biased for MAR data. For example `cov(na.omit(X))` in R computes the covariance matrix using only complete cases, as does `cov(X,use="complete.obs")`.
+
+2. **Available-case analysis** involves using all available **required** data for each analysis. Because we don't discard rows that contain missingness in variables we don't need, this increases samples and therefore reduces variance compared to complete-case analysis. However, it means that we have different data going into each calculation. As it can be biased for MAR data, and different biases for each calculation, its not usually recommended. For example `cov(X,use="everything")` in R computes the covariance matrix using every pair of complete data.
+
+3. **Imputation** involves filling in missing values.
+
+3a. Simple imputation involves replacing missing data with a default value such as the mean.
+
+3b. Regression imputation involves predicting missing values using a regression model based on other variables; this can be thought of as a conditional mean.
+
+3c. Multiple imputation involves predicting missing values multiple times to create several different imputed datasets, and combining the results. Values are sampled from their conditional probability distribution (which can in principle be correlated). This is generally preferred as it accounts for the uncertainty in the imputed values, but is the most costly.
+
+In this workshop we consider multiple imputation using the `mice` package in R, on a non-trivial dataset.
+
+## 0. Prerequisites
+
+Here we define the libraries we need.
+
+```{r libraries, include=FALSE}
+if(!require("mice")) install.packages("mice")
+if(!require("dplyr")) install.packages("dplyr")
+if(!require("foreign")) install.packages("foreign")
+if(!require("car")) install.packages("car")
+```
+
+```{r}
+library("mice")
+library("dplyr")
+library("mice")
+library("foreign") # to import Stata DTA files
+library("car")
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Summary of this workshop
+
+Multiple imputation is towards the "gold standard" end of imputation options. The basic idea is that we can use a good probablistic model to predict missing values conditional on observed values, which creates an ensemble of datasets which can each be treated as if it were complete.
+
+In this workshop we explore a multiple imputation problem for a modest sized, but real and complex, dataset. The goal is to understand how to implement this in practice, as well as to question what problems might arise.
+
+### 1.1 References 
+
+This analysis is adapted from [Getting Started with Multiple Imputation in R](https://library.virginia.edu/data/articles/getting-started-with-multiple-imputation-in-r) from the University of Virginia. Additional content from [R bloggers introduction to the  mice package](https://www.r-bloggers.com/2015/10/imputing-missing-data-with-r-mice-package/), both of which depend on the [Multiple Imputation package original paper](https://www.jstatsoft.org/article/view/v045i03).
+
+That paper includes this explanation about the **structure** of a "multiple imputation" object:
+
+```{r pressure, echo=FALSE, fig.cap="Multiple Imputation explained", out.width = '50%'}
+knitr::include_graphics("https://github.com/dsbristol/dst/blob/master/assets/workshops/04.3-mice_explanation.png?raw=true")
+## NB I have to use the remote version of an image to make it runnable for you!
+```
+
+The keywords are:
+
+* multivariate imputation by chained equations (MICE, `mice()`) produces a 
+  * multiply imputed dataset (mids)
+* Your standard analysis pipeline is then replicated `with()` each dataset to produce a
+  * multiply imputed repeated analysis (mira)
+* which can then be combined by a `pool()` to give a
+  * multiple imputed pooled outcomes (mipo)
+
+## 2 Data - American National Election Survey 2012 (ANES)
+
+The data comes from the American National Election survey. This is a large, complex dataset that involves merging 3 different files. The goal is to predict sentiment towards Hillary Clinton in 2012 based on individual properties (occupation, party id, nationalism, views on China’s economic rise) as well as what is happening within that state (number of Chinese Mergers and Acquisitions (M&A) activity, 2000-2012). 
+
+The hypothesis is that working in manufacturing is linked to being impacted by mergers in manufacturing industries and therefore that these influence views.
+
+### 2.1 Downloading data
+
+This section downloads the data and puts it into the "../data" directory, in a cross-platform way.
+
+```{r}
+## Dowload the ANE survey data
+if(!file.exists(file.path("..","data","anesimputation.dta"))) download.file("http://static.lib.virginia.edu/statlab/materials/data/anesimputation.dta", destfile=file.path("..","data","anesimputation.dta"))
+
+## Dowload the occupation data
+if(!file.exists(file.path("..","data","anesocc.csv"))) download.file("http://static.lib.virginia.edu/statlab/materials/data/anesocc.csv", destfile=file.path("..","data","anesocc.csv"))
+
+## Download the mergers and acquisitions data
+if(!file.exists(file.path("..","data","ma.dta"))) download.file("http://static.lib.virginia.edu/statlab/materials/data/ma.dta", destfile=file.path("..","data","ma.dta"))
+
+```
+A basic description of the data is that we will investigate the following independent variables:
+
+* **Occupation** (taken from ANES supplementary files): Dichotomous variables, 1 if the respondent works in manufacturing 0 if not
+* **Party ID**: Continuous index that ranges from 0 (Strong Democrat) to 6 (Strong Republican)
+* **Nationalism**: Continuous index that ranges from 0 (Not at all Important) to 4 (Extremely Important)
+* **Views on China**’s economic rise: Dichotomous variable, 0 Good/No Effect 1 Bad
+* The **number of Chinese Mergers and Acquisitions** activity (taken from the MA file): 2000-2012, Continuous variable that ranges from 0 to 60
+
+Optionally: also download the Rdata intermediate file (otherwise this is quite slow):
+
+```{r}
+## Dowload the ANE survey data
+if(!file.exists(file.path("..","data","imp2.RData"))) download.file("https://github.com/dsbristol/dst/blob/master/data/imp2.RData", destfile=file.path("..","data","imp2.RData"))
+```
+
+### 2.2 Pre-process data
+
+Here we will do some basic data processing for later.
+
+The following code is retained from the reference and is not very clean. It tidies up the variables in the dataframe as well as possible **with the understanding that many columns will be used for imputation** even if they are not in our model.
+
+```{r}
+## This is the section where we require foreign and car libraries.
+library(dplyr)
+library(mice)
+library(foreign) # to import Stata DTA files
+library(car)     # for recode
+
+set.seed(145)
+# Import ANES dataset
+anesimp <- read.dta(file.path("..","data","anesimputation.dta"), 
+                    convert.factors = FALSE, missing.type = TRUE)
+
+# Dataset contains values <0. Code all of them as missing 
+for(i in 1:ncol(anesimp)){
+  anesimp[,i] <- ifelse(anesimp[,i]<0, NA, anesimp[,i]) 
+}
+
+# Add occupation variable 
+anesocc <- read.csv(file.path("..","data","anesocc.csv"),sep=";",na.strings=c("","NA"))
+# Selecting occupation now and industry now variables
+anesocc2 <- anesocc %>%
+  dplyr::select(caseid, dem_occnow, dem_indnow)
+
+# Coding any text that includes "manu" in it as respondent working in
+# manufacturing, excluding manuver
+
+# to address an 'invalid' string in row 3507
+anesocc2$dem_occnow <- iconv(anesocc2$dem_occnow, from="UTF-8", to="")
+
+anesocc2 <- anesocc2 %>% 
+  mutate(manuf = case_when((grepl("manu",dem_occnow)&!grepl("manuver",dem_occnow)) ~ 1,
+                           grepl("manu",anesocc2$dem_indnow) ~ 1,
+                           is.na(dem_occnow) ~ NA_real_,
+                           is.na(dem_indnow) ~ NA_real_,
+                           !is.na(dem_occnow) ~ 0,
+                           !is.na(dem_indnow) ~ 0)
+  )
+
+anesocc2 <- anesocc2 %>% 
+  dplyr::select(manuf)
+
+# combining by columns as they are sorted in the same order
+anesimp <- cbind(anesimp,anesocc2)
+
+# Merge M&A data 
+
+maimp <- read.dta(file.path("..","data","ma.dta"))
+anesimp <- merge(x=anesimp, y=maimp, by=c("sample_state"))
+
+# Recode variables 
+anesimp$patriot_amident <- recode(anesimp$patriot_amident, 
+                                  "5=0; 4=1; 3=2; 2=3; 1=4")
+
+anesimp$econ_ecnext_x <- recode(anesimp$econ_ecnext_x, 
+                                "1=0; 2=1; 3=2; 4=3; 5=4")
+
+anesimp$pid_x <- recode(anesimp$pid_x, 
+                        "1=0; 2=1; 3=2; 4=3; 5=4; 6=5; 7=6")
+
+anesimp$dem_edugroup_x <- recode(anesimp$dem_edugroup_x, 
+                                 "1=0; 2=1; 3=2; 4=3; 5=4")
+
+# Treat manuf as a factor 
+anesimp$manuf <- as.factor(anesimp$manuf)
+```
+
+`anesimp` is now is a format that is suitable for processing. The first thing to do is examine missingness. First we will examine overall missingness per feature:
+
+```{r, fig.width=20, fig.height=10}  
+p_missing <- unlist(lapply(anesimp, function(x) sum(is.na(x))))/nrow(anesimp)
+par(mar=c(10,4,4,1))
+barplot(sort(p_missing[p_missing > 0], decreasing = TRUE),horiz = FALSE,las=2,cex.names = 0.85)
+```
+
+We can see that some features are extremely missing. Additionally, some are high-dimensional factors, which behave badly for imputation (why?). So we remove them. We will also need to convert the state into a factor.
+
+```{r}
+# Select out variables that could cause problems in the imputation process
+anesimp <- anesimp %>% 
+  dplyr::select(-interest_whovote2008,-prevote_primvwho, -prevote_intpresst,
+                -relig_ident_1st,-iwrobspre_skintone,-iwrobspre_levinfo,
+                -iwrobspre_intell, -iwrobspre_interest,-gayrt_discrev_x,
+                -Statename)
+
+anesimp$sample_state <- as.factor(anesimp$sample_state)
+```
+
+### 2.3 Choice of numeric or Factor representation
+
+This worksheet switches some columns between numeric and factors for different purposes.
+
+For **imputation**, we need to treat variables as what they are, i.e. integers or factors, so that the imputed data remain like this. However, for **regression** it is convenient to force integer factors to be numeric for simplicity.
+
+```{r}
+# Save the dataframe as another object so that we can use the original dataframe
+# for multiple imputation
+anesimpor <- anesimp 
+
+# Transform variables for regression
+# Treat nationalism as continuous
+anesimpor$patriot_amident <- as.numeric(anesimpor$patriot_amident)
+# Treat party id as continuous 
+anesimpor$pid_x <- as.numeric(anesimpor$pid_x)
+# Treat china_econ as dichotomous 
+anesimpor$china_econ <- recode(anesimpor$china_econ, "1=0; 3=0; 2=1")
+anesimpor$china_econ <- as.factor(anesimpor$china_econ)
+
+# Take the log of Chinese M&A variables - add a small number as variable
+# contains 0s
+anesimpor$LogMANO <- log(anesimpor$MANo+1.01)
+# Treat party id as continuous 
+```
+
+Q: The original paper added the `1.01` offset. Were they justified to do so? What would you do?
+
+We can now fit using `lm`.
+
+```{r}
+# Define the variables of interest (including the variable to be predicted)
+myvariables=c("ft_hclinton","manuf","pid_x","patriot_amident","china_econ","MANo","LogMANO")
+# Estimate an OLS regression
+## This is how they do it:
+## fitols <- lm(ft_hclinton ~ manuf + pid_x + patriot_amident + china_econ + LogMANO, data=anesimpor)
+## But I'm using the `myvariables` list of things we care about, to use later. This allows a simpler way to specify the problem:
+fitols <- lm(ft_hclinton ~ . , data=anesimpor[,myvariables])
+summary(fitols)
+```
+
+Q: What fraction and by what procedure are data omitted? What could this do to the estimates?
+
+Q: Do you believe this analysis?
+
+
+## 3. Further exploration of missingness
+
+The structure of the missingness dramatically impacts whether missingness matters, and whether imputation will be successful. In the next plot we try to visualise the features with more than 100 missing entries.
+
+Note that we return to `anesimp` although for this analysis there should be no difference.
+
+```{r, fig.width=20, fig.height=10}
+library("gplots")
+tmissing=as.matrix(is.na(anesimp)+0)
+heatmap.2(t(tmissing[,colSums(tmissing)>100]),margins =c(9,15),trace="none",cexRow = 1)
+```
+
+Thats for all variables. What about for those in the regression?
+
+```{r}
+tmissing_toplot=as.matrix(is.na(anesimpor[,myvariables])+0)
+heatmap.2(t(tmissing_toplot),margins =c(9,15),trace="none",cexRow = 1)
+```
+
+Q: What conclusions would you draw from this?
+
+Q: What other visualisations of the structure of missingness could you think of?
+
+## 4. Run multiple Imputation
+
+We are now ready to start the multiple imputation process. The original post messily goes back to the `anesimp` dataset, which we'll allow, though that creates some replication of code and is therefore "poor practice".
+
+First we get the data into the required format:
+
+```{r}
+# Use anesimp2 as the raw dataset 
+
+anesimp2 <- anesimp
+
+# Treat variables as factors
+anesimp2$patriot_amident <- as.factor(anesimp2$patriot_amident)
+anesimp2$china_econ <- as.factor(anesimp2$china_econ)
+anesimp2$pid_x <- as.factor(anesimp2$pid_x)
+anesimp2$sample_state <- as.factor(anesimp2$sample_state)
+```
+
+Now we remove columns that are problematic for imputation. Some of these have high missingness, whilst others are high-dimensional factors.
+
+Q: How would you determine which columns to remove? And how would you check that you removed the correct ones?
+
+We are now able to run the `mice` code. However, specifying the model that each variable uses directly is awkward, so the example extracts the defaults by running with 0 iterations of imputation. It then sets the models where the defaults are not suitable.
+
+```{r}
+# We run the mice code with 0 iterations in order to access and modify the internals
+
+imp <- mice(anesimp2, maxit=0)
+
+# Extract predictorMatrix and methods of imputation 
+
+predM <- imp$predictorMatrix
+meth <- imp$method
+
+# Setting values of variables I'd like to leave out to 0 in the predictor matrix
+predM[, c("sample_state")] <- 0
+predM[, c("Total_mil")] <- 0
+predM[, c("PriOwn_mil")] <- 0
+predM[, c("GovValue_mil")] <- 0
+predM[, c("PriOwn")] <- 0
+predM[, c("GovOwn")] <- 0
+predM[, c("MANo")] <- 0
+predM[, c("manuf")] <- 0
+
+# If you like, view the first few rows of the predictor matrix
+# head(predM)
+
+# Specify a separate imputation model for variables of interest 
+
+# Ordered categorical variables 
+poly <- c("patriot_amident", "pid_x")
+
+# Dichotomous variable
+log <- c("manuf")
+
+# Unordered categorical variable 
+poly2 <- c("china_econ")
+
+# Turn their methods matrix into the specified imputation models
+meth[poly] <- "polr"
+meth[log] <- "logreg"
+meth[poly2] <- "polyreg"
+
+meth
+```
+
+Q: How do we know what these models are? How can you find out about the models available, and whether the choices are appropriate?
+
+Now we run the multiple imputation procedure. We're only doing it with 5 samples to keep it fast (ish).
+
+Q: What alternatives might exist that would be more computationally convenient at scale?
+
+```{r}
+# With this command, we tell mice to impute the anesimp2 data, create 5
+# datasets, use predM as the predictor matrix and don't print the imputation
+# process. If you would like to see the process, set print as TRUE
+
+# Because this is very slow, we are only going to do it once, and save the output for future.
+
+if(!file.exists(file.path("..","data","imp2.RData"))){ 
+  imp2 <- mice(anesimp2, maxit = 5, 
+             predictorMatrix = predM, 
+             method = meth, print =  FALSE)
+  saveRDS(imp2,file=file.path("..","data","imp2.RData"))
+}else{
+  imp2 <- readRDS(file.path("..","data","imp2.RData"))
+}
+```
+
+We can now extract the imputed datasets simply, using the `complete` function:
+
+```{r}
+anescomp <- mice::complete(imp2, 1)
+head(anescomp)
+```
+
+The whole dataset is massive and unwieldy, but we can look at just the columns of interest when we reconstruct them (below).
+
+Another important thing to check is the structure of the imputed data. The next way to access the imputed values extracts just imputed values for each of the 5 replicates.
+
+```{r}
+# Look at some imputed values for china_econ variable 
+head(imp2$imp$china_econ)
+```
+
+The row labels tell us which row the imputed values belong to. How could you investigate the rest of the data structure? Is it a list or a data.frame?
+
+Q: What does the variability we observe above tell you about the imputation process? Is it what we expect?
+
+Now we have 5 copies of our data stored in `mice` "mids" format. We'd like to repeat our data transformations from before, so we convert back to a data frame:
+
+```{r}
+# First, turn the datasets into long format
+anesimp_long <- mice::complete(imp2, action="long", include = TRUE)
+print(paste("Length of data is", dim(imp2$data)[1]))
+print(paste("Length of long format is",dim(anesimp_long)[1]))
+```
+
+```{r}
+# Convert two variables into numeric
+anesimp_long$patriot_amident <- with(anesimp_long, 
+                                     as.integer(anesimp_long$patriot_amident))
+anesimp_long$pid_x <- with(anesimp_long, 
+                           as.integer(anesimp_long$pid_x))
+anesimp_long$prevote_inths <- with(anesimp_long, 
+                           as.integer(anesimp_long$prevote_inths-1))
+
+
+# Take log of M&A variable 
+anesimp_long$LogMANO<-log(anesimp_long$MANo+1.01)
+
+# Convert back to mids type - mice can work with this type
+anesimp_long_mids<-as.mids(anesimp_long)
+```
+
+We can now access the complete dataset. We'll examine one of the sample datasets for the variables of interest, to check what it looks like: 
+
+```{r}
+myvariables_imp2=c("ft_hclinton","manuf","pid_x","patriot_amident","china_econ","MANo","LogMANO")
+anescomp_long_sample <- mice::complete(imp2, 1)
+myvariables_imp2 %in% colnames(anescomp_long_sample)
+head(anescomp_long_sample[,myvariables_imp2])
+```
+
+Q: How do you interpret this? Is the `LogMANO` variable as expected?
+
+We can now, finally, undertake the intended regression analysis. The command below fits one regression `with` each of the 5 datasets, and `pool`s the answer:
+
+```{r}
+# Regression 
+fitimp <- with(anesimp_long_mids,
+               lm(ft_hclinton ~ manuf + pid_x +
+                    patriot_amident + china_econ + LogMANO))
+
+summary(pool(fitimp))
+```
+
+Now we will compare the estimates:
+
+```{r}
+cbind(raw_estimate=summary(fitols)$coefficients[,1],
+      imputed_estimate=summary(pool(fitimp))$estimate,
+      raw_pval=summary(fitols)$coefficients[,4],
+      imputed_pval=summary(pool(fitimp))$p.value)
+```
+And.. we're done!
+
+## 5. Portfolio
+
+... except, how do we know if it worked?
+
+* What conclusions can we draw from this analysis about the effect of the covariates on the outcome?
+  * How do we know that imputation has done a good job?
+  * If the imputation went badly, how wrong could our estimates be?
+* Design an experiment to try to answer these questions, by performing an evaluation of the
+performance of the imputation procedure. To do this, you will need to leave further data out
+as cross valudation, or make adversarial imputation. Include your code and any non-essential
+figures as an appendix.
+
