@@ -1,40 +1,52 @@
 ## Slides
 
 s01:
-    text: 4.1 Nonparametrics and kernels
-    url: /dst/notready.html
+    text: 4.1 Latent Structures and PCA
+    url: /dst/assets/slides/04.1-LatentStructuresPCA.pdf
 
 s02:
-    text: 4.2 Outliers and Missing data
-    url: /dst/notready.html
+    text: 4.2 Clustering
+    url: /dst/assets/slides/04.2-OutliersMissingData.pdf
+
+s0101:
+    text: 4.1.1 Constrained Optimisation
+    url: /dst/assets/slides/04.1.1-Lagrange.pdf
+    
+s0102:
+    text: 4.1.2 How Many Eigenvalues?
+    url: /dst/assets/slides/04.1.2-HowManyEigenvalues.pdf
+
+s0201:
+    text: 4.2.1 Mixture Models
+    url: /dst/assets/slides/04.2.1-GMM.pdf
 
 ## Code
 c01:
-    text: 4.1 Nonparametrics Code
-    url: /dst/notready.html
+    text: 4.1 Latent Structures and PCA Code
+    url: /dst/assets/code/04.1-LatentSpaces.R
 
 c02:
-    text: 4.2 Missing Data Code
-    url: /dst/notready.html
+    text: 4.2 Clustering Code
+    url: /dst/assets/code/04.2-Clustering.R
 
 ## Worksheet
 
 ws01:
-    text: 4.1 Non-parametrics
-    url: /dst/notready.html
+    text: 4.1 Latent Structures and PCA
+    url: /dst/assets/worksheets/ws04.1_questions.pdf
 
 ws02:
-    text: 4.2 Outliers and Missing Data
-    url: /dst/notready.html
+    text: 4.2 Clustering
+    url: /dst/assets/worksheets/ws04.2_questions.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/notready.html
+    url: /dst/assets/assessments/Portfolio04.pdf
 
 ## Workshop
 
 s03:
-    url: /dst/notready.html
+    url: /dst/assets/workshops/block04-SpectralEmbedding.Rmd
 
 s03-h:
-    url: /dst/notready.html
+    url: /dst/assets/workshops/block04-SpectralEmbedding.html
