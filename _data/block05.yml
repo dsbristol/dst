@@ -34,8 +34,11 @@ ws02:
     text: 5.2 Towards Modern Statistical Testing
     url: /dst/notready.html
 
+## Portfolio
 portfolio:
     url: /dst/assets/assessments/Portfolio05.pdf
+
+## Workshop
 
 s03:
     text: 5.3 Workshop on Missingness (Rmd)
