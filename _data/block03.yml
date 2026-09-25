@@ -20,7 +20,7 @@ c01-Classification:
     url: /dst/assets/code/03.1-Classification.R
 
 c02-Forests:
-    url: /dst/assets/code/03.2-RandomForestSlideContent.ipynb
+    url: https://github.com/dsbristol/dst/blob/master/assets/code/03.2-RandomForestSlideContent.ipynb
 
 ## Worksheet
 
@@ -45,4 +45,4 @@ s03-Classification-h:
     url: /dst/assets/workshops/block03-Classification.html
 
 s0302-Classification-py:
-    url: /dst/assets/workshops/block03-Classification_Part2.ipynb
+    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block03-Classification_Part2.ipynb
