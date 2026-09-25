@@ -2,25 +2,33 @@
 
 s01:
     text: 7.1 Neural Nets and the Perceptron
-    url: /dst/notready.html
+    url: /dst/assets/slides/07.1-Neural Networks Lecture 1.pdf
 s02:
     text: 7.2 CNNs and Transformers
-    url: /dst/notready.html
+    url: /dst/assets/slides/07.2-Neural Networks Lecture 2.pdf
+
+s0101:
+    text: 7.1.1 Neural Nets and the Perceptron Discussion
+    url: /dst/assets/slides/07.1.1-Neural Networks Lecture 1 - Extra Content.pdf
+s0201:
+    text: 7.2.1 CNNs and Transformers Discussion
+    url: /dst/assets/slides/07.2.1-Neural Networks Lecture 2 - Extra Content.pdf
+
 
 ## Worksheet
 ws01:
-    url: /dst/notready.html
+    url: /dst/assets/worksheets/ws07.1_questions.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/notready.html
+    url: /dst/assets/assessments/Portfolio07.pdf
 
 ## Workshop
 
 s03:
     text: 7.3 Workshop on Pytorch for Computer Vision
-    url: /dst/notready.html
+    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block07-DSToolboxWeek7NNLab2026.ipynb
 
 s0302:
     text: Neural Network script
-    url: /dst/notready.html
+    url: /dst/assets/workshops/block07-NeuralNetworksScript.py
