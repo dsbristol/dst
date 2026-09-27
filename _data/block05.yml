@@ -1,46 +1,43 @@
 ## Slides
 
 s01:
-    text: 5.1 Anomaly Detection
+    text: "05.1 Anomaly Detection"
     url: /dst/assets/slides/05.1-AnomalyDetection.pdf
 
 s02:
-    text: 5.2 Towards Modern Statistical Testing
+    text: "05.2 Towards Modern Statistical Testing"
     url: /dst/assets/slides/05.2-StatisticalTesting.pdf
 
 s0101:
-    text: 5.1.P Anomaly Detection Methods
+    text: "5.1.P Portfolio on Anomaly Detection Methods"
     url: /dst/assets/slides/05.1.1-AnomalyMethodExamples.pdf
 
 s0201:
-    text: 5.2.P Conformal Prediction
+    text: "5.2.P Portfolio on Conformal Prediction"
     url: /dst/assets/slides/05.2.1-ConformalTesting.pdf
 
 ## Code
+
 c01:
-    text: 5.1 Anomaly Detection Code
+    text: "Reference R code (05.1-AnomalyDetection.R)"
     url: /dst/assets/code/05.1-AnomalyDetection.R
 
 c02:
-    text: 5.2 Statistical Testing Code
+    text: "Reference R code (05.2-StatisticalTesting.R)"
     url: /dst/assets/code/05.2-StatisticalTesting.R
 
-## Worksheet
-ws01:
-    text: 5.1 Anomaly Detection
-    url: /dst/notready.html
-
-ws02:
-    text: 5.2 Towards Modern Statistical Testing
-    url: /dst/notready.html
+## Portfolio
 
 portfolio:
+    text: "Portfolio 5"
     url: /dst/assets/assessments/Portfolio05.pdf
 
+## Workshop
+
 s03:
-    text: 5.3 Workshop on Missingness (Rmd)
+    text: "05.3 Missingness (.Rmd)"
     url: /dst/assets/workshops/block05-Missingness.Rmd
 
 s03-h:
-    text: 5.3 Workshop on Missingness (HTML)
+    text: "05.3 Missingness (.html)"
     url: /dst/assets/workshops/block05-Missingness.html

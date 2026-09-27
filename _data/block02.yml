@@ -1,34 +1,39 @@
-
 ## Slides
-s0101-Regression:
+
+s01:
+    text: "02.1 Modern Regression"
     url: /dst/assets/slides/02.1-ModernRegression.pdf
-s0201-CV:
+
+s02:
+    text: "02.2 Cross Validation"
     url: /dst/assets/slides/02.2-CrossValidation.pdf
-s020101-AIC:
+
+s0101:
+    text: "2.1.P Portfolio on Information Criteria"
     url: /dst/assets/slides/02.1.1-PortfolioAIC.pdf
-s020201-CV:
+
+s0201:
+    text: "2.2.P Portfolio on leave-one-out Cross Validation"
     url: /dst/assets/slides/02.2.1-PortfolioCV.pdf
 
 ## Code
-c01-Regression:
+
+c01:
+    text: "Reference R code (02.1-Regression.R)"
     url: /dst/assets/code/02.1-Regression.R
 
-c02-Classification:
-    url: /dst/assets/code/02.2-Classification.R
+## Portfolio
+
+portfolio:
+    text: "Formative Portfolio"
+    url: /dst/assets/assessments/PortfolioFormative.pdf
 
 ## Workshop
-s03-ModelSelection:
+
+s03:
+    text: "02.3 Model Selection (.Rmd)"
     url: /dst/assets/workshops/block02-ModelSelection.Rmd
 
-s03-ModelSelection-h:
+s03-h:
+    text: "02.3 Model Selection (.html)"
     url: /dst/assets/workshops/block02-ModelSelection.html
-
-## Worksheet
-ws01:
-    url: /dst/assets/worksheets/ws02.1_questions.pdf
-ws02:
-    url: /dst/assets/worksheets/ws02.2_questions.pdf
-
-## Portfolio
-portfolio:
-    url: /dst/assets/assessments/PortfolioFormative.pdf

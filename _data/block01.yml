@@ -1,34 +1,43 @@
-
 ## Slides
-s0101-Intro:
+
+s01:
+    text: "01.1 Introduction to the Data Science Toolbox"
     url: /dst/assets/slides/01.1-Intro.pdf
 
-s0102-Classification:
+s02:
+    text: "01.2 Introduction to Classification"
     url: /dst/assets/slides/01.2-Classification.pdf
 
-s010201-PortfolioClassification:
+s0201:
+    text: "1.2.P Portfolio on Classification Metrics"
     url: /dst/assets/slides/01.2.1-ClassificationPortfolioNotes.pdf
 
-s010202-PortfolioNotesSecondTopic:
+s0202:
+    text: "1.2.P2 Portfolio on Historical Classifiers"
     url: /dst/assets/slides/01.2.2-PortfolioNotesSecondTopic.pdf
-## Code
-c0101-EDA:
-    url: /dst/assets/code/01.1-EDA.R
 
-c0103-EDA:
+## Code
+
+c02:
+    text: "Reference R code (01.2-Classification.R)"
+    url: /dst/assets/code/01.2-Classification.R
+
+c03:
+    text: "Rmd for 01.3.1 Introduction to R Studio"
     url: /dst/assets/code/01.3-WSL-1-EDA.Rmd
 
+## Portfolio
+
+portfolio:
+    text: "Formative Portfolio"
+    url: /dst/assets/assessments/PortfolioFormative.pdf
+
 ## Workshop
-s0103-EDA:
+
+s03:
+    text: "Rmd for 01.3.2 Exploratory Data Analysis"
     url: /dst/assets/workshops/block01-EDA.Rmd
 
-s0103-EDA-h:
+s03-h:
+    text: "HTML for 01.3.2 Exploratory Data Analysis"
     url: /dst/assets/workshops/block01-EDA.html
-
-## Worksheet
-ws02:
-    url: /dst/assets/worksheets/ws01.2_questions.pdf
-
-## Portfolio
-portfolio:
-    url: /dst/assets/assessments/PortfolioFormative.pdf

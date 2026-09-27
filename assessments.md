@@ -13,17 +13,17 @@ There are **two** types of assessments:
 * Formative Assessments (that do not contribute to grade):
   - [Sprint Assessment 0]({{ site.data.assessment0.url }}) (Due Week 3)
   - [Portfolio 0]({{ site.data.individualassessment0.url }}) (Due Week 3)
-    - Including the short Questions for [Block 01](coursebook/01.md).
+    - Including the short Questions for [Block 01](coursebook/01.md) and [Block 02](coursebook/02.md).
 * Summative Group Assessments: total 60% (each 30%)
   - [Sprint Assessment 1: Supervised Prediction]({{ site.data.assessment1.url }}) (First group assessment)
   - [Sprint Assessment 2: Data at Scale]({{ site.data.assessment2.url }}) (Second group assessment)
 * Individual Portfolios: total 40% 
   - (80%) [Individual Portfolio: Statistical Machine Learning]({{ site.data.individualassessment1.url }})
-  - (20%) The short Questions for Block 02-11 (see below).
+  - (20%) The short Questions for Blocks **02**-10 (see below).
 
 The portfolio instructions are together in the Individual Portfolio, but are also linked separately for reference from the appropriate Block of the [timetable](timetable.md):
 
-* [Portfolio Block 02]( {{ site.data.block02.portfolio.url }} )
+* [Formative Portfolio (Blocks 01 and 02)]( {{ site.data.block01.portfolio.url }} )
 * [Portfolio Block 03]( {{ site.data.block03.portfolio.url }} )
 * [Portfolio Block 04]( {{ site.data.block04.portfolio.url }} )
 * [Portfolio Block 05]( {{ site.data.block05.portfolio.url }} )
@@ -32,11 +32,10 @@ The portfolio instructions are together in the Individual Portfolio, but are als
 * [Portfolio Block 08]( {{ site.data.block08.portfolio.url }} )
 * [Portfolio Block 09]( {{ site.data.block09.portfolio.url }} )
 * [Portfolio Block 10]( {{ site.data.block10.portfolio.url }} )
-* [Portfolio Block 11]( {{ site.data.block11.portfolio.url }} )
 
 ## Guidance on Individual Portfolios
 
-The Portfolio is assessed for blocks 2-11. Block 1 is marked similarly but is formative, i.e. does not contribute to your mark. The deadline is in assessment preparation week of TB1. In each block contains two activities: 
+The Portfolio is assessed for blocks 3-10 and partly assessed (short questions only) for block 2. Blocks 1 and 2 (long-form) are marked similarly but are formative, i.e. does not contribute to your mark. The deadline is in assessment preparation week of TB1. In each block contains two activities: 
 
 1. (20%) Multiple choice questions submitted via Noteable (log in via Blackboard). These should be straightforward, either direct from your notes or with simple experiments you can conduct as extensions of the Workshop.
 2. (80%) Long-form reflective questions that should require a deeper understanding of the course material and may require you to undertake further reading or experimentation.
@@ -45,7 +44,7 @@ You may take the multiple-choice component at any time and it is recommended tha
 
 ### Length and format of long-form portfolio
 
-Your Portfolio should give a **one-page** answer to one question of your choice from 5 Blocks (2-11). Therefore the whole Portfolio is only 5 pages long. However:
+Your Portfolio should give a **one-page** answer to one question of your choice from 5 Blocks (3-10). Therefore the whole Portfolio is only 5 pages long. However:
 
 * The goal is not to make you undertake a length-finessing exercise. If the content you provide appears as if it would fit on one page after such an exercise, you can submit is anyway. **There is a strict limit of 8 pages** for the portfolio content, with answers that are clearly too long being be penalised.
 * You can however submit **Supporting Evidence** as an appendix to the portfolio. It will not be directly assessed but may be used as evidence to support your claims, i.e. any statements you make with supporting evidence will be more favourably interpreted, but if your statements are carefully given and correct the evidence is not essential. This is not limited. Appropriate content is RMarkdown files knitted to pdf, Jupyter Notebooks, etc.
@@ -62,7 +61,7 @@ Your Portfolio should give a **one-page** answer to one question of your choice 
 	* The assignment opens in Jupyter. Complete the worksheet. When you are done, **save** and return to the Assignments tab. Press **validate**, and when it is successful, press **submit**.
 * You **can** work in groups on these questions, as long as you discuss why you believe your choices. The goal is to learn. You will not receive the answers.
 
-## Guidance on Group Assessments
+## Guidance on Group Sprint Assessments
 
 There is a complete [Example Assessment](https://github.com/dsbristol/dst_example_project).
 

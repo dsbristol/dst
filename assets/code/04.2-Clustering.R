@@ -1,13 +1,13 @@
 ################################
 ## Author: Dan Lawson (dan.lawson@bristol.ac.uk)
 ## Licence: GPLv3
-## See https://dsbristol.github.io/dst/coursebook/03.html
+## See https://dsbristol.github.io/dst/coursebook/04.html
 
 #################################
 ## Examples of Clustering
-## nb Run 03.1 first!
+## nb Run 04.1-LatentSpaces.R first!
 
-## Restore 03.1 content
+## Restore 04.1 content
 load(file="LatentSpacesOutput.RData")
 
 ## Apply K-means with 1-10 centres on the SVD
