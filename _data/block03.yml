@@ -1,48 +1,47 @@
 ## Slides
 
-s01-Trees:
+s01:
+    text: "03.1 Decision Trees"
     url: /dst/assets/slides/03.1-Trees.pdf
 
-s02-Forests:
+s02:
+    text: "03.2 Ensembles, Forests and Boosting"
     url: /dst/assets/slides/03.2-Forests.pdf
 
-s0101-Trees:
+s0101:
+    text: "3.1.P Portfolio on Decision Trees and Loss"
     url: /dst/assets/slides/03.1.1-PortfolioTrees.pdf
 
-s0102-RegressionTrees:
+s0102:
+    text: "3.1.P2 Portfolio on Regression Trees"
     url: /dst/assets/slides/03.1.2-RegressionTrees.pdf
 
-s0201-Boosting:
+s0201:
+    text: "3.2.P Portfolio on Boosting"
     url: /dst/assets/slides/03.2.1-MoreBoosting.pdf
 
 ## Code
-c01-Classification:
-    url: /dst/assets/code/03.1-Classification.R
 
-c02-Forests:
+c02:
+    text: "Reference Python code (03.2-RandomForestSlideContent.ipynb)"
     url: https://github.com/dsbristol/dst/blob/master/assets/code/03.2-RandomForestSlideContent.ipynb
 
-## Worksheet
-
-ws01:
-    text: 3.1 Latent Spaces and PCA Worksheet
-    url: /dst/assets/worksheets/ws03.1_questions.pdf
-
-ws02:
-    text: 3.2 Clustering Worksheet
-    url: /dst/assets/worksheets/ws03.2_questions.pdf
-
 ## Portfolio
+
 portfolio:
+    text: "Portfolio 3"
     url: /dst/assets/assessments/Portfolio03.pdf
-    
+
 ## Workshop
 
-s03-Classification:
+s03:
+    text: "03.3.1 Classification (.Rmd)"
     url: /dst/assets/workshops/block03-Classification.Rmd
 
-s03-Classification-h:
+s03-h:
+    text: "03.3.1 Classification (.html)"
     url: /dst/assets/workshops/block03-Classification.html
 
-s0302-Classification-py:
+s0302:
+    text: "03.3.2 Classification in Python (.ipynb)"
     url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block03-Classification_Part2.ipynb

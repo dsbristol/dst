@@ -1,7 +1,7 @@
 ################################
 ## Author: Dan Lawson (dan.lawson@bristol.ac.uk)
 ## Licence: GPLv3
-## See https://dsbristol.github.io/dst/coursebook/03.html
+## See https://dsbristol.github.io/dst/coursebook/04.html
 
 ## Examples of SVD/PCA for cyber security
 
@@ -116,7 +116,7 @@ testdata_all.prcomp <- prcomp(testdata_all_scaled)
 round(colMeans(testdata_scaled),digits=10)
 apply(testdata_scaled,2,sd)
 
-## Save the data for the 03.2 code
+## Save the data for the 04.2 code
 save(testdata.direct.svd,testdata_all.svd,
      testdata_all_scaled,testdatacat_all,
      file="LatentSpacesOutput.RData")

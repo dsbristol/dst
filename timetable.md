@@ -18,10 +18,10 @@ There are 3 summative assessments (Assessment 1-2 + Portfolio), plus a formative
 * Week 3: Block [03 Loss Minimisation for Decisions, Boosting, Forests](coursebook/03.md)
     * [Assessment 0]({{ site.data.assessment0.url }}) *Due* (Wednesday noon)
     * [Assessment 1]({{ site.data.assessment1.url }}) *Set*
-* Week 4: Block [04 Unsupervised learning: Latent Structures](coursebook/04.md)
+* Week 4: Block [04 Unsupervised learning - Latent Structures](coursebook/04.md)
     * [Portfolio 0]({{ site.data.individualassessment0.url }}) *Due* (Wednesday noon)
     * [Portfolio]({{ site.data.individualassessment1.url }}) *Set*
-* Week 5: Block [05 Unsupervised learning: Outliers and Missingness](coursebook/05.md)
+* Week 5: Block [05 Unsupervised learning - Anomalies, p-values and Missingness](coursebook/05.md)
 * Week 6: Consolidation Week. **No lectures**.
 * Week 7: Block [06 Perceptrons and Neural Networks](coursebook/06.md)
     * [Assessment 1]({{ site.data.assessment1.url }}) *Due* (Wednesday noon)

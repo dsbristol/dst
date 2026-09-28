@@ -1,34 +1,29 @@
-## Lectures
+## Slides
 
 s01:
-    text: 6.1 Neural Nets and the Perceptron
+    text: "06.1 Neural Nets and the Perceptron"
     url: /dst/assets/slides/06.1-Neural Networks Lecture 1.pdf
+
 s02:
-    text: 6.2 CNNs and Transformers
+    text: "06.2 CNNs and Transformers"
     url: /dst/assets/slides/06.2-Neural Networks Lecture 2.pdf
 
 s0101:
-    text: 6.1.1 Neural Nets and the Perceptron Discussion
+    text: "6.1.P Portfolio Discussion on Neural Nets and the Perceptron"
     url: /dst/assets/slides/06.1.1-Neural Networks Lecture 1 - Extra Content.pdf
+
 s0201:
-    text: 6.2.1 CNNs and Transformers Discussion
+    text: "6.2.P Portfolio Discussion on CNNs and Transformers"
     url: /dst/assets/slides/06.2.1-Neural Networks Lecture 2 - Extra Content.pdf
 
-
-## Worksheet
-ws01:
-    url: /dst/assets/worksheets/ws06.1_questions.pdf
-
 ## Portfolio
+
 portfolio:
+    text: "Portfolio 6"
     url: /dst/assets/assessments/Portfolio06.pdf
 
 ## Workshop
 
 s03:
-    text: 6.3 Workshop on Pytorch for Computer Vision
+    text: "06.3 Workshop on Pytorch for Computer Vision (.ipynb)"
     url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block06-DSToolboxWeek7NNLab2026.ipynb
-
-s0302:
-    text: Neural Network script
-    url: /dst/assets/workshops/block06-NeuralNetworksScript.py
