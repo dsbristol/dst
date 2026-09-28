@@ -5,7 +5,15 @@ s01:
     url: /dst/assets/slides/04.1-LatentStructuresPCA.pdf
 
 s02:
+<<<<<<< HEAD
     text: "04.2 Clustering"
+=======
+<<<<<<< HEAD
+    text: 4.2 Clustering
+=======
+    text: "04.2 Clustering"
+>>>>>>> 7f13f88 (tidied up links and crossrefs)
+>>>>>>> tmp
     url: /dst/assets/slides/04.2-Clustering.pdf
 
 s0101:
