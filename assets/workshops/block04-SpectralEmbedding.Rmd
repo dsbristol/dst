@@ -6,7 +6,7 @@ output:
   html_document:
     df_print: paged
 email: dan.lawson@bristol.ac.uk
-version: 4.0.0
+version: 4.0.1
 fig_width: 10
 fig_height: 5
 ---
@@ -128,10 +128,13 @@ i=2;j=3
 plot(testdatatrans.svd$u[,i],
      testdatatrans.svd$u[,j],type="n",xlab=paste0("PC",i),ylab=paste0("PC",j),
      col="#33333311",pch=19,cex=0.3) ## Plot where the points are omitted
-legend("topleft",legend=names(normalsamples),text.col=1:length(normalsamples),col=1:length(normalsamples),pch=c(19,1,2)[ceiling((1:30)/10)],cex=0.5)
+legend("topleft",legend=names(normalsamples),
+       text.col=1:length(normalsamples),
+       col=1:length(normalsamples),
+       pch=c(19,1,2)[ceiling((1:30)/10)],cex=0.5)
 for(index in 1:length(normalsamples)){ ## Question: why would we plot the points in decreasing size order?
   points(testdatatrans.svd$u[normalsamples[[index]],c(i,j)],
-         col=index+1,pch=c(19,1,2)[ceiling((1:30)/10)],cex=0.3)
+         col=index,pch=c(19,1,2)[ceiling((1:30)/10)],cex=0.3)
 }
 ```
 

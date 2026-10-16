@@ -1,20 +1,26 @@
-
-
 ## Lectures
-s01:
-    text: 10.1 Introduction to Parallelism 
-    url: /dst/notready.html
 
+s01:
+    text: 10.1 Ethics in Data Science (Part 1, Overview)
+    url: /dst/assets/slides/10.1-EthicsAndPrivacy.pdf
 s02:
-    text: 10.2 Vectorisation, Mapping and Reducing
-    url: /dst/notready.html
+    text: 10.2 Ethics in Data Science (Part 2, Disclosure)
+    url: /dst/assets/slides/10.2-StatisticalDisclosure.pdf
+s03:
+    text: 10.3 Ethics in Data Science (Part 3, Fairness and Interpretability)
+    url: /dst/assets/slides/10.3-Fairness.pdf
+
+s0101:
+    text: 10.1.1 Opting Out of NHS Data Discussion
+    url: /dst/assets/slides/10.1.1-NHSEthics.pdf
+s0201:
+    text: 10.2.1 Privacy in the Census Discussion
+    url: /dst/assets/slides/10.2.1-CensusPrivacy.pdf
+s0301:
+    text: 10.3.1 Interpretable or Black Box? Discussion
+    url: /dst/assets/slides/10.3.1-InterpretableModels.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/notready.html
-
-## Workshop
-
-s03:
-    text: 10.3 Coding Parallel Algorithms
-    url: /dst/notready.html
+    text: Portfolio 10
+    url: /dst/assets/assessments/Portfolio10.pdf

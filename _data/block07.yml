@@ -1,29 +1,29 @@
 ## Lectures
 
 s01:
-    text: 7.1 Neural Nets and the Perceptron
-    url: /dst/assets/slides/07.1-Neural Networks Lecture 1.pdf
+    text: 7.1 A lightning tour of Bayesian Methods
+    url: /dst/assets/slides/07.1-Bayes.pdf
 s02:
-    text: 7.2 CNNs and Transformers
-    url: /dst/assets/slides/07.2-Neural Networks Lecture 2.pdf
+    text: 7.2 Bags of Words and Topic Models
+    url: /dst/assets/slides/07.2-TopicModels.pdf
 
 s0101:
     text: 7.1.1 Neural Nets and the Perceptron Discussion
-    url: /dst/assets/slides/07.1.1-Neural Networks Lecture 1 - Extra Content.pdf
+    url: /dst/assets/slides/07.1.1-BayesML.pdf
 s0201:
     text: 7.2.1 CNNs and Transformers Discussion
-    url: /dst/assets/slides/07.2.1-Neural Networks Lecture 2 - Extra Content.pdf
+    url: /dst/assets/slides/07.2.1-InterpretingLDA.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/notready.html
+    url: /dst/assets/assessments/Portfolio07.pdf
 
 ## Workshop
 
-s03:
-    text: 7.3 Workshop on Pytorch for Computer Vision
-    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block07-DSToolboxWeek7NNLab2026.ipynb
+s0301:
+    text: 7.3.1  Workshop on Topic Modelling (Part 1, Setup)
+    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block07-TopicModels_part1.ipynb
 
 s0302:
-    text: Neural Network script
-    url: /dst/assets/workshops/block07-NeuralNetworksScript.py
+    text: 7.3.2 Workshop on Topic Modelling (Part 2, Main Content)
+    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block07-TopicModels_part2.ipynb

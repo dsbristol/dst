@@ -1,23 +1,28 @@
 ## Lectures
 
 s01:
-    text: A Brief primer in Bayesian methods
-    url: /dst/notready.html
+    text: Analysing Algorithms
+    url: /dst/assets/slides/08.1-AnalysingAlgorithms.pdf
 s02:
-    text: Topic Models and Latent Dirichlet Allocation
-    url: /dst/notready.html
+    text: Algorithms for Data Science
+    url: /dst/assets/slides/08.2-DataScienceAlgorithms.pdf
+
+s0101:
+    text: 8.1.1 Complexity Classes
+    url: /dst/assets/slides/08.1.1-ComplexityClasses.pdf
+
+s0201:
+    text: 8.2.1 MinHash and Sketching
+    url: /dst/assets/slides/08.2.1-MinHash.pdf
 
 ## Portfolio
 portfolio:
-    url: /dst/notready.html
+    url: /dst/assets/assessments/Portfolio08.pdf
 
 ## Workshop
 
 s0301:
-    text: 8.3.1 Workshop on Topic Modelling (Part 1, Prereqs)
-    url: /dst/notready.html
+    text: 8.3.1 Workshop on Time Complexity
+    url: https://github.com/dsbristol/dst/blob/master/assets/workshops/block08-TimeComplexity.ipynb
 
-s0302:
-    text: 8.3.2 Workshop on Topic Modelling (Part 2, Main content)
-    url: /dst/notready.html
 
