@@ -31,4 +31,4 @@ We will spend the first half of each session with an introduction to the method,
 * [Appendix 3: GitHub](coursebook/appendix3-github.md)
 * [Appendix 4: How to Read a Paper](coursebook/appendix4-howtoreadapaper.md)
 * [Programme Catalogue Course Handbook](https://www.bris.ac.uk/unit-programme-catalogue/UnitDetails.jsa?ayrCode=20%2F23&unitCode=MATHM0029)
-* Block [12 Parallel Infrastructure and Spark](coursebook/12.md) is unassessed but provided for reference.
+* Block [11 Parallel Infrastructure and Spark](coursebook/11.md) is unassessed but provided for reference.
